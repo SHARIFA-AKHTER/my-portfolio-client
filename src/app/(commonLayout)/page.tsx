@@ -12,14 +12,15 @@ export default function HomePage() {
       <section className="">
         <Hero />
       </section>
-      <section className="">
-        <Features />
-      </section>
 
       {/* About Section */}
       <section className="">
         <AboutPage />
       </section>
+
+      {/* <section className="">
+        <Features />
+      </section> */}
 
       {/* Skills Section */}
       <section className="">

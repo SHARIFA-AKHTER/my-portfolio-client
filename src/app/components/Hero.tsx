@@ -291,7 +291,7 @@ const Hero = () => {
         transition={{ duration: 1.2 }}
         className="md:w-1/2 flex justify-center mt-10 md:mt-0 relative z-10"
       >
-        <div className="relative rounded-full overflow-hidden shadow-lg border-4 border-purple-800 w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80 group">
+        <div className="relative rounded-full overflow-hidden shadow-lg border-4 border-purple-800 w-64 h-64 sm:w-64 sm:h-64 lg:w-100 lg:h-100 group">
           <Image
             src="/profile.jpg"
             alt="Profile"
