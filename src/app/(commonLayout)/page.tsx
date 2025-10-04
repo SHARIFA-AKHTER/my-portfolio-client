@@ -4,7 +4,6 @@ import ProjectsPage from "./projects/page";
 import SkillsPage from "./skills/page";
 import Hero from "../components/Hero";
 import Features from "../components/Features";
-import CreateBlog from "../(dashboard)/dashboard/create-blog/page";
 
 export default function HomePage() {
   return (

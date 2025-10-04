@@ -219,7 +219,7 @@ export default function AboutPage() {
               </div>
               <div className="bg-gray-100 rounded-xl p-5 shadow hover:shadow-lg transition text-center">
                 <h3 className="text-2xl sm:text-3xl font-bold text-red-600">
-                  500+
+                  100+
                 </h3>
                 <p className="text-gray-600 text-sm sm:text-base">
                   Happy Clients
