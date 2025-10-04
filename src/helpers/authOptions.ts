@@ -69,19 +69,106 @@
 //   },
 // };
 
+// import CredentialsProvider from "next-auth/providers/credentials";
+// import GoogleProvider from "next-auth/providers/google";
+// import type { NextAuthOptions } from "next-auth";
+
+// export const authOptions: NextAuthOptions = {
+//   providers: [
+//     // Google Login
+//     GoogleProvider({
+//       clientId: process.env.GOOGLE_CLIENT_ID as string,
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+//     }),
+
+//     // Email/Password Login
+//     CredentialsProvider({
+//       name: "Credentials",
+//       credentials: {
+//         email: {
+//           label: "Email",
+//           type: "text",
+//           placeholder: "sr0589071@gmail.com",
+//         },
+//         password: {
+//           label: "Password",
+//           type: "password",
+//           placeholder: "Enter your password",
+//         },
+//       },
+//       async authorize(credentials) {
+//         if (!credentials?.email || !credentials?.password) {
+//           throw new Error("Invalid email or password");
+//         }
+
+//         // 👉 Check from your backend if you want, for demo we'll hardcode roles
+//         let user;
+//         if (credentials.email === "sr0589071@gmail.com") {
+//           user = {
+//             id: "1",
+//             name: "Admin User",
+//             email: credentials.email,
+//             role: "ADMIN" as const,
+//           };
+//         } else {
+//           user = {
+//             id: "2",
+//             name: "Regular User",
+//             email: credentials.email,
+//             role: "USER" as const,
+//           };
+//         }
+
+//         return user;
+//       },
+//     }),
+//   ],
+
+//   secret: process.env.AUTH_SECRET,
+
+//   pages: {
+//     signIn: "/login",
+//   },
+
+//   session: {
+//     strategy: "jwt",
+//   },
+
+//   callbacks: {
+//     async jwt({ token, user }) {
+//       if (user) {
+//         token.id = user.id;
+//         token.role = user.role;
+//       }
+//       return token;
+//     },
+
+//     async session({ session, token }) {
+//       if (token) {
+//         session.user = {
+//           ...session.user,
+//           id: token.id!,
+//           role: token.role,
+//         };
+//       }
+//       return session;
+//     },
+//   },
+// };
+
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import type { NextAuthOptions } from "next-auth";
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    // Google Login
+    // 🔹 Google Login
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
 
-    // Email/Password Login
+    // 🔹 Email/Password Login
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -101,12 +188,11 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid email or password");
         }
 
-        // 👉 Check from your backend if you want, for demo we'll hardcode roles
         let user;
         if (credentials.email === "sr0589071@gmail.com") {
           user = {
             id: "1",
-            name: "Admin User",
+            name: "Sharifa (Admin)",
             email: credentials.email,
             role: "ADMIN" as const,
           };
@@ -135,20 +221,25 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    async jwt({ token, user }) {
+    // 🔸 JWT - handle Google & Credentials login
+    async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        if (account?.provider === "google" && !token.role) {
+          token.role = "USER";
+        }
       }
       return token;
     },
 
+    // 🔸 Session - send token info to frontend
     async session({ session, token }) {
       if (token) {
         session.user = {
           ...session.user,
-          id: token.id!,
-          role: token.role,
+          id: token.id as string,
+          role: token.role as "ADMIN" | "USER",
         };
       }
       return session;
