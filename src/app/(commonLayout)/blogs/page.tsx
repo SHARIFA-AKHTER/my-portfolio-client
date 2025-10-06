@@ -34,9 +34,12 @@ export default async function HomePage() {
   let blogs: any[] = [];
 
   try {
-    const res = await fetch(`${process.env.PUBLIC_PORTFOLIO_BASE_API}/blog`, {
-      cache: "no-store", // fresh data fetch
-      next: { tags: ["BLOGS"] },
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`, {
+      cache: "no-store",
+      next: {
+        tags: ["BLOGS"],
+        // revalidate: 30,
+      },
     });
 
     if (!res.ok) {
@@ -56,12 +59,12 @@ export default async function HomePage() {
     <div>
       <Hero />
 
-      <h2 className="text-center my-8 text-3xl font-bold">📚 Featured Posts</h2>
+      <h2 className="text-center my-8 text-3xl font-bold">📚 All Blogs</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto my-5 px-4">
         {blogs.length > 0 ? (
           blogs
-            // .slice(0, 6)
+            .slice(0, 6)
             .map((blog: any) => (
               <BlogCard key={blog.id ?? blog._id} post={blog} />
             ))

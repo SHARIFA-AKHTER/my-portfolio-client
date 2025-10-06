@@ -1,75 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// "use server";
-
-// import { revalidatePath, revalidateTag } from "next/cache";
-// import { redirect } from "next/navigation";
-
-// export const create = async (data: FormData) => {
-//   const blogInfo = Object.fromEntries(data.entries());
-//   const modifiedData = {
-//     ...blogInfo,
-//     tags: blogInfo.tags
-//       .toString()
-//       .split(",")
-//       .map((tag) => tag.trim()),
-//     authorId: 7,
-//     isFeatured: blogInfo.isFeatured === "true",
-//     slug: ((blogInfo.slug as string) || (blogInfo.title as string))
-//       .toLowerCase()
-//       .trim()
-//       .replace(/\s+/g, "-"),
-//   };
-//   console.log("Modified Data:", modifiedData);
-//   const res = await fetch(`${process.env.PUBLIC_PORTFOLIO_BASE_API}/blog`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(modifiedData),
-//   });
-
-//   if (!res.ok) {
-//     const errorText = await res.text();
-//     console.error("Blog creation failed:", errorText);
-//     throw new Error(errorText);
-//   }
-
-//   const result = await res.json();
-//   console.log("Backend Response:", result);
-
-//   if (result?.id) {
-//     revalidateTag("BLOGS");
-//     revalidatePath("/blogs");
-//     redirect("/");
-//   }
-//   return result;
-// };
 
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/helpers/authOptions";
 
-export const createBlog = async (data: any) => {
+export async function create(data: any) {
+  const session = await getServerSession(authOptions);
+  if (!session) throw new Error("Unauthorized");
+
   const modifiedData = {
     ...data,
-    authorId: 1,
-    slug: (data.slug || data.title).toLowerCase().trim().replace(/\s+/g, "-"),
+    authorId: session.user.id,
+    tags: data.tags || [],
+    isFeatured: data.isFeatured || false,
   };
 
-  const res = await fetch(`${process.env.PUBLIC_PORTFOLIO_BASE_API}/blog`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session.accessToken}`,
+    },
     body: JSON.stringify(modifiedData),
   });
 
-  if (!res.ok) throw new Error(await res.text());
-  const result = await res.json();
+  if (!res.ok) throw new Error("Blog creation failed");
 
-  // if (result?.id) {
-  //   revalidateTag("BLOGS");
-  //   revalidatePath("/blogs");
-  //   redirect("/");
-  // }
-  return result;
-};
+  return await res.json();
+}

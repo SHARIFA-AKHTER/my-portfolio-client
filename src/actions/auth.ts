@@ -35,12 +35,12 @@
 "use server";
 import { FieldValues } from "react-hook-form";
 
-const BASE_URL = process.env.PUBLIC_PORTFOLIO_BASE_API;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_API;
 console.log("BASE_URL from env:", BASE_URL);
 
 if (!BASE_URL) {
   throw new Error(
-    "PUBLIC_PORTFOLIO_BASE_API is not defined in your environment variables."
+    "NEXT_PUBLIC_BASE_API is not defined in your environment variables."
   );
 }
 

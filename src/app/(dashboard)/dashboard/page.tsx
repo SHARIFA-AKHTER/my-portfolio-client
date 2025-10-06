@@ -7,6 +7,15 @@
 // export default async function DashboardHome() {
 //   const session = await getServerSession(authOptions);
 
+// if (!session || !session.user) {
+//   redirect("/login");
+//  }
+
+//admin ke utiya dela google deyao login hoba
+//  if (session.user.role !== "ADMIN") {
+//  redirect("/unauthorized");
+//}
+
 //   const quotes = [
 //     "The secret of getting ahead is getting started. – Mark Twain",
 //     "Strive not to be a success, but rather to be of value. – Albert Einstein",
@@ -34,7 +43,6 @@
 //   );
 // }
 
-
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/helpers/authOptions";
 import { redirect } from "next/navigation";
@@ -46,9 +54,9 @@ export default async function DashboardHome() {
     redirect("/login");
   }
 
-    if (session.user.role !== "ADMIN") {
-      redirect("/unauthorized");
-    }
+  if (session.user.role !== "ADMIN") {
+    redirect("/unauthorized");
+  }
   const quotes = [
     "The secret of getting ahead is getting started. – Mark Twain",
     "Strive not to be a success, but rather to be of value. – Albert Einstein",
