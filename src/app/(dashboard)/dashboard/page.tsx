@@ -47,6 +47,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/helpers/authOptions";
 import { redirect } from "next/navigation";
 
+
+
+
 export default async function DashboardHome() {
   const session = await getServerSession(authOptions);
 
@@ -78,7 +81,8 @@ export default async function DashboardHome() {
 
         <button className="mt-8 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition duration-300">
           Explore My Work
-        </button>
+        </button> 
+
       </div>
     </div>
   );
