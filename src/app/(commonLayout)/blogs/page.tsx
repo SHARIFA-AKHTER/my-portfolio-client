@@ -59,7 +59,7 @@ export default async function HomePage() {
     <div>
       <Hero />
 
-      <h2 className="text-center my-8 text-3xl font-bold">📚 All Blogs</h2>
+      <h2 className="text-center my-8 text-3xl font-bold">📚 Features Blogs</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto my-5 px-4">
         {blogs.length > 0 ? (

@@ -59,3 +59,4 @@ const BlogDetailsPage = async ({ params }: { params: { blogId: string } }) => {
 };
 
 export default BlogDetailsPage;
+

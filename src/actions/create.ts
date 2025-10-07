@@ -11,7 +11,7 @@ export async function create(data: any) {
 
   const modifiedData = {
     ...data,
-    authorId: session.user.id,
+    authorId: 26, 
     tags: data.tags || [],
     isFeatured: data.isFeatured || false,
   };
@@ -25,7 +25,17 @@ export async function create(data: any) {
     body: JSON.stringify(modifiedData),
   });
 
-  if (!res.ok) throw new Error("Blog creation failed");
+  console.log("🟢 Request Sent to Backend:", modifiedData);
 
-  return await res.json();
+  if (!res.ok) {
+    const text = await res.text();
+    console.error("❌ Backend error response text:", text);
+    throw new Error("Blog creation failed");
+  }
+
+  const json = await res.json();
+  console.log("✅ Backend Success Response:", json);
+  return json;
 }
+
+//${process.env.NEXT_PUBLIC_BASE_API}/blog?slug=${slug}

@@ -95,6 +95,7 @@ export const authOptions: NextAuthOptions = {
 
       // ✅ attach access token to session
       session.accessToken = token.accessToken;
+
       return session;
     },
   },
