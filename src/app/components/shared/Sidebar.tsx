@@ -20,13 +20,6 @@ export default function Sidebar() {
         </Link>
 
         <Link
-          href="/dashboard/blogs"
-          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-100 hover:text-black"
-        >
-          <FileText className="h-4 w-4" />
-          Blogs
-        </Link>
-        <Link
           href="/dashboard/create-blog"
           className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-100 hover:text-black"
         >
@@ -35,11 +28,27 @@ export default function Sidebar() {
         </Link>
 
         <Link
+          href="/dashboard/blogs"
+          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-100 hover:text-black"
+        >
+          <FileText className="h-4 w-4" />
+          Blogs
+        </Link>
+
+        <Link
+          href="/dashboard/create-project"
+          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-100 hover:text-black"
+        >
+          <PlusCircle className="h-4 w-4" />
+          Create Projects
+        </Link>
+
+        <Link
           href="/dashboard/projects"
           className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium hover:bg-gray-100 hover:text-black"
         >
           <PlusCircle className="h-4 w-4" />
-          Projects
+          All Projects
         </Link>
       </nav>
 
