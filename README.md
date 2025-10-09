@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Frontend README.md
 
-## Getting Started
+# My Portfolio Website – Frontend
 
-First, run the development server:
+## 📝 Project Overview
+
+This is a **personal portfolio website frontend** built using **Next.js**, **TypeScript**, and **Tailwind CSS**.  
+It allows the portfolio owner to showcase blogs, projects, and personal information, while providing a secure dashboard for content management.
+
+### **Main Features**
+
+- **Public Pages (Accessible to all visitors):**
+  - All Blogs & Individual Blog Pages
+  - About Me Section
+  - Project Showcase
+- **Private Pages (Owner Only):**
+  - Dynamic Dashboard to manage blogs and projects
+- Responsive and polished UI/UX
+- Notifications using `react-hot-toast`
+
+---
+
+## ⚙️ Tech Stack
+
+- **Framework:** Next.js
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Notifications:** react-hot-toast
+- **Routing:** Next.js built-in routing
+- **Optional Rich Text Editor:** React Quill (for blog/project content)
+
+---
+
+## 🗂 Folder Structure
+
+/frontend
+├─ /components # Reusable UI components (Navbar, Sidebar, Cards)
+├─ /pages # Next.js Pages
+│ ├─ index.tsx # Home Page
+│ ├─ about.tsx # About Me Page
+│ ├─ projects.tsx # Project Showcase
+│ ├─ blogs # Blogs Page & [id].tsx
+│ └─ dashboard # Owner-only Dashboard
+├─ /public # Static assets (images, icons)
+├─ /styles # Tailwind or custom CSS
+├─ /utils # Helper functions
+├─ /services # API request functions
+└─ package.json
+
+---
+
+## 🚀 Installation & Setup
+
+1. Clone the repository:
 
 ```bash
+git clone <https://github.com/SHARIFA-AKHTER/my-portfolio-client>
+
+
+Install dependencies:
+
+cd frontend
+npm install
+
+
+Create .env.local file and add:
+
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+
+
+Start the development server:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Visit http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🔗 Live Deployment
 
-## Learn More
+Frontend Live URL: https://your-frontend-link.com
 
-To learn more about Next.js, take a look at the following resources:
+🧑‍💻 Admin Credentials (for testing)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Email: sr0589071@gmail.com
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Password: 123456
 
-## Deploy on Vercel
+📹 Demo Video
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Project walkthrough: Demo Video Link
