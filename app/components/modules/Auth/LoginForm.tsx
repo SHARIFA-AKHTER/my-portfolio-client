@@ -6,7 +6,6 @@ import { FieldValues, useForm } from "react-hook-form";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
   Form,
@@ -27,38 +26,39 @@ export default function LoginForm() {
     },
   });
 
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const onSubmit = async (values: FieldValues) => {
+  const onSubmit = async () => {
     setLoading(true);
 
     try {
-      const result = await signIn("credentials", {
-        redirect: false,
-        email: values.email,
-        password: values.password,
+      signIn("credentials", {
+        // redirect: false,
+        // email: values.email,
+        callbackUrl: "/",
       });
 
       setLoading(false);
 
-      if (result?.error) {
-        toast.error(result.error);
-      } else if (result?.ok) {
-        toast.success("Login Successful!");
+      // if (result?.error) {
+      //   toast.error(result.error);
+      // } else if (result?.ok) {
+      //   toast.success("Login Successful!");
 
-        // Save user info in localStorage
-        localStorage.setItem("user", JSON.stringify({ email: values.email }));
+      //   // Save user info in localStorage
+      //   localStorage.setItem("user", JSON.stringify({ email: values.email }));
 
-        // Redirect to dashboard or role-based page
+      //   // Redirect to dashboard or role-based page
 
-        router.push("/");
-        // router.push("/dashboard");
-      }
+      //   router.push("/");
+      // router.push("/dashboard");
+      // }
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong during login.");
       setLoading(false);
+    } finally {
+      console.log("Login attempt completed");
     }
   };
 
@@ -149,7 +149,7 @@ export default function LoginForm() {
             <Button
               variant="outline"
               className="flex items-center justify-center gap-2"
-              onClick={() => signIn("github", { callbackUrl: "/dashboard" })}
+              onClick={() => signIn("github", { callbackUrl: "/" })}
             >
               <Image
                 src="https://img.icons8.com/ios-glyphs/24/github.png"
@@ -163,7 +163,7 @@ export default function LoginForm() {
             <Button
               variant="outline"
               className="flex items-center justify-center gap-2"
-              onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+              onClick={() => signIn("google", { callbackUrl: "/" })}
             >
               <Image
                 src="https://img.icons8.com/color/24/google-logo.png"

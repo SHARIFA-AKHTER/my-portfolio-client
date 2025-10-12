@@ -1,6 +1,7 @@
+export const dynamic = "force-dynamic";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { getAllProjects } from "../../../actions/projects";
+import { getAllProjects } from "../../../lib/project";
 import ProjectCard from "../../components/ProjectCard";
 
 export default async function ProjectsPage() {

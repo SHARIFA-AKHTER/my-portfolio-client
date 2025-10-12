@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Edit, Trash2 } from "lucide-react";
-import { deleteProject, getAllProjects } from "../../../../actions/projects";
+import { deleteProject } from "../../../../actions/projects";
+import { getAllProjects } from "../../../../lib/project";
 
 export default function DashboardProjectsPage() {
   const [projects, setProjects] = useState<any[]>([]);

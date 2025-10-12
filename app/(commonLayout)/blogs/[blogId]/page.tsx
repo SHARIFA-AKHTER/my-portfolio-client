@@ -3,12 +3,6 @@
 import { getBlogById } from "../../../../services/BlogServices";
 import BlogDetailsCard from "../../../components/modules/Blog/BlogDetailsCard";
 
-interface Props {
-  params: {
-    blogId: string;
-  };
-}
-
 // export const generateStaticParams = async () => {
 //   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`);
 
@@ -39,38 +33,58 @@ export const generateStaticParams = async () => {
   }
 };
 
-// export const generateMetadata =
-//   async () =>
-//   async ({ params }: { params: { blogId: string } }) => {
-//     const { blogId } = await params;
-//     const blog = await getBlogById(blogId);
-//     return {
-//       title: blog?.title,
-//       Description: blog?.content,
-//     };
-//   };
-
-export const generateMetadata = async ({ params }: Props) => {
-  const { blogId } = params;
-  const blog = await getBlogById(blogId);
-
-  return {
-    title: blog?.title,
-    description: blog?.content,
+export const generateMetadata =
+  async () =>
+  async ({ params }: { params: { blogId: string } }) => {
+    const { blogId } = await params;
+    const blog = await getBlogById(blogId);
+    return {
+      title: blog?.title,
+      Description: blog?.content,
+    };
   };
-};
 
-const BlogDetailsPage = async ({ params }: { params: { blogId: string } }) => {
-  const { blogId } = params;
+// export const generateMetadata = async ({ params }: Props) => {
+//   const { blogId } = params;
+//   const blog = await getBlogById(blogId);
 
+//   return {
+//     title: blog?.title,
+//     description: blog?.content,
+//   };
+// };
+
+// const BlogDetailsPage = async ({ params }: { params: { blogId: string } }) => {
+//   const { blogId } = params;
+
+//   const blog = await getBlogById(blogId);
+//   console.log(blog);
+
+//   return (
+//     <div className="py-30 px-4 max-w-7xl mx-auto">
+//       <BlogDetailsCard blog={blog} />
+//     </div>
+//   );
+// };
+
+// export default BlogDetailsPage;
+
+export default async function BlogDetailsPage({
+  params,
+}: {
+  params: Promise<{ blogId: string }>;
+}) {
+  const { blogId } = await params;
   const blog = await getBlogById(blogId);
-  console.log(blog);
+
+  if (!blog)
+    return (
+      <div className="py-20 text-center text-gray-500">Blog not found 😢</div>
+    );
 
   return (
     <div className="py-30 px-4 max-w-7xl mx-auto">
       <BlogDetailsCard blog={blog} />
     </div>
   );
-};
-
-export default BlogDetailsPage;
+}

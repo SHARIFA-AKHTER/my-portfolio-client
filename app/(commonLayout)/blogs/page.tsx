@@ -25,6 +25,7 @@
 //   );
 // }
 
+export const dynamic = "force-dynamic";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import Hero from "../../components/Hero";

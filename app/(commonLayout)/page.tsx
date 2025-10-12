@@ -1,9 +1,9 @@
+export const dynamic = "force-dynamic";
 import AboutPage from "./about/page";
 import ContactPage from "./contact/page";
 import ProjectsPage from "./projects/page";
 import SkillsPage from "./skills/page";
 import Hero from "../components/Hero";
-
 
 export default function HomePage() {
   return (
@@ -39,4 +39,3 @@ export default function HomePage() {
     </>
   );
 }
-
