@@ -102,15 +102,15 @@
 
 import { FieldValues } from "react-hook-form";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_API || "http://localhost:5000/api";
+// const BASE_URL =
+//   process.env.NEXT_PUBLIC_BASE_API || "http://localhost:5000/api";
 
-console.log("🔹 BASE_URL:", BASE_URL);
+// console.log("🔹 BASE_URL:", BASE_URL);
 
 // 🟢 Common Auth Actions (Register, Login, Google Login)
 export const register = async (data: FieldValues) => {
   try {
-    const res = await fetch(`${BASE_URL}/user`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -131,37 +131,53 @@ export const register = async (data: FieldValues) => {
   }
 };
 
+export const login = async (data: FieldValues) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("❌ Login failed:", text);
+      throw new Error(text || "Login failed");
+    }
+
+    const result = await res.json();
+    console.log("✅ Login success:", result);
+    return result;
+  } catch (err) {
+    console.error("⚠️ Login Error:", err);
+    throw err;
+  }
+};
+
 // export const login = async (data: FieldValues) => {
-//   try {
-//     const res = await fetch(`${BASE_URL}/auth/login`, {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(data),
-//     });
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/login`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify(data),
+//   });
 
-//     if (!res.ok) {
-//       const text = await res.text();
-//       console.error("❌ Login failed:", text);
-//       throw new Error(text || "Login failed");
-//     }
-
-//     const result = await res.json();
-//     console.log("✅ Login success:", result);
-//     return result;
-//   } catch (err) {
-//     console.error("⚠️ Login Error:", err);
-//     throw err;
+//   if (!res.ok) {
+//     const text = await res.text();
+//     console.error("❌ Login failed:", text);
 //   }
 // };
 
 // 🟢 Google Login (Backend)
 export const googleLogin = async (googleToken: string) => {
   try {
-    const res = await fetch(`${BASE_URL}/auth/google-login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: googleToken }),
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/auth/google-login`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: googleToken }),
+      }
+    );
 
     if (!res.ok) {
       const text = await res.text();
