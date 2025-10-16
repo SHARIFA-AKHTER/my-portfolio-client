@@ -1,43 +1,76 @@
-/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { authOptions } from "../../../helpers/authOptions";
-import ExploreButton from "../../../components/ui/ExploreButton";
 
-export default async function DashboardHome() {
-  const session = await getServerSession(authOptions);
+"use client";
 
-  if (!session || !session.user) {
-    redirect("/login");
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+interface User {
+  name: string;
+  role: string;
+  [key: string]: any;
+}
+
+export default function DashboardPage() {
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUser = () => {
+      try {
+        // Get token from cookie
+        const token = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("token="))
+          ?.split("=")[1];
+
+        if (!token) {
+          router.push("/login");
+          return;
+        }
+
+        // Get user data from localStorage
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        } else {
+          // If no user data, redirect to login
+          router.push("/login");
+        }
+      } catch (err) {
+        console.error("Error fetching user:", err);
+        router.push("/login");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [router]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-gray-500 text-lg">Loading dashboard...</p>
+      </div>
+    );
   }
 
-  // if (session.user.role !== "ADMIN") {
-  //   redirect("/unauthorized");
-  // }
-  const quotes = [
-    "The secret of getting ahead is getting started. – Mark Twain",
-    "Strive not to be a success, but rather to be of value. – Albert Einstein",
-    "Don't watch the clock; do what it does. Keep going. – Sam Levenson",
-  ];
-
-  const quote = quotes[Math.floor(Math.random() * quotes.length)];
+  if (!user) return null;
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-gray-50 to-gray-100 p-6 text-center">
-      <div className="bg-white shadow-lg rounded-2xl p-8 md:p-12 w-full max-w-xl">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-          Welcome, {session.user.name || "User"}
-        </h1>
+    <div className="p-8 max-w-4xl mx-auto">
+      <h1 className="text-3xl font-bold mb-2">
+        Welcome, <span className="text-blue-600">{user.name}</span>! 🎉
+      </h1>
+      <p className="text-gray-600 mb-6">Role: <span className="font-medium">{user.role}</span></p>
 
-        <p className="text-gray-500 mb-6">{session.user.email}</p>
-
-        <p className="text-lg md:text-xl text-gray-600 italic">"{quote}"</p>
-
-        {/* <button className="mt-8 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition duration-300">
-          Explore My Work
-        </button>  */}
-        <ExploreButton target="blogs" />
+      <div className="bg-white shadow-md rounded-lg p-6">
+        <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+  Welcome to your personal dashboard! Here, you can manage your projects, track your portfolio performance, explore analytics, and update your profile with ease. Stay on top of your work and showcase your achievements seamlessly.
+</p>
       </div>
     </div>
   );

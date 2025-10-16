@@ -1,52 +1,85 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 "use server";
 
-import { getServerSession } from "next-auth";
-import { authOptions } from "../helpers/authOptions";
+export async function updateBlog(blogId: number, data: any, token: string) {
+  if (!token) throw new Error("Unauthorized: No token provided");
 
-export async function updateBlog(blogId: number, data: any) {
-  const session = await getServerSession(authOptions);
-  if (!session) throw new Error("Unauthorized");
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${session.accessToken}`,
-      },
-      body: JSON.stringify(data),
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("❌ Update error:", text);
+      throw new Error(text || "Blog update failed");
     }
-  );
 
-  if (!res.ok) {
-    const text = await res.text();
-    console.error("❌ Update error:", text);
-    throw new Error("Blog update failed");
+    const json = await res.json();
+    console.log("✅ Blog updated:", json);
+    return json;
+  } catch (err: any) {
+    console.error("⚠️ updateBlog Error:", err);
+    throw err;
   }
-
-  return res.json();
 }
 
-export async function deleteBlog(blogId: number) {
-  const session = await getServerSession(authOptions);
-  if (!session) throw new Error("Unauthorized");
+export async function deleteBlog(blogId: number, token: string) {
+  if (!token) throw new Error("Unauthorized: No token provided");
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`,
-    {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${session.accessToken}` },
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("❌ Delete error:", text);
+      throw new Error(text || "Blog delete failed");
     }
-  );
 
-  if (!res.ok) {
-    const text = await res.text();
-    console.error("❌ Delete error:", text);
-    throw new Error("Blog delete failed");
+    const json = await res.json();
+    console.log("✅ Blog deleted:", json);
+    return json;
+  } catch (err: any) {
+    console.error("⚠️ deleteBlog Error:", err);
+    throw err;
   }
-
-  return res.json();
 }
+
+export const incrementBlogView = async (id: number) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/blog/${id}/view`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
+        },
+      }
+    );
+
+    if (!res.ok) throw new Error("Failed to increment views");
+
+    const data = await res.json();
+    return data.blog;
+  } catch (err: any) {
+    console.error(err);
+    return null;
+  }
+};

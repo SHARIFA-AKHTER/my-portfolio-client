@@ -1,22 +1,18 @@
-// import { NextResponse } from "next/server";
-// import type { NextRequest } from "next/server";
-// import { getToken } from "next-auth/jwt";
+import { NextResponse, NextRequest } from "next/server";
 
-// export async function middleware(request: NextRequest) {
-//   const token = await getToken({
-//     req: request,
-//     secret: process.env.AUTH_SECRET,
-//   });
+// This function can be marked `async` if using `await` inside
+export function middleware(request: NextRequest) {
+  const token = request.cookies.get("token")?.value;
+  const url = request.nextUrl.clone();
 
-//   if (!token) {
-//     const url = request.nextUrl.clone();
-//     url.pathname = "/login";
-//     return NextResponse.redirect(url);
-//   }
+  if (!token) {
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
+  }
 
-//   return NextResponse.next();
-// }
+  return NextResponse.next();
+}
 
-export { default } from "next-auth/middleware";
-
-export const config = { matcher: ["/dashboard"] };
+export const config = {
+  matcher: ["/dashboard/:path*"],
+};

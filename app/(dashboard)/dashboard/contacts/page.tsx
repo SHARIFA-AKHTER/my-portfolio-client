@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getContacts } from "../../../../actions/getContacts";
 
 export default async function DashboardContacts() {
@@ -9,13 +9,17 @@ export default async function DashboardContacts() {
     contacts = await getContacts();
   } catch (error: any) {
     return (
-      <p className="text-center text-red-500 py-10">Error: {error.message}</p>
+      <p className="text-center text-red-500 py-10">
+        Error: {error.message}
+      </p>
     );
   }
 
   if (contacts.length === 0) {
     return (
-      <p className="text-center text-gray-500 py-10">No contacts found.</p>
+      <p className="text-center text-gray-500 py-10">
+        No contacts found.
+      </p>
     );
   }
 
