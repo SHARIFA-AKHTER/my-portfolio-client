@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 // /* eslint-disable @typescript-eslint/no-explicit-any */
-
 // "use client";
 
 // import { useForm } from "react-hook-form";
 // import { useState } from "react";
 // import { useRouter } from "next/navigation";
-// import { create } from "../../../../actions/create";
 
 // interface BlogFormData {
 //   title: string;
@@ -28,28 +28,87 @@
 //   const [error, setError] = useState<string | null>(null);
 //   const router = useRouter();
 
+//   // const onSubmit = async (data: BlogFormData) => {
+//   //   setLoading(true);
+//   //   setError(null);
+//   //   setSuccess(null);
+
+//   //   try {
+//   //     const token = localStorage.getItem("token");
+//   //     if (!token) throw new Error("Unauthorized: No token found");
+
+//   //     const blogData = {
+//   //       ...data,
+//   //       authorId: 3,
+//   //       tags: [],
+//   //       isFeatured: false,
+//   //     };
+
+//   //     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`, {
+//   //       method: "POST",
+//   //       headers: {
+//   //         "Content-Type": "application/json",
+//   //         Authorization: `Bearer ${token}`,
+//   //       },
+//   //       body: JSON.stringify(blogData),
+//   //     });
+
+//   //     if (!res.ok) {
+//   //       const text = await res.text();
+//   //       throw new Error(text || "Failed to create blog");
+//   //     }
+
+//   //     const result = await res.json();
+
+//   //     setSuccess("✅ Blog created successfully!");
+//   //     setTimeout(() => {
+//   //       reset();
+//   //       router.push("/blogs");
+//   //     }, 1500);
+//   //   } catch (err: any) {
+//   //     console.error("Blog creation error:", err);
+//   //     setError(err?.message || "Failed to create blog ❌");
+//   //   } finally {
+//   //     setLoading(false);
+//   //   }
+//   // };
+
 //   const onSubmit = async (data: BlogFormData) => {
 //     setLoading(true);
 //     setError(null);
 //     setSuccess(null);
 
 //     try {
+//       const token = localStorage.getItem("token");
+//       if (!token) throw new Error("Unauthorized: No token found");
+
 //       const blogData = {
 //         ...data,
-//         authorId: 3,
+//         tags: [],
+//         isFeatured: false,
 //       };
 
-//       const result = await create(blogData);
+//       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: JSON.stringify(blogData),
+//       });
 
-//       if (result?.blog?.id) {
-//         setSuccess("✅ Blog created successfully!");
-//         setTimeout(() => {
-//           reset();
-//           router.push("/blogs");
-//         }, 1500);
-//       } else {
-//         setError("❌ Failed to create blog");
+//       const result = await res.json();
+//       console.log("Response:", result);
+
+//       if (!res.ok || !result.success) {
+//         throw new Error(result.message || "Failed to create blog ❌");
 //       }
+
+//       setSuccess("✅ Blog created successfully!");
+//       setTimeout(() => {
+//         reset();
+//         router.push("/blogs");
+//       }, 1500);
 //     } catch (err: any) {
 //       console.error("Blog creation error:", err);
 //       setError(err?.message || "Failed to create blog ❌");
@@ -164,12 +223,13 @@
 // }
 
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { createBlog } from "@/actions/create";
+
 
 interface BlogFormData {
   title: string;
@@ -181,12 +241,7 @@ interface BlogFormData {
 }
 
 export default function CreateBlogForm() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<BlogFormData>();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<BlogFormData>();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -198,31 +253,10 @@ export default function CreateBlogForm() {
     setSuccess(null);
 
     try {
-      const token = localStorage.getItem("token");
-      if (!token) throw new Error("Unauthorized: No token found");
+     
+      const result = await createBlog(data);
 
-      const blogData = {
-        ...data,
-        authorId: 3, 
-        tags: [],
-        isFeatured: false,
-      };
-
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(blogData),
-      });
-
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || "Failed to create blog");
-      }
-
-      const result = await res.json();
+      if (!result?.success) throw new Error(result?.message || "Failed to create blog");
 
       setSuccess("✅ Blog created successfully!");
       setTimeout(() => {
@@ -246,39 +280,29 @@ export default function CreateBlogForm() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Title */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Title
-          </label>
+          <label className="block text-sm font-medium text-gray-700">Title</label>
           <input
             {...register("title", { required: true })}
             className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             placeholder="Enter blog title"
           />
-          {errors.title && (
-            <p className="text-red-500 text-sm">Title is required</p>
-          )}
+          {errors.title && <p className="text-red-500 text-sm">Title is required</p>}
         </div>
 
         {/* Slug */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Slug
-          </label>
+          <label className="block text-sm font-medium text-gray-700">Slug</label>
           <input
             {...register("slug", { required: true })}
             className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             placeholder="unique-blog-slug"
           />
-          {errors.slug && (
-            <p className="text-red-500 text-sm">Slug is required</p>
-          )}
+          {errors.slug && <p className="text-red-500 text-sm">Slug is required</p>}
         </div>
 
         {/* Excerpt */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Excerpt
-          </label>
+          <label className="block text-sm font-medium text-gray-700">Excerpt</label>
           <textarea
             {...register("excerpt")}
             rows={2}
@@ -289,25 +313,19 @@ export default function CreateBlogForm() {
 
         {/* Content */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Content
-          </label>
+          <label className="block text-sm font-medium text-gray-700">Content</label>
           <textarea
             {...register("content", { required: true })}
             rows={6}
             className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             placeholder="Write your blog content..."
           />
-          {errors.content && (
-            <p className="text-red-500 text-sm">Content is required</p>
-          )}
+          {errors.content && <p className="text-red-500 text-sm">Content is required</p>}
         </div>
 
         {/* Cover URL */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Cover URL
-          </label>
+          <label className="block text-sm font-medium text-gray-700">Cover URL</label>
           <input
             {...register("coverUrl")}
             type="url"
@@ -318,11 +336,7 @@ export default function CreateBlogForm() {
 
         {/* Published */}
         <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            {...register("published")}
-            className="w-4 h-4"
-          />
+          <input type="checkbox" {...register("published")} className="w-4 h-4" />
           <label className="text-gray-700 text-sm">Publish now</label>
         </div>
 

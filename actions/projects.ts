@@ -1,4 +1,3 @@
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
@@ -36,11 +35,14 @@ export async function updateProject(id: number, data: any, token?: string) {
   const headers: any = { "Content-Type": "application/json" };
   if (token) headers.Authorization = `Bearer ${token}`;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify(data),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`,
+    {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(data),
+    }
+  );
 
   if (!res.ok) {
     const text = await res.text();
@@ -56,10 +58,13 @@ export async function deleteProject(id: number, token?: string) {
   const headers: any = {};
   if (token) headers.Authorization = `Bearer ${token}`;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
-    method: "DELETE",
-    headers,
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`,
+    {
+      method: "DELETE",
+      headers,
+    }
+  );
 
   if (!res.ok) {
     const text = await res.text();
