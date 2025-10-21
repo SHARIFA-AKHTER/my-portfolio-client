@@ -1,5 +1,3 @@
-
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
@@ -73,26 +71,3 @@ export async function deleteBlog(blogId: number) {
   }
 }
 
-// ✅ Increment Blog View (unchanged)
-export const incrementBlogView = async (id: number) => {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/blog/${id}/view`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.ADMIN_TOKEN}`,
-        },
-      }
-    );
-
-    if (!res.ok) throw new Error("Failed to increment views");
-
-    const data = await res.json();
-    return data.blog;
-  } catch (err: any) {
-    console.error(err);
-    return null
-  }
-};

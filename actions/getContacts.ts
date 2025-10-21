@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 
 export async function getContacts() {
   try {
-
     const token = (await cookies()).get("token")?.value;
 
     if (!token) {
@@ -17,7 +16,7 @@ export async function getContacts() {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      cache: "no-store", 
+      cache: "no-store",
     });
 
     if (!res.ok) {
@@ -28,7 +27,6 @@ export async function getContacts() {
 
     const data = await res.json();
     console.log("✅ Contacts fetched successfully:", data);
-
 
     if (Array.isArray(data?.data)) {
       return data.data;
@@ -41,6 +39,8 @@ export async function getContacts() {
     return [];
   } catch (err: any) {
     console.error("❌ getContacts Error:", err.message);
-    throw new Error(err.message || "Something went wrong while fetching contacts");
+    throw new Error(
+      err.message || "Something went wrong while fetching contacts"
+    );
   }
 }
