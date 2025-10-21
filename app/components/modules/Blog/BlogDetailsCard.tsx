@@ -3,7 +3,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { incrementBlogView } from "@/actions/incrementBlog";
+import { incrementBlogView } from "@/actions/blog";
+
 
 export default function BlogDetailsCard({ blog }: { blog: any }) {
   const [views, setViews] = useState(blog.views ?? 0);

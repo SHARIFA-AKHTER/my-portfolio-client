@@ -71,3 +71,35 @@ export async function deleteBlog(blogId: number) {
   }
 }
 
+//incrementBlogView
+export async function incrementBlogView(blogId: number) {
+  const cookieStore = cookies();
+  const token =  (await cookieStore).get("token")?.value;
+
+  if (!token) throw new Error("Unauthorized: No token found in cookies");
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}/view`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("❌ Increment view error:", text);
+      throw new Error(text || "Failed to increment views");
+    }
+
+    const json = await res.json();
+    return json.blog;
+  } catch (err: any) {
+    console.error("⚠️ incrementBlogView Error:", err);
+    return null;
+  }
+}
