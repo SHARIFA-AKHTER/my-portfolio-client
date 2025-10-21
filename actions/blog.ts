@@ -74,7 +74,7 @@ export async function deleteBlog(blogId: number) {
 //incrementBlogView
 export async function incrementBlogView(blogId: number) {
   const cookieStore = cookies();
-  const token =  (await cookieStore).get("token")?.value;
+  const token = (await cookieStore).get("token")?.value;
 
   if (!token) throw new Error("Unauthorized: No token found in cookies");
 

@@ -5,28 +5,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { incrementBlogView } from "@/actions/blog";
 
-
 export default function BlogDetailsCard({ blog }: { blog: any }) {
   const [views, setViews] = useState(blog.views ?? 0);
 
-  // useEffect(() => {
-  //   const updateViews = async () => {
-  //     const updatedBlog = await incrementBlogView(blog.id);
-  //     if (updatedBlog) {
-  //       setViews(updatedBlog.views);
-  //     }
-  //   };
-  //   updateViews();
-  // }, [blog.id]);
-
   useEffect(() => {
     const updateViews = async () => {
-      try {
-        const updatedBlog = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/blog/${blog.id}/view`, { method: "PATCH" })
-          .then(r => r.json());
-        if (updatedBlog?.blog) setViews(updatedBlog.blog.views);
-      } catch (err) {
-        console.error("Failed to update views:", err);
+      const updatedBlog = await incrementBlogView(blog.id);
+      if (updatedBlog) {
+        setViews(updatedBlog.views);
       }
     };
     updateViews();
