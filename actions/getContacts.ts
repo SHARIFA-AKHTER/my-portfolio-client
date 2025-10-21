@@ -1,22 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-
 "use server";
+
+import { cookies } from "next/headers";
 
 export async function getContacts() {
   try {
-    const token = process.env.ADMIN_TOKEN;
+
+    const token = (await cookies()).get("token")?.value;
 
     if (!token) {
-      console.error("❌ No ADMIN_TOKEN found in env");
-      throw new Error("Unauthorized: No admin token found");
+      console.error("❌ No token found in cookies");
+      throw new Error("Unauthorized: Please login as admin");
     }
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/contacts`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      cache: "no-store",
+      cache: "no-store", 
     });
 
     if (!res.ok) {
@@ -26,7 +27,6 @@ export async function getContacts() {
     }
 
     const data = await res.json();
-
     console.log("✅ Contacts fetched successfully:", data);
 
 
@@ -34,7 +34,6 @@ export async function getContacts() {
       return data.data;
     }
 
- 
     if (data?.contact) {
       return Array.isArray(data.contact) ? data.contact : [data.contact];
     }
@@ -45,4 +44,3 @@ export async function getContacts() {
     throw new Error(err.message || "Something went wrong while fetching contacts");
   }
 }
-  
