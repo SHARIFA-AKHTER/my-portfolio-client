@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
@@ -10,6 +11,12 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
+       async signIn({ user, account, profile }) {
+      if (account?.provider === "google") {
+        return true; 
+      }
+      return true;
+    },
     async jwt({ token, account }) {
       if (account?.id_token) {
         token.idToken = account.id_token;
@@ -22,6 +29,7 @@ const handler = NextAuth({
     },
   },
   secret: process.env.AUTH_SECRET,
+  debug: true, 
 });
 
 export { handler as GET, handler as POST };

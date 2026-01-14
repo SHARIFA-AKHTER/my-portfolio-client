@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
@@ -59,28 +60,26 @@ export default function LoginForm() {
 //   }
 // };
 
-  const handleGoogleLogin = async () => {
+const handleGoogleLogin = async () => {
   try {
-    await signIn("google", { redirect: false });
-
-    const session = await getSession();
-    const googleToken = session?.idToken;
-
-    if (!googleToken) {
-      toast.error("Google token not found");
+    const result = await signIn("google", { redirect: false });
+    
+    if (result?.error) {
+      toast.error(result.error);
       return;
     }
 
-    const res = await loginWithGoogle(googleToken);
-
-    if (res.success) {
-      toast.success("Login successful");
-      router.push("/dashboard");
-    } else {
-      toast.error(res.message);
+   
+    const session = await getSession();
+    if (session?.idToken) {
+       const res = await loginWithGoogle(session.idToken as string);
+       if (res.success) {
+         toast.success("Login successful");
+         window.location.href = "/dashboard"; 
+       }
     }
   } catch (err: any) {
-    toast.error(err.message);
+    toast.error("Google login failed");
   }
 };
 
