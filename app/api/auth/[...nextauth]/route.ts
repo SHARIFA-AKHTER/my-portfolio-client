@@ -57,6 +57,7 @@ const handler = NextAuth({
               email: user.email,
               name: user.name,
               image: user.image,
+              idToken: account.id_token,
             }),
           });
           const result = await res.json();
