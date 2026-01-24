@@ -41,6 +41,7 @@ export default function Sidebar() {
     { name: "All Contacts", href: "/dashboard/contacts", icon: Mail },
     { name: "testimonials", href: "/dashboard/testimonials", icon: Mail },
     { name: "Users", href: "/dashboard/users", icon: Mail },
+    { name: "Faq", href: "/dashboard/faq", icon: Mail },
   ];
 
   return (

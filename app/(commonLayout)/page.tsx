@@ -5,6 +5,10 @@ import ProjectsPage from "./projects/page";
 import SkillsPage from "./skills/page";
 import Hero from "../components/Hero";
 import Testimonials from './../components/Home/Testimonials';
+import FAQ from "./../components/Home/FAQ";
+
+
+
 
 export default function HomePage() {
   return (
@@ -36,7 +40,7 @@ export default function HomePage() {
         {/* 6. Testimonials Section */}
       <Testimonials />
       {/* 7. FAQ Section */}
-      {/* <FAQ /> */}
+      < FAQ />
 
       {/* Contact Section */}
       <section className="">
