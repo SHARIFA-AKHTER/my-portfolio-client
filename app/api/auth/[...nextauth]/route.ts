@@ -1,51 +1,75 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+ 
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+
+// import NextAuth from "next-auth";
+// import GoogleProvider from "next-auth/providers/google";
+
+// const handler = NextAuth({
+//   providers: [
+//     GoogleProvider({
+//       clientId: process.env.GOOGLE_CLIENT_ID!,
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+//     }),
+//   ],
+//   callbacks: {
+//     async jwt({ token, account }) {
+//       if (account) {
+//         token.idToken = account.id_token;
+//       }
+//       return token;
+//     },
+//     async session({ session, token }: any) {
+//       session.idToken = token.idToken;
+//       return session;
+//     },
+//   },
+//   secret: process.env.NEXTAUTH_SECRET,
+//   pages: {
+//     signIn: '/login',
+//     error: '/login', 
+//   }
+// });
+
+// export { handler as GET, handler as POST };
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
 
 const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID!,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
     }),
   ],
-  callbacks: {
-    async signIn({ user, account }: any) {
-      if (account?.provider === "google") {
-        try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/google-login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: user.email,
-              name: user.name,
-              image: user.image,
-              idToken: account.id_token,
-            }),
-          });
-          const result = await res.json();
-          return result.success;
-        } catch (error) {
-          return false;
-        }
-      }
-      return true;
-    },
-    async jwt({ token, account }) {
-      if (account?.id_token) {
-        token.idToken = account.id_token;
-      }
-      return token;
-    },
-    async session({ session, token }: any) {
-      session.idToken = token.idToken;
-      return session;
-    },
+
+callbacks: {
+  async jwt({ token, account }: any) {
+    if (account) {
+    
+      token.idToken = account.id_token || null; 
+      token.accessToken = account.access_token;
+    }
+    return token;
   },
-  secret: process.env.AUTH_SECRET,
+  async session({ session, token }: any) {
+    session.idToken = token.idToken;
+    session.accessToken = token.accessToken;
+    return session;
+  },
+},
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: '/login',
+    error: '/login', 
+  }
 });
 
 export { handler as GET, handler as POST };

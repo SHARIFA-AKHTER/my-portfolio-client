@@ -49,20 +49,22 @@ const Hero = () => {
   }, [currentIndex]);
 
   return (
-    <section className="min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-12 lg:px-20 pt-20 relative bg-gradient-to-b from-gray-50 via-white to-gray-100 text-gray-900 overflow-hidden">
-      {/* Animated background circles */}
+    <section className="min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-12 lg:px-20 pt-20 
+    relative bg-gradient-to-b from-background via-background to-muted/20 text-foreground overflow-hidden transition-colors duration-500">
+      
+     
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: [1, 1.2, 1] }}
         transition={{ duration: 6, repeat: Infinity }}
-        className="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-purple-200 blur-3xl opacity-30"
+        className="absolute -top-20 -left-20 w-72 h-72 rounded-full bg-primary/10 blur-3xl"
       ></motion.div>
 
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: [1, 1.3, 1] }}
         transition={{ duration: 8, repeat: Infinity }}
-        className="absolute -bottom-20 -right-20 w-96 h-96 rounded-full bg-green-200 blur-3xl opacity-30"
+        className="absolute -bottom-20 -right-20 w-96 h-96 rounded-full bg-accent/10 blur-3xl"
       ></motion.div>
 
       {/* Left Content */}
@@ -74,65 +76,45 @@ const Hero = () => {
       >
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
           Hi, I’m{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-green-500">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-green-500">
             Sharifa
           </span>
         </h1>
 
         {/* Animated subtitle */}
-        <h2 className="text-lg sm:text-xl lg:text-2xl min-h-[32px] flex items-center gap-2 text-gray-700">
+        <h2 className="text-lg sm:text-xl lg:text-2xl min-h-[32px] flex items-center justify-center md:justify-start gap-2 text-muted-foreground">
           {displayText}
-          <span className="border-r-2 border-purple-800 animate-pulse ml-1"></span>
-          <span className="ml-1">
-            {currentIndex === 0 && (
-              <SiJavascript className="text-yellow-500 text-2xl" />
-            )}
-            {currentIndex === 1 && (
-              <SiMongodb className="text-green-600 text-2xl" />
-            )}
-            {currentIndex === 2 && (
-              <SiNextdotjs className="text-gray-900 text-2xl" />
-            )}
-            {currentIndex === 3 && (
-              <SiHtml5 className="text-orange-500 text-2xl" />
-            )}
-            {currentIndex === 4 && (
-              <SiCss3 className="text-blue-500 text-2xl" />
-            )}
-            {currentIndex === 5 && (
-              <SiReact className="text-blue-400 text-2xl" />
-            )}
-            {currentIndex === 6 && (
-              <SiTypescript className="text-blue-600 text-2xl" />
-            )}
-            {currentIndex === 7 && (
-              <SiJavascript className="text-yellow-500 text-2xl" />
-            )}
-            {currentIndex === 8 && (
-              <SiJavascript className="text-yellow-500 text-2xl" />
-            )}
-            {currentIndex === 9 && (
-              <SiNodedotjs className="text-green-600 text-2xl" />
-            )}
+          <span className="border-r-2 border-primary animate-pulse ml-1 h-6"></span>
+          <span className="ml-1 flex items-center">
+            {currentIndex === 0 && <SiJavascript className="text-yellow-500 text-2xl" />}
+            {currentIndex === 1 && <SiMongodb className="text-green-600 text-2xl" />}
+            {currentIndex === 2 && <SiNextdotjs className="text-foreground text-2xl" />}
+            {currentIndex === 3 && <SiHtml5 className="text-orange-500 text-2xl" />}
+            {currentIndex === 4 && <SiCss3 className="text-blue-500 text-2xl" />}
+            {currentIndex === 5 && <SiReact className="text-blue-400 text-2xl" />}
+            {currentIndex === 6 && <SiTypescript className="text-blue-600 text-2xl" />}
+            {currentIndex === 7 && <SiJavascript className="text-yellow-500 text-2xl" />}
+            {currentIndex === 8 && <SiJavascript className="text-yellow-500 text-2xl" />}
+            {currentIndex === 9 && <SiNodedotjs className="text-green-600 text-2xl" />}
           </span>
         </h2>
 
-        <p className="text-gray-600 max-w-lg mx-auto md:mx-0 text-base sm:text-lg">
+        <p className="text-muted-foreground max-w-lg mx-auto md:mx-0 text-base sm:text-lg">
           I build modern, scalable, and user-friendly web applications with a
           passion for clean code and great UX.
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
           <Link
             href="/projects"
-            className="bg-gradient-to-r from-green-400 to-purple-600 text-white px-6 py-3 rounded-lg shadow-md font-semibold hover:scale-105 transition transform duration-300"
+            className="bg-primary text-primary-foreground px-8 py-3 rounded-full shadow-lg font-semibold hover:opacity-90 transition transform hover:scale-105 duration-300 text-center"
           >
             🚀 Get Started
           </Link>
           <Link
             href="/contact"
-            className="border-2 border-purple-600 text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-purple-600 hover:text-white transition duration-300"
+            className="border-2 border-primary text-primary px-8 py-3 rounded-full font-semibold hover:bg-primary hover:text-primary-foreground transition duration-300 text-center"
           >
             📩 Contact Me
           </Link>
@@ -144,20 +126,22 @@ const Hero = () => {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.2 }}
-        className="md:w-1/2 flex justify-center mt-10 md:mt-0 relative z-10"
+        className="md:w-1/2 flex justify-center mt-12 md:mt-0 relative z-10"
       >
         <div
-          className="relative rounded-full overflow-hidden shadow-lg border-4
-         border-purple-800 w-64 h-64 sm:w-64 sm:h-64 lg:w-100 lg:h-100 group"
+          className="relative rounded-full p-1 bg-gradient-to-tr from-purple-500 to-green-500 shadow-2xl transition-all duration-500 hover:shadow-purple-500/20"
         >
-          <Image
-            src="/profile.jpg"
-            alt="Profile"
-            fill
-            className="object-cover group-hover:scale-110 transition-transform duration-500"
-            priority
-          />
-          <div className="absolute inset-0 rounded-full ring-4 ring-purple-600 animate-pulse"></div>
+          <div className="relative rounded-full overflow-hidden w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 bg-card">
+            <Image
+              src="/profile.jpg"
+              alt="Profile"
+              fill
+              className="object-cover hover:scale-110 transition-transform duration-500"
+              priority
+            />
+          </div>
+         
+          <div className="absolute inset-0 rounded-full ring-4 ring-primary/20 animate-ping -z-10"></div>
         </div>
       </motion.div>
     </section>
