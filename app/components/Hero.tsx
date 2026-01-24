@@ -129,7 +129,7 @@ const Hero = () => {
         className="md:w-1/2 flex justify-center mt-12 md:mt-0 relative z-10"
       >
         <div
-          className="relative rounded-full p-1 bg-gradient-to-tr from-purple-500 to-green-500 shadow-2xl transition-all duration-500 hover:shadow-purple-500/20"
+          className="relative rounded-full p-1 bg-linear-to-tr from-purple-500 to-green-500 shadow-2xl transition-all duration-500 hover:shadow-purple-500/20"
         >
           <div className="relative rounded-full overflow-hidden w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 bg-card">
             <Image

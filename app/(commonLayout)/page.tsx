@@ -4,6 +4,7 @@ import ContactPage from "./contact/page";
 import ProjectsPage from "./projects/page";
 import SkillsPage from "./skills/page";
 import Hero from "../components/Hero";
+import Testimonials from './../components/Home/Testimonials';
 
 export default function HomePage() {
   return (
@@ -32,10 +33,18 @@ export default function HomePage() {
         <ProjectsPage />
       </section>
 
+        {/* 6. Testimonials Section */}
+      <Testimonials />
+      {/* 7. FAQ Section */}
+      {/* <FAQ /> */}
+
       {/* Contact Section */}
       <section className="">
         <ContactPage />
       </section>
+
+      {/* 9. Newsletter Section */}
+      {/* <Newsletter /> */}
     </>
   );
 }
