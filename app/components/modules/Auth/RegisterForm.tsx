@@ -183,21 +183,21 @@ export default function RegisterForm() {
 
   const onSubmit = async (values: FieldValues) => {
     setLoading(true);
-    console.log("🚀 Submitting Registration Data:", values); // ডাটা যা সার্ভারে যাচ্ছে
+    console.log("🚀 Submitting Registration Data:", values);
 
     try {
       const res = await registerUser(values);
-      console.log("✅ Server Response:", res); // সার্ভার থেকে আসা রেসপন্স
+      console.log("✅ Server Response:", res);
 
       if (res.success) {
         toast.success(res.message || "Registered successfully!");
         router.push("/login");
       } else {
-        console.warn("⚠️ Registration Failed:", res.message); // যদি রেজিস্ট্রেশন ফেইল হয়
+        console.warn("⚠️ Registration Failed:", res.message);
         toast.error(res.message || "Registration failed");
       }
     } catch (err: any) {
-      console.error("❌ Registration Error:", err); // কোনো সিরিয়াস এরর হলে
+      console.error("❌ Registration Error:", err); 
       toast.error(err.message || "Something went wrong!");
     } finally {
       setLoading(false);
