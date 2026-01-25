@@ -6,6 +6,7 @@ import SkillsPage from "./skills/page";
 import Hero from "../components/Hero";
 import Testimonials from './../components/Home/Testimonials';
 import FAQ from "./../components/Home/FAQ";
+import Newsletter from "../components/Home/Newsletter";
 
 
 
@@ -48,7 +49,7 @@ export default function HomePage() {
       </section>
 
       {/* 9. Newsletter Section */}
-      {/* <Newsletter /> */}
+      <Newsletter />
     </>
   );
 }

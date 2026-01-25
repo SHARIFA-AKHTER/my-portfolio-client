@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -11,7 +12,7 @@ type ProjectCardProps = {
 };
 
 export default function ProjectCard({ project }: ProjectCardProps) {
-  // Hydration ফিক্স করার জন্য মাউন্ট স্টেট
+
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       ? project.images[0]
       : fallbackImages[project.slug] || "/default.png";
 
-  // মাউন্ট না হওয়া পর্যন্ত সার্ভার সাইড এবং ক্লায়েন্ট সাইড কন্টেন্ট এক রাখার জন্য রিটার্ন
+
   if (!mounted) {
     return <div className="h-[400px] w-full bg-secondary/20 animate-pulse rounded-3xl" />;
   }
