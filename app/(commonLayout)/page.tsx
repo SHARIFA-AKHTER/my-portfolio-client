@@ -82,7 +82,7 @@ export default function HomePage() {
 
       {/* 9. Newsletter Section */}
     
-     <section classname="">
+     <section className="">
          <Newsletter />
     </section>
 
