@@ -262,8 +262,6 @@
 //     </div>
 //   );
 // }
-
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -281,24 +279,24 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { toast } from "sonner";
-import { ShieldCheck, User as UserIcon, Loader2, Facebook } from "lucide-react";
+import { ShieldCheck, User as UserIcon, Loader2 } from "lucide-react";
 import { useState } from "react";
+import GoogleLoginButton from "../../auth/GoogleLoginButton";
+import FacebookLoginButton from "../../auth/FacebookLoginButton"; 
 
 export default function LoginForm() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); 
 
   const form = useForm<FieldValues>({
     defaultValues: { email: "", password: "" },
   });
 
-  // --- Normal Email/Password Login ---
   const onSubmit = async (values: FieldValues) => {
     setLoading(true);
     try {
       const res = await loginUser(values);
       if (res.success) {
         toast.success(res.message || "Login successful!");
-      
         setTimeout(() => window.location.replace("/"), 1000);
       } else {
         toast.error(res.message || "Login failed");
@@ -313,14 +311,13 @@ export default function LoginForm() {
   const handleDemoLogin = async (role: "admin" | "user") => {
     const email = role === "admin" ? "sharifa5@gmail.com" : "sr0589071@gmail.com";
     const password = "123456";
-
     form.setValue("email", email);
     form.setValue("password", password);
 
     toast.promise(onSubmit({ email, password }), {
       loading: `Logging in as ${role}...`,
       success: `${role.toUpperCase()} login successful!`,
-      error: "Demo login failed.",
+      error: (err) => err.message || "Demo login failed.",
     });
   };
 
@@ -332,9 +329,7 @@ export default function LoginForm() {
           className="space-y-5 w-full max-w-md bg-white dark:bg-slate-900 p-8 rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-800"
         >
           <div className="text-center space-y-2 mb-6">
-            <h2 className="text-3xl font-black text-slate-900 dark:text-white">
-              Welcome Back
-            </h2>
+            <h2 className="text-3xl font-black text-slate-900 dark:text-white">Welcome Back</h2>
           </div>
 
           <FormField
@@ -365,37 +360,52 @@ export default function LoginForm() {
             )}
           />
 
-          <Button type="submit" disabled={loading} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-xl">
+          <Button 
+            type="submit" 
+            disabled={loading} 
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 rounded-xl"
+          >
             {loading ? <Loader2 className="animate-spin mr-2" size={20} /> : "Sign In"}
           </Button>
 
-      
-          <div className="grid grid-cols-2 gap-4">
-            <Button type="button" variant="outline" className="rounded-xl h-11 font-bold">
-              Google
-            </Button>
-            <Button type="button" variant="outline" className="rounded-xl h-11 font-bold text-[#1877F2]">
-              <Facebook size={18} className="mr-2" /> Facebook
-            </Button>
+          <div className="relative my-6 flex items-center">
+            <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+            <span className="px-4 text-[10px] text-slate-400 font-bold uppercase tracking-widest bg-white dark:bg-slate-900">Social Login</span>
+            <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
           </div>
 
-          <div className="relative my-4 flex items-center">
-            <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
-            <span className="px-4 text-xs text-slate-400 font-bold uppercase tracking-widest">Demo</span>
-            <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+          <div className="grid grid-cols-2 gap-4">
+            <GoogleLoginButton />
+            <FacebookLoginButton /> 
+          </div>
+
+          <div className="relative my-6 flex items-center">
+            <div className="flex-grow border-t border-slate-200 dark:border-slate-800 border-dashed"></div>
+            <span className="px-4 text-[10px] text-slate-400 font-bold uppercase tracking-widest bg-white dark:bg-slate-900">Quick Demo</span>
+            <div className="flex-grow border-t border-slate-200 dark:border-slate-800 border-dashed"></div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <Button type="button" variant="outline" onClick={() => handleDemoLogin("admin")} className="rounded-xl border-orange-100 text-orange-600 font-bold text-xs">
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={() => handleDemoLogin("admin")} 
+              className="rounded-xl border-orange-100 text-orange-600 font-bold text-xs"
+            >
               <ShieldCheck size={14} className="mr-1" /> Admin Demo
             </Button>
-            <Button type="button" variant="outline" onClick={() => handleDemoLogin("user")} className="rounded-xl border-blue-100 text-blue-600 font-bold text-xs">
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={() => handleDemoLogin("user")} 
+              className="rounded-xl border-blue-100 text-blue-600 font-bold text-xs"
+            >
               <UserIcon size={14} className="mr-1" /> User Demo
             </Button>
           </div>
 
-          <p className="text-center text-sm mt-6 dark:text-slate-400">
-            New here? <Link href="/register" className="text-blue-600 font-black">Create Account</Link>
+          <p className="text-center text-sm mt-8 dark:text-slate-400">
+            New here? <Link href="/register" className="text-blue-600 font-black hover:underline">Create Account</Link>
           </p>
         </form>
       </Form>

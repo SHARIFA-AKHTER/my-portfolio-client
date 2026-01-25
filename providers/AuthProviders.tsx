@@ -22,14 +22,17 @@
 // };
 
 // export default AuthProviders;
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-const AuthProviders = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <>
-      {children}
-    </>
-  );
-};
+import { useAuth } from "@/app/hooks/useAuth";
+import { createContext, useContext } from "react";
 
-export default AuthProviders;
+const AuthContext = createContext<any>(null);
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const auth = useAuth();
+  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+}
+
+export const useAuthContext = () => useContext(AuthContext);
