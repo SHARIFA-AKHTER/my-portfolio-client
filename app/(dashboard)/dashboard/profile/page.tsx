@@ -84,7 +84,7 @@ export default function ProfilePage() {
         {/* Profile Card */}
         <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col items-center text-center">
           <div className="relative group mb-6">
-            <div className="h-36 w-36 rounded-4xl bg-gradient-to-br from-pink-500 to-rose-600 p-1">
+            <div className="h-36 w-36 rounded-4xl bg-linear-to-br from-pink-500 to-rose-600 p-1">
               <div className="h-full w-full bg-white dark:bg-slate-900 rounded-[1.9rem] overflow-hidden flex items-center justify-center">
                 {formData.picture ? (
                   <img src={formData.picture} alt="Profile" className="h-full w-full object-cover" />

@@ -50,8 +50,8 @@ export default function ContactPage() {
     <section className="relative min-h-screen py-20 px-6 md:px-12 lg:px-20 bg-background overflow-hidden flex items-center">
       
       {/* Background Glows */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full -z-10"></div>
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-teal-500/5 blur-[120px] rounded-full -z-10"></div>
+      <div className="absolute top-0 right-0 w-125 h-125 bg-primary/5 blur-[120px] rounded-full -z-10"></div>
+      <div className="absolute bottom-0 left-0 w-125 h-125 bg-teal-500/5 blur-[120px] rounded-full -z-10"></div>
 
       <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         
@@ -64,7 +64,7 @@ export default function ContactPage() {
         >
           <div className="space-y-4">
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-              Let’s <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-500">Connect</span>
+              Let’s <span className="text-transparent bg-clip-text bg-linear-to-r from-teal-500 to-blue-500">Connect</span>
             </h1>
             <p className="text-muted-foreground text-lg max-w-md leading-relaxed">
               I specialize in Next.js, Prisma, and MongoDB. Whether you have a project in mind or just want to say hi, my inbox is always open!
@@ -97,11 +97,11 @@ export default function ContactPage() {
           viewport={{ once: true }}
           className="relative group"
         >
-          <div className="absolute -inset-1 bg-gradient-to-r from-teal-500 to-blue-500 rounded-[2rem] blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+          <div className="absolute -inset-1 bg-linear-to-r from-teal-500 to-blue-500 rounded-4xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
           
           <form
             onSubmit={handleSubmit}
-            className="relative bg-card border border-primary/10 p-8 sm:p-10 rounded-[2rem] shadow-2xl space-y-5"
+            className="relative bg-card border border-primary/10 p-8 sm:p-10 rounded-4xl shadow-2xl space-y-5"
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="space-y-2">

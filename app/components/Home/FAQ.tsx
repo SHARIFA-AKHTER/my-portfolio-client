@@ -21,8 +21,8 @@ const FAQ = () => {
 
   return (
     <section className="relative py-24 px-6 bg-white dark:bg-[#0a0a0a] overflow-hidden">
-      {/* Testimonials-এর মতো Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/[0.03] blur-[120px] rounded-full -z-0" />
+      
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-purple-500/3 blur-[120px] rounded-full z-0" />
 
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Section Header */}
@@ -33,7 +33,7 @@ const FAQ = () => {
             viewport={{ once: true }}
             className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white"
           >
-            Common <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-green-500">Questions</span>
+            Common <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-500 to-green-500">Questions</span>
           </motion.h2>
           <div className="h-1.5 w-24 bg-purple-600 rounded-full mt-4 mx-auto"></div>
           <p className="text-slate-500 dark:text-slate-400 mt-6 text-lg">
@@ -50,7 +50,7 @@ const FAQ = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`group border rounded-[2rem] transition-all duration-300 ${
+              className={`group border rounded-4xl transition-all duration-300 ${
                 activeId === faq.id
                   ? "border-purple-500/30 bg-white dark:bg-slate-900/80 shadow-xl shadow-purple-500/5"
                   : "border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900/40 hover:border-purple-200 dark:hover:border-purple-900/30"

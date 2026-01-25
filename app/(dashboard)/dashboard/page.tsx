@@ -74,12 +74,12 @@ export default function DashboardPage() {
         
         {user && (
           <div className="flex items-center gap-4 bg-white dark:bg-slate-900 p-3 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
-            <div className="h-10 w-10 bg-gradient-to-tr from-pink-500 to-rose-500 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-pink-500/20">
+            <div className="h-10 w-10 bg-linear-to-tr from-pink-500 to-rose-500 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-pink-500/20">
               {user.name.charAt(0)}
             </div>
             <div>
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Administrator</p>
-              <p className="text-sm font-bold truncate max-w-[150px]">{user.name}</p>
+              <p className="text-sm font-bold truncate max-w-37.5">{user.name}</p>
             </div>
           </div>
         )}
@@ -101,7 +101,7 @@ export default function DashboardPage() {
               <TrendingUp className="text-green-500" /> Content Distribution
             </h3>
           </div>
-          <div className="h-[350px] w-full">
+          <div className="h-87.5 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 20, right: 0, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.05} />
@@ -123,7 +123,7 @@ export default function DashboardPage() {
 
         {/* Quick Links / Info */}
         <div className="space-y-6">
-          <div className="bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-[2.5rem] text-white shadow-xl relative overflow-hidden group border border-slate-700">
+          <div className="bg-linear-to-br from-slate-800 to-slate-900 p-8 rounded-[2.5rem] text-white shadow-xl relative overflow-hidden group border border-slate-700">
             <ShieldCheck size={40} className="mb-4 text-pink-500" />
             <h2 className="text-xl font-bold">Admin Security</h2>
             <p className="text-slate-400 text-sm mt-2 leading-relaxed italic">
@@ -136,7 +136,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-4xl border border-slate-100 dark:border-slate-800 shadow-sm">
              <h4 className="font-bold mb-4 text-sm uppercase tracking-widest text-slate-400">Quick Actions</h4>
              <div className="grid grid-cols-2 gap-3">
                 <QuickAction label="New Blog" icon={FileText} href="/dashboard/create-blog" />

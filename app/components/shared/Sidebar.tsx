@@ -57,7 +57,7 @@ export default function Sidebar() {
       ]
     },
     {
-      label: "Interactions", // এই গ্রুপটি এখন যোগ করা হয়েছে ✅
+      label: "Interactions", 
       links: [
         { name: "Testimonials", href: "/dashboard/testimonials", icon: MessageSquare },
         { name: "All Contacts", href: "/dashboard/contacts", icon: Mail },
@@ -77,7 +77,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile Toggle Button */}
-      <div className="lg:hidden fixed top-4 left-4 z-[60]">
+      <div className="lg:hidden fixed top-4 left-4 z-60">
         <Button 
           variant="outline" 
           size="icon" 
@@ -96,20 +96,20 @@ export default function Sidebar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[40] lg:hidden"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
           />
         )}
       </AnimatePresence>
 
       {/* Sidebar Container */}
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-[50] w-72 bg-white dark:bg-slate-950 border-r transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:block shadow-2xl lg:shadow-none",
+        "fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-slate-950 border-r transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:block shadow-2xl lg:shadow-none",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         
         {/* Logo Section */}
         <div className="p-8 flex items-center gap-3">
-          <div className="h-10 w-10 bg-gradient-to-br from-pink-500 to-rose-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-pink-500/20">
+          <div className="h-10 w-10 bg-linear-to-br from-pink-500 to-rose-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-pink-500/20">
             <LayoutDashboard size={20} />
           </div>
           <div>

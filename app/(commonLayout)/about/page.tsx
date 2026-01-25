@@ -41,7 +41,7 @@ export default function AboutPage() {
             className="relative group"
           >
             {/* Spinning Gradient Border */}
-            <div className="absolute -inset-2 bg-gradient-to-tr from-purple-500 via-primary to-green-500 rounded-full blur-md opacity-40 group-hover:opacity-100 transition duration-1000 group-hover:duration-500 animate-spin-slow"></div>
+            <div className="absolute -inset-2 bg-linear-to-tr from-purple-500 via-primary to-green-500 rounded-full blur-md opacity-40 group-hover:opacity-100 transition duration-1000 group-hover:duration-500 animate-spin-slow"></div>
             
             <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-background shadow-2xl z-10">
               <Image
@@ -68,7 +68,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
-              About <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-green-500">Me</span>
+              About <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-500 to-green-500">Me</span>
             </h2>
             <motion.div 
               initial={{ width: 0 }}
@@ -100,7 +100,7 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                className={`bg-gradient-to-br ${stat.color} border border-primary/10 rounded-2xl p-6 backdrop-blur-md shadow-sm`}
+                className={`bg-linear-to-br ${stat.color} border border-primary/10 rounded-2xl p-6 backdrop-blur-md shadow-sm`}
               >
                 <h3 className={`text-3xl font-bold ${stat.textColor}`}>{stat.value}</h3>
                 <p className="text-muted-foreground text-xs font-bold mt-1 uppercase tracking-widest">{stat.label}</p>
