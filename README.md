@@ -77,7 +77,7 @@ Visit http://localhost:3000
 
 🔗 Live Deployment
 
-Frontend Live URL: https://your-frontend-link.com
+Frontend Live URL:https://my-portfolio-client-umber.vercel.app
 
 🧑‍💻 Admin Credentials (for testing)
 
