@@ -11,8 +11,7 @@ import { toast } from "sonner";
 export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState<any>(null);
-  
-  // ফর্ম স্টেট
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,7 +20,6 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    // LocalStorage থেকে লগইন করা ইউজারের আইডি নেওয়া
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
@@ -29,7 +27,6 @@ export default function ProfilePage() {
     }
   }, []);
 
-  // ডাটাবেস থেকে লেটেস্ট ডাটা ফেচ করা
   const fetchUserData = async (id: number) => {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user/${id}`);

@@ -1,55 +1,94 @@
+
 export const dynamic = "force-dynamic";
+
 import AboutPage from "./about/page";
+
 import ContactPage from "./contact/page";
+
 import ProjectsPage from "./projects/page";
+
 import SkillsPage from "./skills/page";
+
 import Hero from "../components/Hero";
+
 import Testimonials from './../components/Home/Testimonials';
+
 import FAQ from "./../components/Home/FAQ";
+
 import Newsletter from "../components/Home/Newsletter";
 
 
 
-
 export default function HomePage() {
+
   return (
+
     <>
+
       {/* Hero Section */}
+
       <section className="">
+
         <Hero />
+
       </section>
 
       {/* About Section */}
+
       <section className="">
+
         <AboutPage />
+
       </section>
 
-      {/* <section className="">
-        <Features />
-      </section> */}
 
       {/* Skills Section */}
+
       <section className="">
+
         <SkillsPage />
+
       </section>
 
+
+
       {/* Projects Section */}
+
       <section className="">
+
         <ProjectsPage />
+
       </section>
 
         {/* 6. Testimonials Section */}
+     <section className="">
       <Testimonials />
+      </section>
+
       {/* 7. FAQ Section */}
+    <section className="">
       < FAQ />
+      </section>
+
+
 
       {/* Contact Section */}
+
       <section className="">
+
         <ContactPage />
+
       </section>
 
       {/* 9. Newsletter Section */}
-      <Newsletter />
+    
+     <section classname="">
+         <Newsletter />
+    </section>
+
+
     </>
+
   );
+
 }
