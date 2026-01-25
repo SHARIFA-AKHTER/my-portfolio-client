@@ -68,31 +68,66 @@ const handleDemoLogin = async (role: "admin" | "user") => {
     await signIn(provider, { callbackUrl: "/login?sync=true" });
   };
 
+  // useEffect(() => {
+  //   const syncUser = async () => {
+  //     const session: any = await getSession();
+  //     const urlParams = new URLSearchParams(window.location.search);
+
+  //     if (session?.idToken && urlParams.get("sync") === "true") {
+  //       try {
+  //         const res = await loginWithGoogle(session.idToken);
+
+  //         if (res?.success) {
+  //           toast.success("Login successful!");
+
+  //           window.location.replace("/");
+  //         }
+  //       } catch (err: any) {
+  //         console.error("Sync error:", err);
+  //         toast.error(err.message || "Sync failed");
+
+  //         window.history.replaceState({}, document.title, "/login");
+  //       }
+  //     }
+  //   };
+
+  //   syncUser();
+  // }, []);
+
   useEffect(() => {
-    const syncUser = async () => {
-      const session: any = await getSession();
-      const urlParams = new URLSearchParams(window.location.search);
+  const syncUser = async () => {
+    const session: any = await getSession();
+    const urlParams = new URLSearchParams(window.location.search);
+    const shouldSync = urlParams.get("sync") === "true";
 
-      if (session?.idToken && urlParams.get("sync") === "true") {
-        try {
-          const res = await loginWithGoogle(session.idToken);
+    if (session && shouldSync) {
+      try {
+        let res;
 
-          if (res?.success) {
-            toast.success("Login successful!");
-
-            window.location.replace("/");
-          }
-        } catch (err: any) {
-          console.error("Sync error:", err);
-          toast.error(err.message || "Sync failed");
-
-          window.history.replaceState({}, document.title, "/login");
+        // --- Google Sync ---
+        if (session.provider === "google" && session.idToken) {
+          res = await loginWithGoogle(session.idToken);
+        } 
+      
+        else if (session.provider === "facebook" && session.accessToken) {
+          res = await loginWithFacebook(session.accessToken, session.user);
         }
-      }
-    };
 
-    syncUser();
-  }, []);
+        if (res?.success) {
+          toast.success("Login successful!");
+          window.location.replace("/");
+        }
+      } catch (err: any) {
+        console.error("Sync error:", err);
+        toast.error(err.message || "Sync failed");
+    
+        window.history.replaceState({}, document.title, "/login");
+      }
+    }
+  };
+
+  syncUser();
+}, []);
   return (
     <div className="flex justify-center items-center min-h-screen bg-slate-50 dark:bg-[#0f172a] p-4 transition-colors duration-500">
       <Form {...form}>
