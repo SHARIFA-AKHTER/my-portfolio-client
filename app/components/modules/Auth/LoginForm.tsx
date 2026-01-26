@@ -309,7 +309,7 @@ export default function LoginForm() {
   };
 
   const handleDemoLogin = async (role: "admin" | "user") => {
-    const email = role === "admin" ? "sharifa5@gmail.com" : "sr0589071@gmail.com";
+    const email = role === "admin" ? "sharifa5@gmail.com" : "sharifa1@gmail.com";
     const password = "123456";
     form.setValue("email", email);
     form.setValue("password", password);
