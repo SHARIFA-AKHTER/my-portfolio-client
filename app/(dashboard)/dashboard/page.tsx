@@ -1,6 +1,7 @@
 
-// /* eslint-disable @typescript-eslint/no-explicit-any */
-// /* eslint-disable react/no-unescaped-entities */
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react/no-unescaped-entities */
 
 // "use client";
 
@@ -184,7 +185,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; 
 import { motion } from "framer-motion";
 import Link from "next/link"; 
 import { 
@@ -197,22 +197,21 @@ export default function DashboardPage() {
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
-  const router = useRouter(); 
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    
-
+ 
     if (!storedUser) {
-      router.push("/login"); 
+      window.location.href = "/login";
       return;
     }
 
     const parsedUser = JSON.parse(storedUser);
     setUser(parsedUser);
 
-    if (parsedUser.role !== "admin") {
-      router.push("/"); 
+   
+    if (parsedUser.role?.toLowerCase() !== "admin") {
+      window.location.href = "/";
       return;
     }
 
@@ -230,7 +229,7 @@ export default function DashboardPage() {
       }
     };
     fetchStats();
-  }, [router]);
+  }, []);
 
   if (loading) {
     return (
@@ -269,7 +268,7 @@ export default function DashboardPage() {
         {user && (
           <div className="flex items-center gap-4 bg-white dark:bg-slate-900 p-3 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
             <div className="h-10 w-10 bg-linear-to-tr from-pink-500 to-rose-500 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-pink-500/20">
-              {user.name.charAt(0)}
+              {user.name?.charAt(0)}
             </div>
             <div>
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Administrator</p>
@@ -288,7 +287,6 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Charts Section */}
         <div className="lg:col-span-2 bg-white dark:bg-slate-900 p-6 md:p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
           <div className="flex items-center justify-between mb-8">
             <h3 className="font-bold text-xl flex items-center gap-2">
@@ -315,22 +313,16 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Quick Links / Info */}
         <div className="space-y-6">
           <div className="bg-linear-to-br from-slate-800 to-slate-900 p-8 rounded-[2.5rem] text-white shadow-xl relative overflow-hidden group border border-slate-700">
             <ShieldCheck size={40} className="mb-4 text-pink-500" />
             <h2 className="text-xl font-bold">Admin Security</h2>
             <p className="text-slate-400 text-sm mt-2 leading-relaxed italic">
-              "Your session is encrypted. You have full access to manage system resources and user data."
+              "Your session is encrypted. You have full access to manage system resources."
             </p>
-            <div className="mt-8 flex gap-2">
-               <div className="h-1.5 w-8 bg-pink-500 rounded-full"></div>
-               <div className="h-1.5 w-1.5 bg-slate-700 rounded-full"></div>
-               <div className="h-1.5 w-1.5 bg-slate-700 rounded-full"></div>
-            </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-4xl border border-slate-100 dark:border-slate-800 shadow-sm">
              <h4 className="font-bold mb-4 text-sm uppercase tracking-widest text-slate-400">Quick Actions</h4>
              <div className="grid grid-cols-2 gap-3">
                 <QuickAction label="New Blog" icon={FileText} href="/dashboard/create-blog" />
@@ -347,14 +339,14 @@ export default function DashboardPage() {
 
 function StatCard({ label, value, icon: Icon, color }: any) {
   return (
-    <div className="bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm flex items-center justify-between hover:border-pink-500/30 transition-all group cursor-default">
+    <div className="bg-white dark:bg-slate-900 p-6 rounded-4xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-center justify-between hover:border-pink-500/30 transition-all group cursor-default">
       <div>
         <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{label}</p>
         <h3 className="text-3xl font-black mt-1 group-hover:scale-105 transition-transform origin-left text-slate-900 dark:text-white">
           {value || 0}
         </h3>
       </div>
-      <div className={`p-4 ${color} rounded-2xl text-white shadow-lg`}>
+      <div className={`p-4 ${color} rounded-2xl text-white shadow-lg shadow-opacity-20`}>
         <Icon size={24} strokeWidth={2.5} />
       </div>
     </div>
