@@ -320,12 +320,12 @@ export default function LoginForm() {
 
      
         setTimeout(() => {
-          if (res.data?.role?.toLowerCase() === "admin") {
-            window.location.replace("/dashboard");
-          } else {
-            window.location.replace("/");
-          }
-        }, 1000);
+        if (res.data?.role?.toLowerCase() === "admin") {
+          window.location.href = "/dashboard";
+        } else {
+          window.location.href = "/";
+        }
+      }, 1000);
       } else {
         toast.error(res.message || "Login failed");
       }
