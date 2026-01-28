@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 import { ExternalLink, Github, Code2, Server, Globe } from "lucide-react";
-import { getProjectById } from "../../../../lib/project";
+
 import * as motion from "framer-motion/client";
+import { getProjectById } from "@/lib/project";
 
 export default async function ProjectDetail({
   params,
@@ -30,8 +31,8 @@ export default async function ProjectDetail({
     <section className="relative min-h-screen py-20 px-6 sm:px-12 lg:px-20 bg-background text-foreground overflow-hidden">
       
       {/* Background Decorative Elements */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full -z-10"></div>
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-accent/5 blur-[120px] rounded-full -z-10"></div>
+      <div className="absolute top-0 left-0 w-125 h-125 bg-primary/5 blur-[120px] rounded-full -z-10"></div>
+      <div className="absolute bottom-0 right-0 w-125 h-125 bg-accent/5 blur-[120px] rounded-full -z-10"></div>
 
       <div className="max-w-5xl mx-auto space-y-12">
         
@@ -44,7 +45,7 @@ export default async function ProjectDetail({
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight">
             {project.title}
           </h1>
-          <div className="h-1.5 w-24 bg-gradient-to-r from-purple-500 to-green-500 rounded-full mx-auto"></div>
+          <div className="h-1.5 w-24 bg-linear-to-r from-purple-500 to-green-500 rounded-full mx-auto"></div>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed">
             {project.description}
           </p>

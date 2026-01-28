@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const dynamic = "force-dynamic";
 
-import { getAllProjects } from "../../../lib/project";
-import ProjectCard from "../../components/ProjectCard";
+
+import ProjectCard from "@/app/components/ProjectCard";
+import { getAllProjects } from "@/lib/project";
+
 import * as motion from "framer-motion/client";
 
 export default async function ProjectsPage() {
@@ -11,7 +13,7 @@ export default async function ProjectsPage() {
   return (
     <section className="relative min-h-screen py-20 px-6 sm:px-12 lg:px-20 bg-background text-foreground transition-colors duration-500 overflow-hidden">
       
-      <div className="absolute top-0 left-1/4 w-[400px] h-100 bg-primary/5 blur-[120px] rounded-full -z-10"></div>
+      <div className="absolute top-0 left-1/4 w-100 h-100 bg-primary/5 blur-[120px] rounded-full -z-10"></div>
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-accent/5 blur-[120px] rounded-full -z-10"></div>
 
       <div className="max-w-7xl mx-auto">
