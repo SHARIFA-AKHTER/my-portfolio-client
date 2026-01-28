@@ -2,14 +2,17 @@
 import { ExternalLink, Github, Code2, Server, Globe } from "lucide-react";
 
 import * as motion from "framer-motion/client";
-import { getProjectById } from "@/lib/project";
+import { getProjectById } from "@/services/BlogServices";
+
 
 export default async function ProjectDetail({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
+  // const { id } = await params;
+  const resolvedParams = await params;
+  const id = resolvedParams.id;
   const project = await getProjectById(Number(id));
 
   if (!project)

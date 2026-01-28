@@ -7,8 +7,7 @@ import { motion } from "framer-motion";
 import { Calendar, ArrowRight } from "lucide-react";
 
 export default function BlogCard({ post }: { post: any }) {
-  // slug বা id দিয়ে লিংক তৈরি করা
-  const blogLink = `/blogs/${post.slug || post.id || post._id}`;
+  const blogLink = `/blogs/${post.id}`;
 
   return (
     <motion.div

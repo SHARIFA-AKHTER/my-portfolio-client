@@ -26,19 +26,19 @@ export const getAllProjects = async () => {
 //     return null;
 //   }
 // };
-export const getProjectById = async (id: number) => {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
-      cache: "no-store",
-    });
+// export const getProjectById = async (id: string | number) => {
+//   try {
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
+//       cache: "no-store",
+//     });
 
-    if (!res.ok) return null;
+//     if (!res.ok) return null;
 
-    const result = await res.json();
+//     const result = await res.json();
     
-    return result; 
-  } catch (err) {
-    console.error("Fetch error:", err);
-    return null;
-  }
-};
+//     return result.data || result;
+//   } catch (err) {
+//     console.error("Fetch error:", err);
+//     return null;
+//   }
+// };

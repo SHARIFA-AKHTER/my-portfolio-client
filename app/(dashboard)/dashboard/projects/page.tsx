@@ -5,9 +5,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Edit, Trash2, Plus, LayoutGrid, Loader2 } from "lucide-react";
-import { deleteProject } from "../../../../actions/projects";
-import { getAllProjects } from "../../../../lib/project";
+
 import { toast } from "sonner";
+import { getAllProjects } from "@/lib/project";
+import { deleteProject } from "@/actions/projects";
 
 export default function DashboardProjectsPage() {
   const [projects, setProjects] = useState<any[]>([]);

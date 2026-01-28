@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import BlogDetailsCard from "@/app/components/modules/Blog/BlogDetailsCard";
+import { getBlogById } from "@/services/BlogServices";
 import { Metadata } from "next";
-import { getBlogById } from "../../../../services/BlogServices";
-import BlogDetailsCard from "../../../components/modules/Blog/BlogDetailsCard";
+
 
 type Props = {
   params: Promise<{ blogId: string }>;

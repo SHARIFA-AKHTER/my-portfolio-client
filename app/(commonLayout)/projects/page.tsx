@@ -14,7 +14,7 @@ export default async function ProjectsPage() {
     <section className="relative min-h-screen py-20 px-6 sm:px-12 lg:px-20 bg-background text-foreground transition-colors duration-500 overflow-hidden">
       
       <div className="absolute top-0 left-1/4 w-100 h-100 bg-primary/5 blur-[120px] rounded-full -z-10"></div>
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-accent/5 blur-[120px] rounded-full -z-10"></div>
+      <div className="absolute bottom-0 right-1/4 w-100 h-100 bg-accent/5 blur-[120px] rounded-full -z-10"></div>
 
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}

@@ -4,9 +4,10 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Loader2, ArrowLeft, Save, Globe, Type } from "lucide-react";
-import { updateProject } from "../../../../../actions/projects";
+
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+import { updateProject } from "@/actions/projects";
 
 export default function ProjectEditPage() {
   const router = useRouter();
