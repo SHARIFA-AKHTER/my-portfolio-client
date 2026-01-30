@@ -24,7 +24,7 @@ export default async function ProjectsPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl sm:text-5xl font-extrabold tracking-tight"
           >
-            🚀 My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-green-500">Projects</span>
+            🚀 My <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-500 to-green-500">Projects</span>
           </motion.h1>
           
           <motion.div 
