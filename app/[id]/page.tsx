@@ -9,11 +9,12 @@ import { getProjectById } from "@/services/BlogServices";
 export default async function ProjectDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
- const id = Number(params.id);
+   const { id } = await params;
+  const projectId = Number(id);
  
-  const project = await getProjectById(id);
+  const project = await getProjectById(projectId);
 
   if (!project)
     return (
