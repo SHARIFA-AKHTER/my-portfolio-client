@@ -1,5 +1,31 @@
 
-import Navbar from "@/app/components/shared/Navbar/Navbar";
+// import Navbar from "@/app/components/shared/Navbar/Navbar";
+// import Sidebar from "@/app/components/shared/Sidebar";
+
+// export default function DashboardLayout({
+//   children,
+// }: Readonly<{
+//   children: React.ReactNode;
+// }>) {
+//   return (
+//     <div className="flex h-screen bg-background overflow-hidden relative">
+//       <Sidebar />
+//       <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
+//         <Navbar />
+
+//         <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-8 bg-slate-50/50 dark:bg-slate-950/50">
+          
+          
+//           <div className="mx-auto max-w-7xl pt-20 lg:pt-12"> 
+//             {children}
+//           </div>
+          
+//         </main>
+//       </div>
+//     </div>
+//   );
+// }
+
 import Sidebar from "@/app/components/shared/Sidebar";
 
 export default function DashboardLayout({
@@ -9,17 +35,17 @@ export default function DashboardLayout({
 }>) {
   return (
     <div className="flex h-screen bg-background overflow-hidden relative">
+  
       <Sidebar />
-      <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
-        <Navbar />
 
-        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-8 bg-slate-50/50 dark:bg-slate-950/50">
-          
-          
-          <div className="mx-auto max-w-7xl pt-20 lg:pt-12"> 
+      <div className="flex flex-col flex-1 min-w-0 h-full">
+       
+        
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-8 bg-slate-50/50 dark:bg-slate-950/50 custom-scrollbar">
+        
+          <div className="mx-auto max-w-7xl pt-4 lg:pt-0"> 
             {children}
           </div>
-          
         </main>
       </div>
     </div>
