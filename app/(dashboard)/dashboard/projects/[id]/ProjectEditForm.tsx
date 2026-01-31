@@ -6,11 +6,9 @@ import { useRouter } from "next/navigation";
 import { Loader2, ArrowLeft, Save, Globe, Type } from "lucide-react";
 
 import { toast } from "sonner";
-import { updateProject } from "@/services/BlogServices";
+import { updateProjectService } from "@/services/ProjectServices/projectService";
 
- 
-
-export default function ProjectEditForm({ project }: { project: any }) {
+export default function ProjectEditForm({ project, projectId }: { project: any, projectId: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +30,7 @@ export default function ProjectEditForm({ project }: { project: any }) {
     };
 
  
-    await updateProject(Number(project.id), payload); 
+    await updateProjectService(Number(projectId), payload); 
     
     toast.success("✅ Updated!");
     router.push("/dashboard/projects");
