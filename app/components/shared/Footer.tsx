@@ -6,72 +6,67 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative w-full overflow-hidden pt-12 pb-8 bg-gray-950 text-gray-300">
-      {/* Content */}
-      <div className="container mx-auto px-6 sm:px-8 md:px-12 lg:px-20 xl:px-28">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          {/* Left: Branding */}
-          <div className="text-center md:text-left">
-            <h2 className="text-xl font-semibold text-white">Sharifa</h2>
-            <p className="text-sm text-gray-400">
-              Full Stack Developer • Next.js & Prisma
+    <footer className="relative w-full overflow-hidden pt-16 pb-8 bg-slate-950 text-slate-300 border-t border-slate-900">
+      {/* Background Decorative Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-teal-500/50 to-transparent"></div>
+
+      <div className="container mx-auto px-6 lg:px-20">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+          
+          {/* Left: Branding & Tagline */}
+          <div className="text-center md:text-left space-y-2">
+            <h2 className="text-2xl font-black tracking-tight text-white italic">
+              SHARIFA<span className="text-teal-500">.</span>
+            </h2>
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
+              Full Stack Developer • Building Scalable Web Apps
             </p>
           </div>
 
-          {/* Center: Navigation */}
-          <div className="flex flex-wrap justify-center md:justify-start gap-6 text-sm">
-            <Link href="/" className="hover:text-teal-400 transition-colors">
-              Home
-            </Link>
-            <Link
-              href="/about"
-              className="hover:text-teal-400 transition-colors"
-            >
-              About
-            </Link>
-            <Link
-              href="/projects"
-              className="hover:text-teal-400 transition-colors"
-            >
-              Projects
-            </Link>
-            <Link
-              href="/contact"
-              className="hover:text-teal-400 transition-colors"
-            >
-              Contact
-            </Link>
-          </div>
+          {/* Center: Quick Links */}
+          <nav className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm font-medium">
+            <Link href="/" className="hover:text-teal-400 transition-colors">Home</Link>
+            <Link href="/about" className="hover:text-teal-400 transition-colors">About</Link>
+            <Link href="/projects" className="hover:text-teal-400 transition-colors">Projects</Link>
+            <Link href="/contact" className="hover:text-teal-400 transition-colors">Contact</Link>
+          </nav>
 
-          {/* Right: Socials */}
-          <div className="flex items-center gap-4">
+          {/* Right: Social Links with Real URLs */}
+          <div className="flex items-center gap-5">
             <a
-              href="https://github.com/"
+              href="https://github.com/SHARIFA-AKHTER"
               target="_blank"
-              className="hover:text-teal-400 transition-colors"
+              rel="noopener noreferrer"
+              className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-900 hover:bg-teal-500/10 hover:text-teal-400 transition-all border border-slate-800"
             >
-              <FaGithub size={18} />
-            </a>
-            <a  
-              href="https://linkedin.com/"
-              target="_blank"
-              className="hover:text-teal-400 transition-colors"
-            >
-              <FaLinkedin size={18} />
+              <FaGithub size={20} />
             </a>
             <a
-              href="https://twitter.com/"
+              href="https://www.linkedin.com/in/sharifa-akhter-dev" 
               target="_blank"
-              className="hover:text-teal-400 transition-colors"
+              rel="noopener noreferrer"
+              className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-900 hover:bg-teal-500/10 hover:text-teal-400 transition-all border border-slate-800"
             >
-              <FaTwitter size={18} />
+              <FaLinkedin size={20} />
+            </a>
+            <a
+              href="https://x.com/AkhterShar40032" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-900 hover:bg-teal-500/10 hover:text-teal-400 transition-all border border-slate-800"
+            >
+              <FaTwitter size={20} />
             </a>
           </div>
         </div>
 
-        {/* Bottom: Copy */}
-        <div className="mt-6 text-center text-xs text-gray-500">
-          © {currentYear} Sharifa. Made with ❤️ using Next.js.
+        {/* Bottom Line & Copyright */}
+        <div className="mt-12 pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-slate-500">
+          <p>© {currentYear} Sharifa. All rights reserved.</p>
+          <p className="flex items-center gap-1">
+            Made with <span className="text-rose-500">❤️</span> by 
+            <span className="text-white ml-1">Sharifa</span>
+          </p>
         </div>
       </div>
     </footer>
