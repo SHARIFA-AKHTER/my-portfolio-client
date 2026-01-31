@@ -169,33 +169,36 @@
 //   );
 // }
 
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { notFound } from "next/navigation";
 import ProjectEditForm from "./ProjectEditForm";
 
+// বিল্ড টাইমে সব আইডি জেনারেট করে রাখবে
 export async function generateStaticParams() {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects`);
-    const result = await res.json();
-    const projects = result.data || result;
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects`);
+  const result = await res.json();
+  const projects = Array.isArray(result) ? result : result.data || [];
 
-    return projects.map((project: any) => ({
-      id: project.id.toString(),
-    }));
-  } catch (error) {
-    return [];
-  }
+  return projects.map((project: any) => ({
+    id: String(project.id),
+  }));
 }
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const id = params.id;
+export default async function EditProjectPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
+  // সরাসরি সার্ভার থেকে ডাটা ফেচ
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
+    cache: "no-store", // এডিটের জন্য সবসময় লেটেস্ট ডাটা দরকার
+  });
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`);
-  if (!res.ok) {
-    notFound();
-  }
+  if (!res.ok) return notFound();
 
-  return <ProjectEditForm id={id} />;
+  const result = await res.json();
+  const project = result.data || result;
+
+  if (!project) return notFound();
+
+  return <ProjectEditForm project={project} />;
 }
