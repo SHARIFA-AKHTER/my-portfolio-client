@@ -32,7 +32,7 @@ export const getProjectById = async (id: string | number) => {
     if (!res.ok) return null;
     const result = await res.json();
   
-    return result.success ? result.data : result; 
+    return result.success ? result.data : null; 
   } catch (err) {
     console.error("API Fetch Error:", err);
     return null;

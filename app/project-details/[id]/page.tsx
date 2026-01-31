@@ -8,18 +8,17 @@ import { getProjectById } from "@/services/BlogServices";
 export default async function ProjectDetail({
   params,
 }: {
-  params: Promise<{ id: string }>; // Next.js 15 এ এটি অবশ্যই Promise হতে হবে
+  params: Promise<{ id: string }>; 
 }) {
-  // ১. params কে await করতে হবে, নাহলে id পাওয়া যাবে না
+
   const resolvedParams = await params;
   const id = resolvedParams.id;
 
-  // ২. আইডি চেক করা (index.html এরর হ্যান্ডেল করার জন্য)
   if (!id || id === "index.html") {
     return <div className="p-20 text-center">Loading project...</div>;
   }
 
-  // ৩. ডাটা ফেচ করা
+
   const project = await getProjectById(id);
 
   if (!project) {
@@ -32,7 +31,7 @@ export default async function ProjectDetail({
     );
   }
 
-  // Tech stack হ্যান্ডেল করা
+
   const techStackItems = Array.isArray(project.techStack) 
     ? project.techStack 
     : typeof project.techStack === "string" 
@@ -45,7 +44,7 @@ export default async function ProjectDetail({
         {/* Header Section */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-4">
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight">{project.title}</h1>
-          <div className="h-1.5 w-24 bg-gradient-to-r from-purple-500 to-green-500 rounded-full mx-auto"></div>
+          <div className="h-1.5 w-24 bg-linear-to-r from-purple-500 to-green-500 rounded-full mx-auto"></div>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed">{project.description}</p>
         </motion.div>
 
