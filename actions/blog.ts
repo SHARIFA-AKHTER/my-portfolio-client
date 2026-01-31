@@ -110,6 +110,7 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 
+
 async function getAuthHeaders() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
@@ -120,6 +121,7 @@ async function getAuthHeaders() {
   };
 }
 
+// ✅ Update Blog
 export async function updateBlog(blogId: number, data: any, p0?: string | undefined) {
   try {
     const headers = await getAuthHeaders();
@@ -142,6 +144,7 @@ export async function updateBlog(blogId: number, data: any, p0?: string | undefi
   }
 }
 
+// ✅ Delete Blog
 export async function deleteBlog(blogId: number) {
   try {
     const headers = await getAuthHeaders();

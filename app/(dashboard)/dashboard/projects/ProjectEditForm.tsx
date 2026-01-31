@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { Loader2, ArrowLeft, Save, Globe, Type } from "lucide-react";
 
 import { toast } from "sonner";
-import { updateProject } from "@/actions/projects"; 
+import { updateProject } from "@/actions/projects";
+ 
 
 export default function ProjectEditForm({ project }: { project: any }) {
   const router = useRouter();
@@ -19,32 +20,28 @@ export default function ProjectEditForm({ project }: { project: any }) {
   });
 
   const handleUpdate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      const token = localStorage.getItem("token");
-      
-      // PUT মেথডের জন্য পুরো অবজেক্ট তৈরি করা হচ্ছে
-      const payload = {
-        ...project,      // আগের সব ডাটা (image, techStack, etc.)
-        ...formData,     // নতুন এডিট করা ডাটা
-      };
+  try {
 
-      // সার্ভার অ্যাকশন কল
-      await updateProject(Number(project.id), payload, token || undefined);
-      
-      toast.success("✅ Project updated successfully!");
-      
-      // ড্যাশবোর্ডে পাঠানো এবং ডাটা রিফ্রেশ করা
-      router.push("/dashboard/projects");
-      router.refresh(); 
-    } catch (err: any) {
-      toast.error(err?.message || "❌ Update failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+    const payload = {
+      ...project,     
+      ...formData,     
+    };
+
+ 
+    await updateProject(Number(project.id), payload); 
+    
+    toast.success("✅ Updated!");
+    router.push("/dashboard/projects");
+    router.refresh();
+  } catch (err: any) {
+    toast.error(err.message || "Update failed");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="max-w-3xl mx-auto">

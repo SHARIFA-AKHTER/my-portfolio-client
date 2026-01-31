@@ -170,35 +170,52 @@
 // }
 
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { notFound } from "next/navigation";
-import ProjectEditForm from "./ProjectEditForm";
+// /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { notFound } from "next/navigation";
+// import ProjectEditForm from "./ProjectEditForm";
 
-// বিল্ড টাইমে সব আইডি জেনারেট করে রাখবে
-export async function generateStaticParams() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects`);
-  const result = await res.json();
-  const projects = Array.isArray(result) ? result : result.data || [];
 
-  return projects.map((project: any) => ({
-    id: String(project.id),
-  }));
-}
+// export async function generateStaticParams() {
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects`);
+//   const result = await res.json();
+//   const projects = Array.isArray(result) ? result : result.data || [];
 
-export default async function EditProjectPage({ params }: { params: Promise<{ id: string }> }) {
+//   return projects.map((project: any) => ({
+//     id: String(project.id),
+//   }));
+// }
+
+// export default async function EditProjectPage({ params }: { params: Promise<{ id: string }> }) {
+//   const { id } = await params;
+
+
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
+//     cache: "no-store", 
+//   });
+
+//   if (!res.ok) return notFound();
+
+//   const result = await res.json();
+//   const project = result.data || result;
+
+//   if (!project) return notFound();
+
+//   return <ProjectEditForm project={project} />;
+// }
+
+export const dynamic = "force-dynamic";
+
+import ProjectEditForm from "../ProjectEditForm"; 
+
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-
-  // সরাসরি সার্ভার থেকে ডাটা ফেচ
+  
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
-    cache: "no-store", // এডিটের জন্য সবসময় লেটেস্ট ডাটা দরকার
+     cache: "no-store" 
   });
+  
+  const project = await res.json();
 
-  if (!res.ok) return notFound();
-
-  const result = await res.json();
-  const project = result.data || result;
-
-  if (!project) return notFound();
 
   return <ProjectEditForm project={project} />;
 }
