@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaPaperPlane } from "react-icons/fa";
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaPaperPlane, FaLinkedinIn } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
@@ -73,8 +73,8 @@ export default function ContactPage() {
 
           <div className="space-y-6">
             {[
-              { icon: <FaPhone />, text: "+8801315904044", label: "Call me" },
-              { icon: <FaEnvelope />, text: "sr0589071@gmail.com", label: "Email me" },
+            { icon: <FaLinkedinIn />, text: "sharifa-akther-dev", link: "https://www.linkedin.com/in/sharifa-akhter-dev",label: "LinkedIn" },
+              { icon: <FaEnvelope />, text: "sr0589071@gmail.com",link: "mailto:sr0589071@gmail.com", label: "Email me" },
               { icon: <FaMapMarkerAlt />, text: "Dhaka, Bangladesh", label: "Location" }
             ].map((item, index) => (
               <div key={index} className="flex items-center gap-4 group">
