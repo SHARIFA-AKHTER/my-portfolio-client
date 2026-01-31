@@ -113,7 +113,7 @@ export default function Sidebar() {
             <LayoutDashboard size={20} />
           </div>
           <div>
-            <span className="font-black text-xl tracking-tight block leading-none text-slate-900 dark:text-white">KAIZEN</span>
+            <span className="font-black text-xl tracking-tight block leading-none text-slate-900 dark:text-white">SHARIFA</span>
             <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">Admin Panel</span>
           </div>
         </div>

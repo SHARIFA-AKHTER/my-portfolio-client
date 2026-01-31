@@ -211,7 +211,8 @@ export default function DashboardPage() {
 
         {/* Quick Links / Info */}
         <div className="space-y-6">
-          <div className="bg-linear-to-br from-slate-800 to-slate-900 p-8 rounded-[2.5rem] text-white shadow-xl relative overflow-hidden group border border-slate-700">
+          <div className="bg-linear-to-br from-slate-800 to-slate-900 p-8 rounded-[2.5rem]
+           text-white shadow-xl relative overflow-hidden group border border-slate-700">
             <ShieldCheck size={40} className="mb-4 text-pink-500" />
             <h2 className="text-xl font-bold">Admin Security</h2>
             <p className="text-slate-400 text-sm mt-2 leading-relaxed italic">
