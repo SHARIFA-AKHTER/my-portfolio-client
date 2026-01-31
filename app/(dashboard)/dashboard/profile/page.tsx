@@ -5,8 +5,8 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { User, Mail, Phone, Camera, Save, Loader2, Shield } from "lucide-react";
-import { toast } from "sonner"; 
+import { User, Mail, Linkedin, Camera, Save, Loader2, Shield } from "lucide-react";
+import { toast } from "sonner";
 
 export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ export default function ProfilePage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
+    linkedin: "", 
     picture: "",
   });
 
@@ -36,7 +36,7 @@ export default function ProfilePage() {
         setFormData({
           name: result.data.name || "",
           email: result.data.email || "",
-          phone: result.data.phone || "",
+          linkedin: result.data.linkedin || "",
           picture: result.data.picture || "",
         });
       }
@@ -60,7 +60,6 @@ export default function ProfilePage() {
 
       if (result.success) {
         toast.success("Profile updated successfully!");
-       
         localStorage.setItem("user", JSON.stringify(result.data));
       } else {
         toast.error(result.message);
@@ -126,14 +125,16 @@ export default function ProfilePage() {
                 </div>
               </div>
 
+              {/* LinkedIn URL Input */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Phone Number</label>
+                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">LinkedIn Profile URL</label>
                 <div className="relative">
-                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                  <Linkedin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                   <input 
-                    type="text" 
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    type="url" 
+                    placeholder="https://www.linkedin.com/in/sharifa-akhter-dev"
+                    value={formData.linkedin}
+                    onChange={(e) => setFormData({...formData, linkedin: e.target.value})}
                     className="w-full bg-slate-50 dark:bg-slate-800/50 border-none rounded-2xl py-4 pl-12 focus:ring-2 focus:ring-pink-500 transition-all font-bold text-sm"
                   />
                 </div>

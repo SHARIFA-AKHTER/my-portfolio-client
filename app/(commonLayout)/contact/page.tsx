@@ -2,7 +2,13 @@
 "use client";
 
 import { useState } from "react";
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaPaperPlane, FaLinkedinIn } from "react-icons/fa";
+import {
+  FaPhone,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaPaperPlane,
+  FaLinkedinIn,
+} from "react-icons/fa";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
@@ -17,7 +23,7 @@ export default function ContactPage() {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -48,15 +54,13 @@ export default function ContactPage() {
 
   return (
     <section className="relative min-h-screen py-20 px-6 md:px-12 lg:px-20 bg-background overflow-hidden flex items-center">
-      
       {/* Background Glows */}
       <div className="absolute top-0 right-0 w-125 h-125 bg-primary/5 blur-[120px] rounded-full -z-10"></div>
       <div className="absolute bottom-0 left-0 w-125 h-125 bg-teal-500/5 blur-[120px] rounded-full -z-10"></div>
 
       <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        
         {/* Left: Contact Information */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -64,41 +68,72 @@ export default function ContactPage() {
         >
           <div className="space-y-4">
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-              Let’s <span className="text-transparent bg-clip-text bg-linear-to-r from-teal-500 to-blue-500">Connect</span>
+              Let’s{" "}
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-teal-500 to-blue-500">
+                Connect
+              </span>
             </h1>
             <p className="text-muted-foreground text-lg max-w-md leading-relaxed">
-              I specialize in Next.js, Prisma, and MongoDB. Whether you have a project in mind or just want to say hi, my inbox is always open!
+              I specialize in Next.js, Prisma, and MongoDB. Whether you have a
+              project in mind or just want to say hi, my inbox is always open!
             </p>
           </div>
 
           <div className="space-y-6">
             {[
-            { icon: <FaLinkedinIn />, text: "sharifa-akther-dev", link: "https://www.linkedin.com/in/sharifa-akhter-dev",label: "LinkedIn" },
-              { icon: <FaEnvelope />, text: "sr0589071@gmail.com",link: "mailto:sr0589071@gmail.com", label: "Email me" },
-              { icon: <FaMapMarkerAlt />, text: "Dhaka, Bangladesh", label: "Location" }
+              {
+                icon: <FaLinkedinIn />,
+                text: "sharifa-akther-dev",
+                link: "https://www.linkedin.com/in/sharifa-akhter-dev",
+                label: "LinkedIn",
+              },
+              {
+                icon: <FaEnvelope />,
+                text: "sr0589071@gmail.com",
+                link: "mailto:sr0589071@gmail.com",
+                label: "Email me",
+              },
+              {
+                icon: <FaMapMarkerAlt />,
+                text: "Dhaka, Bangladesh",
+                label: "Location",
+              },
             ].map((item, index) => (
-              <div key={index} className="flex items-center gap-4 group">
+         
+              <a
+                key={index}
+                href={item.link || "#"}
+                target={item.link?.startsWith("http") ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                className={`flex items-center gap-4 group ${
+                  item.link ? "cursor-pointer" : "cursor-default"
+                }`}
+              >
                 <div className="w-12 h-12 flex items-center justify-center rounded-2xl bg-teal-500/10 text-teal-500 group-hover:bg-teal-500 group-hover:text-white transition-all duration-300">
                   {item.icon}
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">{item.label}</p>
-                  <p className="text-foreground font-medium">{item.text}</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">
+                    {item.label}
+                  </p>
+                  <p className="text-foreground font-medium group-hover:text-teal-500 transition-colors">
+                    {item.text}
+                  </p>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </motion.div>
 
         {/* Right: Contact Form Card */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="relative group"
         >
           <div className="absolute -inset-1 bg-linear-to-r from-teal-500 to-blue-500 rounded-4xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-          
+
           <form
             onSubmit={handleSubmit}
             className="relative bg-card border border-primary/10 p-8 sm:p-10 rounded-4xl shadow-2xl space-y-5"
@@ -117,7 +152,9 @@ export default function ContactPage() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-semibold px-1">Email Address</label>
+                <label className="text-sm font-semibold px-1">
+                  Email Address
+                </label>
                 <input
                   type="email"
                   name="email"
