@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { Loader2, ArrowLeft, Save, Globe, Type } from "lucide-react";
 
 import { toast } from "sonner";
-import { updateProject } from "@/actions/projects";
+import { updateProject } from "@/services/BlogServices";
+
  
 
 export default function ProjectEditForm({ project }: { project: any }) {

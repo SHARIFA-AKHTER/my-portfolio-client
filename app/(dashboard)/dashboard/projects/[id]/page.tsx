@@ -2,6 +2,8 @@
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 // "use client";
 
+
+
 // import { useEffect, useState } from "react";
 // import { useRouter, useParams } from "next/navigation";
 // import { Loader2, ArrowLeft, Save, Globe, Type } from "lucide-react";
@@ -170,52 +172,37 @@
 // }
 
 
-// /* eslint-disable @typescript-eslint/no-explicit-any */
-// import { notFound } from "next/navigation";
-// import ProjectEditForm from "./ProjectEditForm";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { notFound } from "next/navigation";
+import ProjectEditForm from "../ProjectEditForm";
 
 
-// export async function generateStaticParams() {
-//   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects`);
-//   const result = await res.json();
-//   const projects = Array.isArray(result) ? result : result.data || [];
 
-//   return projects.map((project: any) => ({
-//     id: String(project.id),
-//   }));
-// }
+export async function generateStaticParams() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects`);
+  const result = await res.json();
+  const projects = Array.isArray(result) ? result : result.data || [];
 
-// export default async function EditProjectPage({ params }: { params: Promise<{ id: string }> }) {
-//   const { id } = await params;
+  return projects.map((project: any) => ({
+    id: String(project.id),
+  }));
+}
 
-
-//   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
-//     cache: "no-store", 
-//   });
-
-//   if (!res.ok) return notFound();
-
-//   const result = await res.json();
-//   const project = result.data || result;
-
-//   if (!project) return notFound();
-
-//   return <ProjectEditForm project={project} />;
-// }
-
-export const dynamic = "force-dynamic";
-
-import ProjectEditForm from "../ProjectEditForm"; 
-
-export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+export default async function EditProjectPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
-     cache: "no-store" 
-  });
-  
-  const project = await res.json();
 
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
+    cache: "no-store", 
+  });
+
+  if (!res.ok) return notFound();
+
+  const result = await res.json();
+  const project = result.data || result;
+
+  if (!project) return notFound();
 
   return <ProjectEditForm project={project} />;
 }
+
