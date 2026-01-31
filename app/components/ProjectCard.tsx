@@ -57,7 +57,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <div className="absolute inset-0 bg-linear-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 flex items-end p-6">
            <Link 
           //  href={`/projects/${project.id.toString()}`}
-             href={`/project-details/${project.id}`} 
+             href={`/projects/${project.id}`} 
             
              className="bg-primary text-primary-foreground p-3 rounded-full translate-y-4 group-hover:translate-y-0 transition-transform duration-500 shadow-xl"
            >

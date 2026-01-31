@@ -1,94 +1,95 @@
-export const dynamic = "force-dynamic";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// export const dynamic = "force-dynamic";
 
 
-import { ExternalLink, Github, Code2, Globe } from "lucide-react";
-import * as motion from "framer-motion/client";
-import { getProjectById } from "@/services/BlogServices";
+// import { ExternalLink, Github, Code2, Globe } from "lucide-react";
+// import * as motion from "framer-motion/client";
+// import { getProjectById } from "@/services/BlogServices";
 
-export default async function ProjectDetail({
-  params,
-}: {
-  params: Promise<{ id: string }>; 
-}) {
+// export default async function ProjectDetail({
+//   params,
+// }: {
+//   params: Promise<{ id: string }>; 
+// }) {
 
-  const resolvedParams = await params;
-  const id = resolvedParams.id;
+//   const resolvedParams = await params;
+//   const id = resolvedParams.id;
 
-  if (!id || id === "index.html") {
-    return <div className="p-20 text-center">Loading project...</div>;
-  }
-
-
-  const project = await getProjectById(id);
-
-  if (!project) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <p className="text-xl text-muted-foreground font-medium animate-pulse">
-          Project not found 😢 (ID: {id})
-        </p>
-      </div>
-    );
-  }
+//   if (!id || id === "index.html") {
+//     return <div className="p-20 text-center">Loading project...</div>;
+//   }
 
 
-  const techStackItems = Array.isArray(project.techStack) 
-    ? project.techStack 
-    : typeof project.techStack === "string" 
-      ? project.techStack.split(",") 
-      : [];
+//   const project = await getProjectById(id);
 
-  return (
-    <section className="relative min-h-screen py-20 px-6 sm:px-12 lg:px-20 bg-background text-foreground overflow-hidden">
-      <div className="max-w-5xl mx-auto space-y-12">
-        {/* Header Section */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-4">
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight">{project.title}</h1>
-          <div className="h-1.5 w-24 bg-linear-to-r from-purple-500 to-green-500 rounded-full mx-auto"></div>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed">{project.description}</p>
-        </motion.div>
+//   if (!project) {
+//     return (
+//       <div className="flex items-center justify-center min-h-[60vh]">
+//         <p className="text-xl text-muted-foreground font-medium animate-pulse">
+//           Project not found 😢 (ID: {id})
+//         </p>
+//       </div>
+//     );
+//   }
 
-        {/* Content Details Card */}
-        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-card border border-primary/10 shadow-2xl rounded-3xl p-8 md:p-12 backdrop-blur-md">
-          <div className="grid md:grid-cols-2 gap-10">
-            {/* Info Column */}
-            <div className="space-y-8">
-              {techStackItems.length > 0 && (
-                <div>
-                  <h3 className="flex items-center gap-2 text-xl font-bold mb-3"><Code2 className="text-primary" /> Tech Stack</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {techStackItems.map((tech: string, i: number) => (
-                      <span key={i} className="px-3 py-1 bg-secondary rounded-full text-xs font-semibold border border-primary/5">{tech.trim()}</span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
 
-            {/* Links Column */}
-            <div className="space-y-6 bg-secondary/30 p-8 rounded-3xl border border-primary/5">
-              <h3 className="text-lg font-bold">Project Access</h3>
-              <div className="flex flex-col gap-4">
-                {project.liveUrl && (
-                  <a href={project.liveUrl} target="_blank" className="flex items-center justify-between p-4 bg-green-500/10 text-green-500 rounded-2xl hover:bg-green-500 hover:text-white transition-all font-bold">
-                    <span className="flex items-center gap-3"><Globe size={22} /> Live Demo</span>
-                    <ExternalLink size={18} />
-                  </a>
-                )}
-                {project.repoUrl && (
-                  <a href={project.repoUrl} target="_blank" className="flex items-center justify-between p-4 bg-foreground text-background rounded-2xl hover:opacity-90 transition-all font-bold">
-                    <span className="flex items-center gap-3"><Github size={22} /> GitHub Repo</span>
-                    <ExternalLink size={18} />
-                  </a>
-                )}
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
+//   const techStackItems = Array.isArray(project.techStack) 
+//     ? project.techStack 
+//     : typeof project.techStack === "string" 
+//       ? project.techStack.split(",") 
+//       : [];
+
+//   return (
+//     <section className="relative min-h-screen py-20 px-6 sm:px-12 lg:px-20 bg-background text-foreground overflow-hidden">
+//       <div className="max-w-5xl mx-auto space-y-12">
+//         {/* Header Section */}
+//         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-4">
+//           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight">{project.title}</h1>
+//           <div className="h-1.5 w-24 bg-linear-to-r from-purple-500 to-green-500 rounded-full mx-auto"></div>
+//           <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed">{project.description}</p>
+//         </motion.div>
+
+//         {/* Content Details Card */}
+//         <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-card border border-primary/10 shadow-2xl rounded-3xl p-8 md:p-12 backdrop-blur-md">
+//           <div className="grid md:grid-cols-2 gap-10">
+//             {/* Info Column */}
+//             <div className="space-y-8">
+//               {techStackItems.length > 0 && (
+//                 <div>
+//                   <h3 className="flex items-center gap-2 text-xl font-bold mb-3"><Code2 className="text-primary" /> Tech Stack</h3>
+//                   <div className="flex flex-wrap gap-2">
+//                     {techStackItems.map((tech: string, i: number) => (
+//                       <span key={i} className="px-3 py-1 bg-secondary rounded-full text-xs font-semibold border border-primary/5">{tech.trim()}</span>
+//                     ))}
+//                   </div>
+//                 </div>
+//               )}
+//             </div>
+
+//             {/* Links Column */}
+//             <div className="space-y-6 bg-secondary/30 p-8 rounded-3xl border border-primary/5">
+//               <h3 className="text-lg font-bold">Project Access</h3>
+//               <div className="flex flex-col gap-4">
+//                 {project.liveUrl && (
+//                   <a href={project.liveUrl} target="_blank" className="flex items-center justify-between p-4 bg-green-500/10 text-green-500 rounded-2xl hover:bg-green-500 hover:text-white transition-all font-bold">
+//                     <span className="flex items-center gap-3"><Globe size={22} /> Live Demo</span>
+//                     <ExternalLink size={18} />
+//                   </a>
+//                 )}
+//                 {project.repoUrl && (
+//                   <a href={project.repoUrl} target="_blank" className="flex items-center justify-between p-4 bg-foreground text-background rounded-2xl hover:opacity-90 transition-all font-bold">
+//                     <span className="flex items-center gap-3"><Github size={22} /> GitHub Repo</span>
+//                     <ExternalLink size={18} />
+//                   </a>
+//                 )}
+//               </div>
+//             </div>
+//           </div>
+//         </motion.div>
+//       </div>
+//     </section>
+//   );
+// }
 
 
 // export const dynamic = "force-dynamic";
@@ -299,61 +300,57 @@ export default async function ProjectDetail({
 //   );
 // }
 
-
-// export const dynamic = "force-dynamic";
-// export const revalidate = 0;
-// import { getProjectById } from "@/services/BlogServices";
+import { getAllProjects } from "@/lib/project";
+import { Globe, Github } from "lucide-react";
 
 
-// export default async function ProjectDetail({
-//   params,
-// }: {
-//   params: Promise<{ id: string }>;
-// }) {
-  
-//   const resolvedParams = await params;
-//   const id = resolvedParams.id;
- 
-//   // ২. index.html বা ভুল আইডি ফিল্টার করুন (Vercel বিল্ডের সময় এটি দরকার)
-//   if (!id || id === "index.html" || isNaN(Number(id))) {
-//     return <div className="p-20 text-center text-white">Loading project details...</div>;
-//   }
+export async function generateStaticParams() {
+  const projects = await getAllProjects();
 
-//   // ৩. এপিআই কল করুন
-//   const project = await getProjectById(id);
+  const projectList = Array.isArray(projects) ? projects : [];
 
-//   // ৪. ডাটা চেক করুন (সরাসরি প্রপার্টি এক্সেস করবেন)
-//   if (!project || !project.title) {
-//     return (
-//       <div className="flex items-center justify-center min-h-[60vh] text-white">
-//         <p className="text-xl opacity-50">Project Not Found! (ID: {id})</p>
-//       </div>
-//     );
-//   }
+  return projectList.map((project: any) => ({
+    id: String(project.id), 
+  }));
+}
 
-//   return (
-//     <div className="max-w-4xl mx-auto py-20 px-6 text-white bg-black">
-//       <p className="text-blue-500 font-mono text-sm mb-4 uppercase">Project ID: {project.id}</p>
-//       <h1 className="text-5xl font-extrabold mb-6">{project.title}</h1>
-//       <p className="text-gray-400 text-lg leading-relaxed">{project.description}</p>
+export default async function ProjectDetail({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params; 
+
+  // সরাসরি ফেচ করা
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`,
+    { next: { revalidate: 3600 } }
+  );
+
+  if (!res.ok) return <div className="p-20 text-center">Project Not Found</div>;
+
+  const result = await res.json();
+  const project = result.data;
+
+  if (!project) return <div className="p-20 text-center">No project details found.</div>;
+
+  return (
+    <div className="max-w-4xl mx-auto py-20 px-6 text-white">
+      <h1 className="text-4xl font-bold mb-4">{project.title}</h1>
+      <p className="text-gray-400 mb-8">{project.description}</p>
       
-//       {/* Tech Stack */}
-//       {project.techStack && (
-//         <div className="mt-8">
-//           <h3 className="text-xl font-bold mb-3">Technologies:</h3>
-//           <div className="flex flex-wrap gap-2">
-//             {Array.isArray(project.techStack) ? (
-//               project.techStack.map((tech: string, i: number) => (
-//                 <span key={i} className="px-3 py-1 bg-zinc-800 rounded-full text-sm border border-zinc-700">
-//                   {tech}
-//                 </span>
-//               ))
-//             ) : (
-//               <span className="text-zinc-400">{project.techStack}</span>
-//             )}
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
+      <div className="flex gap-4">
+        {project.liveUrl && (
+          <a href={project.liveUrl} target="_blank" className="flex items-center gap-2 bg-blue-600 px-4 py-2 rounded-lg">
+            <Globe size={18} /> Live Demo
+          </a>
+        )}
+        {project.frontendRepo && (
+          <a href={project.frontendRepo} target="_blank" className="flex items-center gap-2 bg-zinc-800 px-4 py-2 rounded-lg">
+            <Github size={18} /> Repo
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
