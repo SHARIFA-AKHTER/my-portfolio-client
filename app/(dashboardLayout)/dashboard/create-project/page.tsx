@@ -4,7 +4,7 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createProject } from "../../../../actions/projects";
+
 import Cookies from "js-cookie";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
@@ -12,6 +12,7 @@ import {
   Loader2, Rocket, Link as LinkIcon, Code, 
   Globe, Github, Cpu, Image as ImageIcon 
 } from "lucide-react";
+import { createProject } from "@/actions/projects";
 
 interface ProjectFormData {
   title: string;
