@@ -63,22 +63,22 @@ export const updateProjectAction = async (id: number, data: any) => {
       throw new Error("Unauthorized: Please login again");
     }
 
-
     const formattedData = {
       ...data,
-
       techStack: typeof data.techStack === "string" 
-        ? data.techStack.split(",").map((t: string) => t.trim()) 
+        ? data.techStack.split(",").map((t: string) => t.trim()).filter(Boolean) 
         : data.techStack,
-      images: typeof data.images === "string"
-        ? data.images.split(",").map((i: string) => i.trim())
-        : data.images,
+ 
+      image: typeof data.image === "string"
+        ? data.image.split(",").map((i: string) => i.trim()).filter(Boolean)
+        : data.image,
     };
 
+   
     const { id: _, createdAt, updatedAt, authorId, author, ...cleanData } = formattedData;
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
-      method: "PATCH", 
+      method: "PUT", 
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -94,7 +94,7 @@ export const updateProjectAction = async (id: number, data: any) => {
     }
 
     revalidatePath("/dashboard/projects");
-    revalidatePath(`/projects/${id}`);
+    revalidatePath(`/dashboard/projects/${id}`);
     
     return result;
   } catch (error: any) {

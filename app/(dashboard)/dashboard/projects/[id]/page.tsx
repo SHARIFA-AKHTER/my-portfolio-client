@@ -207,16 +207,19 @@
 export const dynamic = "force-dynamic";
 import ProjectEditForm from "./ProjectEditForm";
 
-
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
-
   const { id } = await params;
-  
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`);
-  
-  const project = await res.json();
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
+    cache: "no-store",
+  });
 
+  if (!res.ok) {
+    return <div className="p-20 text-center">Project Not Found</div>;
+  }
 
-  return <ProjectEditForm project={project} projectId={id} />;
+  const result = await res.json();
+  const projectData = result.data; 
+
+  return <ProjectEditForm project={projectData} projectId={id} />;
 }
