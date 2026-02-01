@@ -22,7 +22,7 @@ interface ProjectFormData {
   frontendRepo?: string;
   backendRepo?: string;
   techStack?: string;
-  images?: string;
+  image?: string;
 }
 
 export default function CreateProjectForm() {
@@ -39,7 +39,7 @@ export default function CreateProjectForm() {
       const projectData = {
         ...data,
         techStack: data.techStack?.split(",").map((t) => t.trim()) || [],
-        images: data.images?.split(",").map((i) => i.trim()) || [],
+        image: data.image?.split(",").map((i) => i.trim()) || [],
       };
 
       const result = await createProject(projectData, token);
@@ -142,7 +142,7 @@ export default function CreateProjectForm() {
             <div className="relative">
               <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
               <input 
-                {...register("images")} 
+                {...register("image")} 
                 placeholder="Image URLs (Comma separated)" 
                 className="w-full bg-secondary/50 border border-primary/10 pl-11 pr-4 py-3 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary transition-all"
               />
