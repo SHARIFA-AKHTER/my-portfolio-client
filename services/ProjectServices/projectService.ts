@@ -11,13 +11,16 @@ export const updateProjectAction = async (id: any, data: any) => {
 
     if (!token) throw new Error("Unauthorized: Please login again");
 
+ 
     const techStackArray = typeof data.techStack === "string" 
       ? data.techStack.split(",").map((t: string) => t.trim()).filter(Boolean) 
-      : data.techStack;
+      : Array.isArray(data.techStack) ? data.techStack : [];
+
 
     const imageArray = typeof data.image === "string" 
       ? data.image.split(",").map((i: string) => i.trim()).filter(Boolean) 
-      : data.image;
+      : Array.isArray(data.image) ? data.image : [];
+
 
     const payload = {
       title: data.title,
@@ -28,10 +31,15 @@ export const updateProjectAction = async (id: any, data: any) => {
       liveUrl: data.liveUrl || "",
       frontendRepo: data.frontendRepo || "",
       backendRepo: data.backendRepo || "",
+     
+      authorId: data.authorId ? Number(data.authorId) : 3, 
     };
+
 
     const url = `${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`;
     
+    console.log("Updating project at:", url); 
+
     const res = await fetch(url, {
       method: "PUT", 
       headers: {
@@ -43,15 +51,20 @@ export const updateProjectAction = async (id: any, data: any) => {
 
     const result = await res.json();
 
+
     if (!res.ok) {
-      throw new Error(result.message || "Update failed");
+      console.error("Backend Error Detail:", result);
+      throw new Error(result.message || `Update failed with status ${res.status}`);
     }
 
+  
     revalidatePath("/dashboard/projects");
     revalidatePath(`/dashboard/projects/${id}`);
+    revalidatePath("/projects"); 
     
     return result;
   } catch (error: any) {
-    throw new Error(error.message || "Something went wrong");
+    console.error("Update Action Exception:", error.message);
+    throw new Error(error.message || "Something went wrong during update");
   }
 };

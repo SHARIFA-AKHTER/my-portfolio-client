@@ -206,7 +206,7 @@
 //   return <ProjectEditForm project={project} />;
 // }
 
-// app/(dashboardLayout)/dashboard/projects/[id]/page.tsx
+
 export const dynamic = "force-dynamic";
 import ProjectEditForm from "./ProjectEditForm";
 

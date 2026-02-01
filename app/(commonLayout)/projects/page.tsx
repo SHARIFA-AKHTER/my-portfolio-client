@@ -26,7 +26,7 @@ export default async function ProjectsPage() {
           >
             🚀 My <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-500 to-green-500">Projects</span>
           </motion.h1>
-          
+       
           <motion.div 
             initial={{ width: 0 }}
             animate={{ width: "100px" }}

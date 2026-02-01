@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, ArrowLeft, Save, Globe, Type } from "lucide-react";
+import { Loader2, ArrowLeft, Save, Globe, Type, Cpu, Image as ImageIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { updateProjectAction } from "@/services/ProjectServices/projectService"; 
@@ -16,11 +16,13 @@ export default function ProjectEditForm({ project, projectId }: { project: any, 
     title: project?.title || "",
     slug: project?.slug || "",
     description: project?.description || "",
+  
     techStack: Array.isArray(project?.techStack) ? project.techStack.join(", ") : project?.techStack || "",
     image: Array.isArray(project?.image) ? project.image.join(", ") : project?.image || "",
     liveUrl: project?.liveUrl || "",
     frontendRepo: project?.frontendRepo || "",
-    backendRepo: project?.backendRepo || ""
+    backendRepo: project?.backendRepo || "",
+    authorId: project?.authorId || 3 
   });
 
   const handleUpdate = async (e: React.FormEvent) => {
@@ -28,6 +30,7 @@ export default function ProjectEditForm({ project, projectId }: { project: any, 
     setLoading(true);
 
     try {
+ 
       await updateProjectAction(projectId, formData);
       toast.success("✅ Project updated successfully!");
       router.push("/dashboard/projects");
@@ -41,7 +44,7 @@ export default function ProjectEditForm({ project, projectId }: { project: any, 
 
   return (
     <div className="min-h-screen p-4 md:p-10">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-4xl mx-auto">
         <button onClick={() => router.back()} className="flex items-center gap-2 text-muted-foreground hover:text-primary mb-6 transition-colors">
           <ArrowLeft size={18} /> Back to Dashboard
         </button>
@@ -55,28 +58,43 @@ export default function ProjectEditForm({ project, projectId }: { project: any, 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="flex items-center gap-2 text-sm font-bold opacity-70 uppercase"><Type size={14} /> Title</label>
-                <input type="text" className="w-full bg-secondary/50 border border-primary/10 px-5 py-4 rounded-2xl" 
+                <input type="text" className="w-full bg-secondary/50 border border-primary/10 px-5 py-4 rounded-2xl focus:ring-2 focus:ring-primary outline-none" 
                   value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} required />
               </div>
 
               <div className="space-y-2">
                 <label className="flex items-center gap-2 text-sm font-bold opacity-70 uppercase"><Globe size={14} /> Slug</label>
-                <input type="text" className="w-full bg-secondary/50 border border-primary/10 px-5 py-4 rounded-2xl" 
+                <input type="text" className="w-full bg-secondary/50 border border-primary/10 px-5 py-4 rounded-2xl focus:ring-2 focus:ring-primary outline-none" 
                   value={formData.slug} onChange={(e) => setFormData({...formData, slug: e.target.value})} required />
               </div>
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-bold opacity-70 uppercase">Description</label>
-              <textarea className="w-full bg-secondary/50 border border-primary/10 px-5 py-4 rounded-2xl h-32" 
+              <textarea className="w-full bg-secondary/50 border border-primary/10 px-5 py-4 rounded-2xl h-32 resize-none" 
                 value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} required />
             </div>
 
-            <div className="flex gap-4">
-              <button type="submit" disabled={loading} className="flex-1 flex justify-center items-center gap-2 bg-primary text-primary-foreground font-bold py-4 rounded-2xl hover:opacity-90 transition-all shadow-lg">
-                {loading ? <Loader2 className="animate-spin h-5 w-5" /> : <><Save size={18} /> Update</>}
+       
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-bold opacity-70 uppercase"><Cpu size={14} /> Tech Stack (Comma separated)</label>
+                <input type="text" className="w-full bg-secondary/50 border border-primary/10 px-5 py-4 rounded-2xl" 
+                  value={formData.techStack} onChange={(e) => setFormData({...formData, techStack: e.target.value})} placeholder="React, Next.js, Tailwind" />
+              </div>
+
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-bold opacity-70 uppercase"><ImageIcon size={14} /> Image URLs (Comma separated)</label>
+                <input type="text" className="w-full bg-secondary/50 border border-primary/10 px-5 py-4 rounded-2xl" 
+                  value={formData.image} onChange={(e) => setFormData({...formData, image: e.target.value})} placeholder="https://image1.png, https://image2.png" />
+              </div>
+            </div>
+
+            <div className="flex gap-4 pt-4">
+              <button type="submit" disabled={loading} className="flex-1 flex justify-center items-center gap-2 bg-primary text-primary-foreground font-bold py-4 rounded-2xl hover:opacity-90 transition-all shadow-xl active:scale-95 disabled:opacity-50">
+                {loading ? <Loader2 className="animate-spin h-5 w-5" /> : <><Save size={18} /> Save Changes</>}
               </button>
-              <button type="button" onClick={() => router.push("/dashboard/projects")} className="px-8 py-4 bg-secondary text-secondary-foreground font-bold rounded-2xl">Cancel</button>
+              <button type="button" onClick={() => router.push("/dashboard/projects")} className="px-8 py-4 bg-secondary text-secondary-foreground font-bold rounded-2xl hover:bg-secondary/80 transition-all">Cancel</button>
             </div>
           </form>
         </div>
