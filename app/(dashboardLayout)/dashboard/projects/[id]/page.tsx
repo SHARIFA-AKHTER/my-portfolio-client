@@ -206,6 +206,7 @@
 //   return <ProjectEditForm project={project} />;
 // }
 
+// app/(dashboardLayout)/dashboard/projects/[id]/page.tsx
 export const dynamic = "force-dynamic";
 import ProjectEditForm from "./ProjectEditForm";
 
@@ -221,7 +222,6 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   }
 
   const result = await res.json();
-  const projectData = result.data; 
-
+  const projectData = result.data || result; 
   return <ProjectEditForm project={projectData} projectId={id} />;
 }
