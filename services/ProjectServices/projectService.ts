@@ -59,37 +59,44 @@ export const updateProjectAction = async (id: number, data: any) => {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
-    if (!token) {
-      throw new Error("Unauthorized: Please login again");
-    }
+    if (!token) throw new Error("Unauthorized: Please login again");
 
-    const formattedData = {
-      ...data,
-      techStack: typeof data.techStack === "string" 
-        ? data.techStack.split(",").map((t: string) => t.trim()).filter(Boolean) 
-        : data.techStack,
- 
-      image: typeof data.image === "string"
-        ? data.image.split(",").map((i: string) => i.trim()).filter(Boolean)
-        : data.image,
+
+    const techStackArray = typeof data.techStack === "string" 
+      ? data.techStack.split(",").map((t: string) => t.trim()).filter(Boolean) 
+      : data.techStack;
+
+    const imageArray = typeof data.image === "string" 
+      ? data.image.split(",").map((i: string) => i.trim()).filter(Boolean) 
+      : data.image;
+
+    const payload = {
+      title: data.title,
+      slug: data.slug,
+      description: data.description,
+      techStack: techStackArray,
+      image: imageArray,
+      liveUrl: data.liveUrl || "",
+      repoUrl: data.repoUrl || null,
+      frontendRepo: data.frontendRepo || "",
+      backendRepo: data.backendRepo || "",
     };
 
-   
-    const { id: _, createdAt, updatedAt, authorId, author, ...cleanData } = formattedData;
-
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
+    const url = `${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`;
+    
+    const res = await fetch(url, {
       method: "PUT", 
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(cleanData),
+      body: JSON.stringify(payload),
     });
 
     const result = await res.json();
 
     if (!res.ok) {
-      console.error("❌ API Error:", result);
+      console.error("❌ API Error Details:", result);
       throw new Error(result.message || "Update failed");
     }
 
@@ -98,6 +105,7 @@ export const updateProjectAction = async (id: number, data: any) => {
     
     return result;
   } catch (error: any) {
+    console.error("❌ Service Error:", error.message);
     throw new Error(error.message || "Something went wrong");
   }
 };
