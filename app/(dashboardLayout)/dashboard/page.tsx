@@ -34,14 +34,39 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
 
+  // useEffect(() => {
+  //   const storedUser = localStorage.getItem("user");
+  //   if (storedUser) setUser(JSON.parse(storedUser));
+
+  //   const fetchStats = async () => {
+  //     try {
+  //       const res = await fetch(
+  //         `${process.env.NEXT_PUBLIC_BASE_API}/analytics/stats`,
+  //       );
+  //       const result = await res.json();
+  //       if (result.success) {
+  //         setStats(result.data);
+  //       }
+  //     } catch (error) {
+  //       console.error("Failed to fetch stats:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchStats();
+  // }, []);
+
   useEffect(() => {
+
     const storedUser = localStorage.getItem("user");
     if (storedUser) setUser(JSON.parse(storedUser));
 
     const fetchStats = async () => {
       try {
+ 
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API}/analytics/stats`,
+          `${process.env.NEXT_PUBLIC_BASE_API}/analytics/stats?t=${new Date().getTime()}`,
+          { cache: "no-store" },
         );
         const result = await res.json();
         if (result.success) {
@@ -53,6 +78,7 @@ export default function DashboardPage() {
         setLoading(false);
       }
     };
+
     fetchStats();
   }, []);
 
@@ -109,14 +135,13 @@ export default function DashboardPage() {
         {user && (
           <div className="flex items-center gap-4 bg-white dark:bg-slate-900 p-3 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
             <div className="h-10 w-10 bg-linear-to-tr from-pink-500 to-rose-500 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-pink-500/20">
-              
               {user?.name ? user.name.charAt(0) : "A"}
             </div>
             <div>
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
                 Administrator
               </p>
-             
+
               <p className="text-sm font-bold truncate max-w-37.5">
                 {user?.name || "Admin"}
               </p>
@@ -211,8 +236,10 @@ export default function DashboardPage() {
 
         {/* Quick Links / Info */}
         <div className="space-y-6">
-          <div className="bg-linear-to-br from-slate-800 to-slate-900 p-8 rounded-[2.5rem]
-           text-white shadow-xl relative overflow-hidden group border border-slate-700">
+          <div
+            className="bg-linear-to-br from-slate-800 to-slate-900 p-8 rounded-[2.5rem]
+           text-white shadow-xl relative overflow-hidden group border border-slate-700"
+          >
             <ShieldCheck size={40} className="mb-4 text-pink-500" />
             <h2 className="text-xl font-bold">Admin Security</h2>
             <p className="text-slate-400 text-sm mt-2 leading-relaxed italic">
