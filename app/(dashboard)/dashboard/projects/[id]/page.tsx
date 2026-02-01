@@ -213,9 +213,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const { id } = await params;
   
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`, {
-     cache: "no-store" 
-  });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/projects/${id}`);
   
   const project = await res.json();
 

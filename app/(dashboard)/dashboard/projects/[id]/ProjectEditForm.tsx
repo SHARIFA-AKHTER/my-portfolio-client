@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { Loader2, ArrowLeft, Save, Globe, Type } from "lucide-react";
 
 import { toast } from "sonner";
-import { updateProjectService } from "@/services/ProjectServices/projectService";
+import { updateProjectAction } from "@/services/ProjectServices/projectService";
+
 
 export default function ProjectEditForm({ project, projectId }: { project: any, projectId: string }) {
   const router = useRouter();
@@ -17,20 +18,20 @@ export default function ProjectEditForm({ project, projectId }: { project: any, 
     slug: project.slug || "",
     description: project.description || "",
   });
-
-  const handleUpdate = async (e: React.FormEvent) => {
+const handleUpdate = async (e: React.FormEvent) => {
   e.preventDefault();
   setLoading(true);
 
   try {
+    const idToUpdate = Number(projectId); 
 
-    const payload = {
-      ...project,     
-      ...formData,     
-    };
+      if (!idToUpdate) {
+        throw new Error("ID not");
+      }
+    const payload = { ...project, ...formData };
 
- 
-    await updateProjectService(Number(projectId), payload); 
+ await  updateProjectAction(idToUpdate, payload);
+    // await projectService(Number(projectId), payload); 
     
     toast.success("✅ Updated!");
     router.push("/dashboard/projects");
