@@ -70,7 +70,7 @@ const handleUpdate = async (e: React.FormEvent) => {
 
     const result = await updateBlog(blog.id, updatedPayload);
     alert(result.message || "Blog updated successfully!");
-    // router.push("/dashboard/blogs");
+    // router.push("/dashboard/blog");
     router.refresh(); 
   } catch (err: any) {
     alert(err.message || "Failed to update blog");
@@ -87,7 +87,7 @@ const handleUpdate = async (e: React.FormEvent) => {
     try {
       const result = await deleteBlog(blog.id);
       alert(result.message || "Blog deleted successfully!");
-      // router.push("/dashboard/blogs");
+      // router.push("/dashboard/blog");
     } catch (err: any) {
       console.error("Delete Error:", err);
       alert(err.message || "Failed to delete blog");

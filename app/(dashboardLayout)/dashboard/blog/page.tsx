@@ -39,7 +39,7 @@ export default function DashboardBlogsPage() {
 
   const handleDelete = async (id: number) => {
     
-    router.push(`/dashboard/blogs/${id}`);
+    router.push(`/dashboard/blog/${id}`);
 
   };
 

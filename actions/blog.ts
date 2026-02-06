@@ -134,7 +134,7 @@ export async function updateBlog(blogId: number, data: any, p0?: string | undefi
     const result = await res.json();
     if (!res.ok) throw new Error(result.message || "Blog update failed");
 
-    revalidatePath("/dashboard/blogs");
+    revalidatePath("/dashboard/blog");
     revalidatePath(`/blog/${blogId}`); 
     
     return result;
@@ -156,7 +156,7 @@ export async function deleteBlog(blogId: number) {
     const result = await res.json();
     if (!res.ok) throw new Error(result.message || "Blog delete failed");
 
-    revalidatePath("/dashboard/blogs");
+    revalidatePath("/dashboard/blog");
     return result;
   } catch (err: any) {
     console.error("⚠️ deleteBlog Error:", err.message);
