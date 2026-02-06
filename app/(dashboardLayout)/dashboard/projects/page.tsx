@@ -1,12 +1,139 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // /* eslint-disable @typescript-eslint/no-unused-vars */
+// // /* eslint-disable @typescript-eslint/no-unused-vars */
+// // /* eslint-disable @typescript-eslint/no-explicit-any */
+// // "use client";
+
+// // import { useEffect, useState } from "react";
+// // import Link from "next/link";
+// // import { Edit, Trash2, Plus, LayoutGrid, Loader2 } from "lucide-react";
+
+// // import { toast } from "sonner";
+// // import { getAllProjects } from "@/lib/project";
+// // import { deleteProject } from "@/actions/projects";
+
+// // export default function DashboardProjectsPage() {
+// //   const [projects, setProjects] = useState<any[]>([]);
+// //   const [loading, setLoading] = useState(true);
+
+// //   useEffect(() => {
+// //     const fetchData = async () => {
+// //       try {
+// //         const data = await getAllProjects();
+// //         setProjects(data);
+// //       } catch (error) {
+// //         toast.error("Failed to fetch projects");
+// //       } finally {
+// //         setLoading(false);
+// //       }
+// //     };
+// //     fetchData();
+// //   }, []);
+
+// //   const handleDelete = async (id: number) => {
+// //     if (!confirm("Are you sure you want to delete this project?")) return;
+    
+// //     const loadingToast = toast.loading("Deleting project...");
+// //     try {
+// //       const token = localStorage.getItem("token");
+// //       await deleteProject(id, token || undefined);
+// //       setProjects(prev => prev.filter(p => p.id !== id));
+// //       toast.success("Project deleted successfully", { id: loadingToast });
+// //     } catch (err: any) {
+// //       toast.error(err.message || "Delete failed", { id: loadingToast });
+// //     }
+// //   };
+
+// //   if (loading) return (
+// //     <div className="flex h-96 items-center justify-center">
+// //       <Loader2 className="h-10 w-10 animate-spin text-primary" />
+// //     </div>
+// //   );
+
+// //   return (
+// //     <div className="p-4 md:p-8 flex-1 bg-background text-foreground transition-colors duration-300">
+// //       {/* Header Section */}
+// //       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+// //         <div>
+// //           <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
+// //             <LayoutGrid className="text-primary" /> Manage Projects
+// //           </h1>
+// //           <p className="text-muted-foreground text-sm mt-1">Total {projects.length} projects found</p>
+// //         </div>
+        
+// //         <Link 
+// //           href="/dashboard/create-project" 
+// //           className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-xl font-bold hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-primary/20"
+// //         >
+// //           <Plus size={18} /> Add New Project
+// //         </Link>
+// //       </div>
+
+// //       {projects.length === 0 ? (
+// //         <div className="text-center py-20 border-2 border-dashed border-primary/10 rounded-3xl">
+// //           <p className="text-muted-foreground">No projects found. Start by adding one!</p>
+// //         </div>
+// //       ) : (
+// //         /* Responsive Table Container */
+// //         <div className="overflow-hidden rounded-2xl border border-primary/10 bg-card shadow-sm">
+// //           <div className="overflow-x-auto">
+// //             <table className="w-full text-left border-collapse">
+// //               <thead>
+// //                 <tr className="bg-secondary/50 text-muted-foreground uppercase text-[11px] font-black tracking-widest">
+// //                   <th className="px-6 py-4">ID</th>
+// //                   <th className="px-6 py-4">Project Title</th>
+// //                   <th className="px-6 py-4 hidden md:table-cell">Slug</th>
+// //                   <th className="px-6 py-4 text-right">Actions</th>
+// //                 </tr>
+// //               </thead>
+// //               <tbody className="divide-y divide-primary/5">
+// //                 {projects.map((p) => (
+// //                   <tr key={p.id} className="hover:bg-primary/5 transition-colors group">
+// //                     <td className="px-6 py-4 font-mono text-sm text-muted-foreground">#{p.id}</td>
+// //                     <td className="px-6 py-4">
+// //                       <span className="font-bold block text-foreground group-hover:text-primary transition-colors">
+// //                         {p.title}
+// //                       </span>
+// //                       <span className="text-[10px] md:hidden text-muted-foreground lowercase">{p.slug}</span>
+// //                     </td>
+// //                     <td className="px-6 py-4 hidden md:table-cell text-sm text-muted-foreground">
+// //                       {p.slug}
+// //                     </td>
+// //                     <td className="px-6 py-4">
+// //                       <div className="flex justify-end gap-2">
+// //                         <Link 
+// //                           href={`/dashboard/projects/${p.id}`} 
+// //                           className="p-2 bg-blue-500/10 text-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition-all shadow-sm"
+// //                           title="Edit Project"
+// //                         >
+// //                           <Edit size={16}/>
+// //                         </Link>
+// //                         <button 
+// //                           onClick={() => handleDelete(p.id)} 
+// //                           className="p-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm"
+// //                           title="Delete Project"
+// //                         >
+// //                           <Trash2 size={16}/>
+// //                         </button>
+// //                       </div>
+// //                     </td>
+// //                   </tr>
+// //                 ))}
+// //               </tbody>
+// //             </table>
+// //           </div>
+// //         </div>
+// //       )}
+// //     </div>
+// //   );
+// // }
+
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 // "use client";
 
 // import { useEffect, useState } from "react";
 // import Link from "next/link";
 // import { Edit, Trash2, Plus, LayoutGrid, Loader2 } from "lucide-react";
-
 // import { toast } from "sonner";
 // import { getAllProjects } from "@/lib/project";
 // import { deleteProject } from "@/actions/projects";
@@ -15,28 +142,34 @@
 //   const [projects, setProjects] = useState<any[]>([]);
 //   const [loading, setLoading] = useState(true);
 
+
+//   const fetchData = async () => {
+//     try {
+//       const result = await getAllProjects();
+  
+//       const data = Array.isArray(result) ? result : result?.data || [];
+//       setProjects(data);
+//     } catch (error) {
+//       toast.error("Failed to fetch projects");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
 //   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const data = await getAllProjects();
-//         setProjects(data);
-//       } catch (error) {
-//         toast.error("Failed to fetch projects");
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
 //     fetchData();
 //   }, []);
 
-//   const handleDelete = async (id: number) => {
+//   const handleDelete = async (id: any) => {
 //     if (!confirm("Are you sure you want to delete this project?")) return;
     
 //     const loadingToast = toast.loading("Deleting project...");
 //     try {
+  
 //       const token = localStorage.getItem("token");
 //       await deleteProject(id, token || undefined);
-//       setProjects(prev => prev.filter(p => p.id !== id));
+
+//       setProjects((prev) => prev.filter((p: any) => p.id !== id));
 //       toast.success("Project deleted successfully", { id: loadingToast });
 //     } catch (err: any) {
 //       toast.error(err.message || "Delete failed", { id: loadingToast });
@@ -73,7 +206,6 @@
 //           <p className="text-muted-foreground">No projects found. Start by adding one!</p>
 //         </div>
 //       ) : (
-//         /* Responsive Table Container */
 //         <div className="overflow-hidden rounded-2xl border border-primary/10 bg-card shadow-sm">
 //           <div className="overflow-x-auto">
 //             <table className="w-full text-left border-collapse">
@@ -86,29 +218,35 @@
 //                 </tr>
 //               </thead>
 //               <tbody className="divide-y divide-primary/5">
-//                 {projects.map((p) => (
-//                   <tr key={p.id} className="hover:bg-primary/5 transition-colors group">
-//                     <td className="px-6 py-4 font-mono text-sm text-muted-foreground">#{p.id}</td>
+//                 {projects.map((project) => (
+//                   <tr key={project.id} className="hover:bg-primary/5 transition-colors group">
+//                     <td className="px-6 py-4 font-mono text-sm text-muted-foreground">
+//                       #{project.id}
+//                     </td>
 //                     <td className="px-6 py-4">
 //                       <span className="font-bold block text-foreground group-hover:text-primary transition-colors">
-//                         {p.title}
+//                         {project.title}
 //                       </span>
-//                       <span className="text-[10px] md:hidden text-muted-foreground lowercase">{p.slug}</span>
+//                       <span className="text-[10px] md:hidden text-muted-foreground lowercase">
+//                         {project.slug}
+//                       </span>
 //                     </td>
 //                     <td className="px-6 py-4 hidden md:table-cell text-sm text-muted-foreground">
-//                       {p.slug}
+//                       {project.slug}
 //                     </td>
 //                     <td className="px-6 py-4">
 //                       <div className="flex justify-end gap-2">
+                      
 //                         <Link 
-//                           href={`/dashboard/projects/${p.id}`} 
+//                           href={`/dashboard/projects/${project.id}`} 
 //                           className="p-2 bg-blue-500/10 text-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition-all shadow-sm"
 //                           title="Edit Project"
 //                         >
 //                           <Edit size={16}/>
 //                         </Link>
+//                         {/* Delete Button */}
 //                         <button 
-//                           onClick={() => handleDelete(p.id)} 
+//                           onClick={() => handleDelete(project.id)} 
 //                           className="p-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm"
 //                           title="Delete Project"
 //                         >
@@ -130,9 +268,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react"; 
 import Link from "next/link";
-import { Edit, Trash2, Plus, LayoutGrid, Loader2 } from "lucide-react";
+import { Edit, Trash2, Plus, LayoutGrid, Loader2, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { getAllProjects } from "@/lib/project";
 import { deleteProject } from "@/actions/projects";
@@ -142,10 +280,11 @@ export default function DashboardProjectsPage() {
   const [loading, setLoading] = useState(true);
 
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
+      setLoading(true);
+     
       const result = await getAllProjects();
-  
       const data = Array.isArray(result) ? result : result?.data || [];
       setProjects(data);
     } catch (error) {
@@ -153,20 +292,20 @@ export default function DashboardProjectsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const handleDelete = async (id: any) => {
     if (!confirm("Are you sure you want to delete this project?")) return;
     
     const loadingToast = toast.loading("Deleting project...");
     try {
-  
       const token = localStorage.getItem("token");
       await deleteProject(id, token || undefined);
+
 
       setProjects((prev) => prev.filter((p: any) => p.id !== id));
       toast.success("Project deleted successfully", { id: loadingToast });
@@ -175,7 +314,7 @@ export default function DashboardProjectsPage() {
     }
   };
 
-  if (loading) return (
+  if (loading && projects.length === 0) return (
     <div className="flex h-96 items-center justify-center">
       <Loader2 className="h-10 w-10 animate-spin text-primary" />
     </div>
@@ -183,7 +322,6 @@ export default function DashboardProjectsPage() {
 
   return (
     <div className="p-4 md:p-8 flex-1 bg-background text-foreground transition-colors duration-300">
-      {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
@@ -192,12 +330,23 @@ export default function DashboardProjectsPage() {
           <p className="text-muted-foreground text-sm mt-1">Total {projects.length} projects found</p>
         </div>
         
-        <Link 
-          href="/dashboard/create-project" 
-          className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-xl font-bold hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-primary/20"
-        >
-          <Plus size={18} /> Add New Project
-        </Link>
+        <div className="flex gap-2">
+    
+          <button 
+            onClick={() => fetchData()} 
+            className="p-2.5 rounded-xl border border-primary/10 hover:bg-primary/5 transition-all"
+            title="Refresh List"
+          >
+            <RefreshCw size={18} className={`${loading ? 'animate-spin' : ''}`} />
+          </button>
+
+          <Link 
+            href="/dashboard/create-project" 
+            className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-xl font-bold hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-primary/20"
+          >
+            <Plus size={18} /> Add New Project
+          </Link>
+        </div>
       </div>
 
       {projects.length === 0 ? (
@@ -219,35 +368,24 @@ export default function DashboardProjectsPage() {
               <tbody className="divide-y divide-primary/5">
                 {projects.map((project) => (
                   <tr key={project.id} className="hover:bg-primary/5 transition-colors group">
-                    <td className="px-6 py-4 font-mono text-sm text-muted-foreground">
-                      #{project.id}
-                    </td>
+                    <td className="px-6 py-4 font-mono text-sm text-muted-foreground">#{project.id}</td>
                     <td className="px-6 py-4">
                       <span className="font-bold block text-foreground group-hover:text-primary transition-colors">
                         {project.title}
                       </span>
-                      <span className="text-[10px] md:hidden text-muted-foreground lowercase">
-                        {project.slug}
-                      </span>
                     </td>
-                    <td className="px-6 py-4 hidden md:table-cell text-sm text-muted-foreground">
-                      {project.slug}
-                    </td>
+                    <td className="px-6 py-4 hidden md:table-cell text-sm text-muted-foreground">{project.slug}</td>
                     <td className="px-6 py-4">
                       <div className="flex justify-end gap-2">
-                      
                         <Link 
                           href={`/dashboard/projects/${project.id}`} 
                           className="p-2 bg-blue-500/10 text-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition-all shadow-sm"
-                          title="Edit Project"
                         >
                           <Edit size={16}/>
                         </Link>
-                        {/* Delete Button */}
                         <button 
                           onClick={() => handleDelete(project.id)} 
                           className="p-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm"
-                          title="Delete Project"
                         >
                           <Trash2 size={16}/>
                         </button>

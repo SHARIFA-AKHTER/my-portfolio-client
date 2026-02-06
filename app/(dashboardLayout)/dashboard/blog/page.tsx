@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Edit, Trash2 } from "lucide-react";
 
+
 interface Blog {
   id: number;
   title: string;
@@ -69,7 +70,7 @@ export default function DashboardBlogsPage() {
                 <td className="px-4 py-2 border flex gap-2">
                   {/* ✏️ Edit button */}
                   <Link
-                    href={`/dashboard/blogs/${blog.id}`}
+                    href={`/dashboard/blog/${blog.id}`}
                     className="flex items-center gap-1 px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
                   >
                     <Edit className="h-4 w-4" />

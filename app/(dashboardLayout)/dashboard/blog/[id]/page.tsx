@@ -10,6 +10,10 @@ interface Blog {
   id: number;
   title: string;
   slug: string;
+  content: string;   
+  excerpt?: string;
+  coverUrl?: string; 
+  published?: boolean;
 }
 
 export default function BlogEditPage() {
@@ -25,71 +29,55 @@ export default function BlogEditPage() {
   const [deleting, setDeleting] = useState(false);
 
   // ✅ Fetch single blog
-  useEffect(() => {
-    if (!blogId) return;
+useEffect(() => {
+  if (!blogId) return;
 
-    const fetchBlog = async () => {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`,
-        );
-        const data = await res.json();
-        setBlog(data);
-        setTitle(data.title);
-        setSlug(data.slug);
-      } catch (err) {
-        console.error("Error fetching blog:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBlog();
-  }, [blogId]);
-
-  // ✅ Update handler
-  // const handleUpdate = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   if (!blog) return;
-
-  //   setUpdating(true);
-  //   try {
-  //     const result = await updateBlog(blog.id, { title, slug });
-  //     alert(result.message || "Blog updated successfully!");
-  //     router.push("/dashboard/blogs");
-  //   } catch (err: any) {
-  //     console.error("Update Error:", err);
-  //     alert(err.message || "Failed to update blog");
-  //   } finally {
-  //     setUpdating(false);
-  //   }
-  // };
-
-
-  const handleUpdate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!blog) return;
-
-    setUpdating(true);
+  const fetchBlog = async () => {
     try {
-   
-      const updatedPayload = {
-        ...blog, 
-        title: title, 
-        slug: slug, 
-      };
-
-      const result = await updateBlog(blog.id, updatedPayload);
-      alert(result.message || "Blog updated successfully!");
-      router.push("/dashboard/blogs");
-      router.refresh(); 
-    } catch (err: any) {
-      console.error("Update Error:", err);
-      alert(err.message || "Failed to update blog");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`);
+      const result = await res.json();
+      
+      const blogData = result.blog || result; 
+      
+      setBlog(blogData);
+      setTitle(blogData.title || "");
+      setSlug(blogData.slug || "");
+    } catch (err) {
+      console.error("Error fetching blog:", err);
     } finally {
-      setUpdating(false);
+      setLoading(false);
     }
   };
+
+  fetchBlog();
+}, [blogId]);
+
+const handleUpdate = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!blog) return;
+
+  setUpdating(true);
+  try {
+   
+    const updatedPayload = {
+      title: title,
+      slug: slug,
+      content: blog.content, 
+      excerpt: blog.excerpt,
+      coverUrl: blog.coverUrl,
+      published: blog.published
+    };
+
+    const result = await updateBlog(blog.id, updatedPayload);
+    alert(result.message || "Blog updated successfully!");
+    // router.push("/dashboard/blogs");
+    router.refresh(); 
+  } catch (err: any) {
+    alert(err.message || "Failed to update blog");
+  } finally {
+    setUpdating(false);
+  }
+};
   // ✅ Delete handler
   const handleDelete = async () => {
     if (!blog) return;
@@ -99,7 +87,7 @@ export default function BlogEditPage() {
     try {
       const result = await deleteBlog(blog.id);
       alert(result.message || "Blog deleted successfully!");
-      router.push("/dashboard/blogs");
+      // router.push("/dashboard/blogs");
     } catch (err: any) {
       console.error("Delete Error:", err);
       alert(err.message || "Failed to delete blog");

@@ -45,7 +45,7 @@ export default function DeleteEditActions({ blog, onDeleted }: Props) {
   return (
     <div className="flex flex-wrap gap-2">
       <Link
-        href={`/dashboard/blogs/${blog.id}`}
+        href={`/dashboard/blog/${blog.id}`}
         className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm sm:text-base"
       >
         <Edit className="h-4 w-4" /> Edit

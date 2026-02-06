@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import CreateBlogForm from "../../../components/modules/Blog/CreateBlogForm";
+import CreateBlogForm from "@/app/components/modules/Blog/CreateBlogForm";
+
+
 
 const CreateBlog = (p0: any) => {
   return (
