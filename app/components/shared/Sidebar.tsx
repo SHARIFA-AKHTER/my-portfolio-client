@@ -69,7 +69,7 @@ export default function Sidebar() {
           href: "/dashboard/create-project",
           icon: PlusCircle,
         },
-        { name: "Blogs", href: "/dashboard/blogs", icon: FileText },
+        { name: "Blogs", href: "/dashboard/blog", icon: FileText },
         {
           name: "Create Blog",
           href: "/dashboard/create-blog",

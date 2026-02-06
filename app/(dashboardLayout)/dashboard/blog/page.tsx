@@ -1,10 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Edit, Trash2 } from "lucide-react";
-
 
 interface Blog {
   id: number;
@@ -15,7 +13,6 @@ interface Blog {
 export default function DashboardBlogsPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -25,7 +22,7 @@ export default function DashboardBlogsPage() {
         });
         if (res.ok) {
           const data = await res.json();
-          setBlogs(Array.isArray(data) ? data : data.data ?? []);
+          setBlogs(Array.isArray(data) ? data : (data.data ?? []));
         }
       } catch (err) {
         console.error("Error fetching blogs:", err);
@@ -37,12 +34,38 @@ export default function DashboardBlogsPage() {
     fetchBlogs();
   }, []);
 
+  // const handleDelete = async (id: number) => {
+
+  //   router.push(`/dashboard/blog/${id}`);
+
+  // };
+
+
   const handleDelete = async (id: number) => {
-    
-    router.push(`/dashboard/blog/${id}`);
+    if (!confirm("Are you sure you want to delete this blog?")) return;
 
+    try {
+      const token = localStorage.getItem("token"); 
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API}/blog/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (res.ok) {
+        setBlogs((prev) => prev.filter((blog) => blog.id !== id));
+        alert("Blog deleted successfully!");
+      } else {
+        alert("Failed to delete blog");
+      }
+    } catch (err) {
+      console.error("Delete Error:", err);
+    }
   };
-
   if (loading) return <p>Loading blogs...</p>;
 
   return (
@@ -94,6 +117,3 @@ export default function DashboardBlogsPage() {
     </div>
   );
 }
-
-
-
