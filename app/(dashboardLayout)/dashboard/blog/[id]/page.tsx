@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -331,124 +331,123 @@
 //   );
 // }
 
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { updateBlogAction } from "./updateBlogAction";
-
+import { updateBlog } from "@/actions/blog";
 
 export default function BlogEditPage() {
   const router = useRouter();
   const params = useParams();
-  const blogId = params?.id;
+  const blogId = Number(params?.id);
 
   const [blog, setBlog] = useState<any>(null);
   const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
   const [content, setContent] = useState("");
-  const [excerpt, setExcerpt] = useState("");
-  const [coverUrl, setCoverUrl] = useState("");
-  
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     if (!blogId) return;
+
     const fetchBlog = async () => {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`);
         const result = await res.json();
         
-        // Postman array response handling
-        const blogData = Array.isArray(result) 
-          ? result.find((b: any) => b.id == blogId) 
-          : (result.blog || result);
+
+        const blogData = result.success ? result.blog : result;
 
         if (blogData) {
           setBlog(blogData);
           setTitle(blogData.title || "");
-          setSlug(blogData.slug || "");
           setContent(blogData.content || "");
-          setExcerpt(blogData.excerpt || "");
-          setCoverUrl(blogData.coverUrl || "");
         }
       } catch (err) {
-        console.error("Fetch error", err);
+        console.error("Fetch error:", err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchBlog();
   }, [blogId]);
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!blog) return;
+    if (!blogId) return;
 
     setUpdating(true);
     try {
-      const res = await updateBlogAction({
-        id: blog.id,
+      const payload = {
         title,
         content,
-        slug, 
-        excerpt,
-        coverUrl
-      });
+        slug: blog.slug, 
+      };
 
-      const result = await res.json();
+      const result = await updateBlog(blogId, payload);
 
-      if (res.ok || result.success) {
-        alert("Success: Blog updated following schema!");
+      if (result) {
+        alert("Success: Blog updated using Server Action!");
         router.push("/dashboard/blog");
-        router.refresh();
-      } else {
-        alert(result.message || "Update failed. Check if slug is unique.");
       }
-    } catch (err) {
-      alert("Error updating blog");
+    } catch (err: any) {
+      alert(err.message || "Update failed");
     } finally {
       setUpdating(false);
     }
   };
 
-  if (loading) return <p className="p-10 text-center font-bold text-blue-600">Loading Blog Schema Data...</p>;
+  if (loading) return <div className="p-10 text-center font-bold">Loading...</div>;
+  if (!blog) return <div className="p-10 text-center text-red-500">Blog not found!</div>;
 
   return (
-    <div className="p-6 max-w-2xl mx-auto bg-white shadow-2xl rounded-2xl mt-10 border border-gray-100">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Edit Blog Post</h2>
+    <div className="p-6 max-w-2xl mx-auto bg-white shadow-lg rounded-2xl mt-10 border border-gray-100">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">Edit Blog #{blogId}</h2>
       
-      <form onSubmit={handleUpdate} className="flex flex-col gap-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-bold">Title</label>
-            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="border p-2 rounded-lg" required />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-bold">Slug (@unique)</label>
-            <input type="text" value={slug} onChange={(e) => setSlug(e.target.value)} className="border p-2 rounded-lg bg-gray-50" required />
-          </div>
+      <form onSubmit={handleUpdate} className="flex flex-col gap-5">
+        <div>
+          <label className="block text-sm font-bold mb-1">Blog Title</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="border p-3 w-full rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Enter title"
+            required
+          />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-bold">Cover URL</label>
-          <input type="text" value={coverUrl} onChange={(e) => setCoverUrl(e.target.value)} className="border p-2 rounded-lg" />
+        <div>
+          <label className="block text-sm font-bold mb-1">Blog Content</label>
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="border p-3 w-full h-72 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="Write your content..."
+            required
+          />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-bold">Excerpt (Optional)</label>
-          <input type="text" value={excerpt} onChange={(e) => setExcerpt(e.target.value)} className="border p-2 rounded-lg" />
+        <div className="flex gap-4">
+          <button
+            type="submit"
+            disabled={updating}
+            className="flex-1 bg-blue-600 text-white p-3.5 rounded-xl font-bold hover:bg-blue-700 disabled:bg-gray-400 transition-all shadow-md"
+          >
+            {updating ? "Saving Changes..." : "Update Blog"}
+          </button>
+          
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="px-6 bg-gray-100 text-gray-600 rounded-xl font-semibold hover:bg-gray-200 transition"
+          >
+            Cancel
+          </button>
         </div>
-
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-bold">Content</label>
-          <textarea value={content} onChange={(e) => setContent(e.target.value)} className="border p-2 rounded-lg h-48" required />
-        </div>
-
-        <button type="submit" disabled={updating} className="bg-indigo-600 text-white p-3 rounded-xl font-bold hover:bg-indigo-700 transition disabled:bg-gray-400">
-          {updating ? "Processing Schema Update..." : "Save Changes"}
-        </button>
       </form>
     </div>
   );
