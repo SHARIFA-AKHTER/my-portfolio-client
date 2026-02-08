@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -334,7 +335,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import Cookies from "js-cookie";
+import { updateBlogAction } from "./updateBlogAction";
+
 
 export default function BlogEditPage() {
   const router = useRouter();
@@ -343,37 +345,42 @@ export default function BlogEditPage() {
 
   const [blog, setBlog] = useState<any>(null);
   const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
   const [content, setContent] = useState("");
+  const [excerpt, setExcerpt] = useState("");
+  const [coverUrl, setCoverUrl] = useState("");
+  
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
 
-
   useEffect(() => {
     if (!blogId) return;
-
     const fetchBlog = async () => {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`);
         const result = await res.json();
         
- 
-        const blogData = result.blog || result;
+        // Postman array response handling
+        const blogData = Array.isArray(result) 
+          ? result.find((b: any) => b.id == blogId) 
+          : (result.blog || result);
 
         if (blogData) {
           setBlog(blogData);
           setTitle(blogData.title || "");
+          setSlug(blogData.slug || "");
           setContent(blogData.content || "");
+          setExcerpt(blogData.excerpt || "");
+          setCoverUrl(blogData.coverUrl || "");
         }
       } catch (err) {
-        console.error("Error fetching blog:", err);
+        console.error("Fetch error", err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchBlog();
   }, [blogId]);
-
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -381,90 +388,67 @@ export default function BlogEditPage() {
 
     setUpdating(true);
     try {
-
-      const token = Cookies.get("token") || localStorage.getItem("token");
-      
-      if (!token) {
-        alert("You must be logged in to update.");
-        return;
-      }
-
-
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blog.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          title: title,
-          content: content,
-          slug: blog.slug 
-        }),
+      const res = await updateBlogAction({
+        id: blog.id,
+        title,
+        content,
+        slug, 
+        excerpt,
+        coverUrl
       });
 
-      if (res.ok) {
-        alert("Blog updated successfully!");
-        router.push("/dashboard/blog"); 
+      const result = await res.json();
+
+      if (res.ok || result.success) {
+        alert("Success: Blog updated following schema!");
+        router.push("/dashboard/blog");
         router.refresh();
       } else {
-        const errorData = await res.json();
-        alert(errorData.message || "Failed to update blog");
+        alert(result.message || "Update failed. Check if slug is unique.");
       }
     } catch (err) {
-      console.error("Update Error:", err);
-      alert("Something went wrong while updating!");
+      alert("Error updating blog");
     } finally {
       setUpdating(false);
     }
   };
 
-  if (loading) return <p className="p-10 text-center">Loading blog data...</p>;
-  if (!blog) return <p className="p-10 text-center text-red-500">Blog not found!</p>;
+  if (loading) return <p className="p-10 text-center font-bold text-blue-600">Loading Blog Schema Data...</p>;
 
   return (
-    <div className="p-6 max-w-2xl mx-auto bg-white shadow-md rounded-xl mt-10">
-      <h1 className="text-2xl font-bold mb-6">Edit Blog Post (ID: {blog.id})</h1>
+    <div className="p-6 max-w-2xl mx-auto bg-white shadow-2xl rounded-2xl mt-10 border border-gray-100">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Edit Blog Post</h2>
       
       <form onSubmit={handleUpdate} className="flex flex-col gap-4">
-        <div>
-          <label className="block font-semibold mb-1">Title</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="border p-3 w-full rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-bold">Title</label>
+            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="border p-2 rounded-lg" required />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-bold">Slug (@unique)</label>
+            <input type="text" value={slug} onChange={(e) => setSlug(e.target.value)} className="border p-2 rounded-lg bg-gray-50" required />
+          </div>
         </div>
 
-        <div>
-          <label className="block font-semibold mb-1">Content</label>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="border p-3 w-full h-64 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-bold">Cover URL</label>
+          <input type="text" value={coverUrl} onChange={(e) => setCoverUrl(e.target.value)} className="border p-2 rounded-lg" />
         </div>
 
-        <div className="flex gap-4 pt-2">
-          <button
-            type="submit"
-            disabled={updating}
-            className="flex-1 bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 disabled:bg-blue-300"
-          >
-            {updating ? "Saving..." : "Update Blog"}
-          </button>
-          
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="px-6 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
-          >
-            Cancel
-          </button>
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-bold">Excerpt (Optional)</label>
+          <input type="text" value={excerpt} onChange={(e) => setExcerpt(e.target.value)} className="border p-2 rounded-lg" />
         </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-bold">Content</label>
+          <textarea value={content} onChange={(e) => setContent(e.target.value)} className="border p-2 rounded-lg h-48" required />
+        </div>
+
+        <button type="submit" disabled={updating} className="bg-indigo-600 text-white p-3 rounded-xl font-bold hover:bg-indigo-700 transition disabled:bg-gray-400">
+          {updating ? "Processing Schema Update..." : "Save Changes"}
+        </button>
       </form>
     </div>
   );
