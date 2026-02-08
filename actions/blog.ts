@@ -123,9 +123,31 @@ async function getAuthHeaders() {
 }
 
 // ✅ Update Blog
-export async function updateBlog(blogId: number, data: any, p0?: string | undefined) {
+// export async function updateBlog(blogId: number, data: any, p0?: string | undefined) {
+//   try {
+//     const headers = await getAuthHeaders();
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`, {
+//       method: "PUT",
+//       headers,
+//       body: JSON.stringify(data),
+//     });
+
+//     const result = await res.json();
+//     if (!res.ok) throw new Error(result.message || "Blog update failed");
+
+//     revalidatePath("/dashboard/blog");
+//     revalidatePath(`/blog/${blogId}`); 
+    
+//     return result;
+//   } catch (err: any) {
+//     console.error("⚠️ updateBlog Error:", err.message);
+//     throw err;
+//   }
+// }
+
+export async function updateBlog(blogId: number, data: any) {
   try {
-    const headers = await getAuthHeaders();
+    const headers = await getAuthHeaders(); 
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`, {
       method: "PUT",
       headers,
@@ -133,12 +155,15 @@ export async function updateBlog(blogId: number, data: any, p0?: string | undefi
     });
 
     const result = await res.json();
-    if (!res.ok) throw new Error(result.message || "Blog update failed");
 
-    revalidatePath("/dashboard/blog");
-    revalidatePath(`/blog/${blogId}`); 
-    
-    return result;
+
+    if (res.ok && result.success === true) {
+      revalidatePath("/dashboard/blog");
+      revalidatePath(`/dashboard/blog/${blogId}`);
+      return result; 
+    } else {
+      throw new Error(result.message || "Update failed");
+    }
   } catch (err: any) {
     console.error("⚠️ updateBlog Error:", err.message);
     throw err;
