@@ -1,4 +1,5 @@
-import Loading from "../../../components/ui/Loading";
+import Loading from "@/components/ui/Loading";
+
 
 const BlogLoadingPage = () => {
   return (

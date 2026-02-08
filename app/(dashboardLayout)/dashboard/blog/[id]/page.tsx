@@ -487,12 +487,12 @@
 
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { updateBlog } from "@/actions/blog";
+import { updateBlog} from "@/actions/blog"
+import { getBlogById } from "@/services/BlogServices";
 
 export default function BlogEditPage({ params }: { params: Promise<{ id: string }> }) {
-
   const resolvedParams = use(params);
-  const blogId = Number(resolvedParams.id);
+  const blogId = resolvedParams.id; 
   
   const router = useRouter();
   const [title, setTitle] = useState("");
@@ -500,16 +500,13 @@ export default function BlogEditPage({ params }: { params: Promise<{ id: string 
   const [blogData, setBlogData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-      
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`, {
-          cache: 'no-store'
-        });
-        const result = await res.json();
+        const result = await getBlogById(blogId); 
         
-   
+
         const data = result.success ? result.blog : result; 
         
         if (data) {
@@ -531,16 +528,15 @@ export default function BlogEditPage({ params }: { params: Promise<{ id: string 
     if (!blogData) return;
 
     try {
-
       const payload = {
         title,
         content,
-        slug: blogData.slug, 
+        slug: blogData.slug,
         excerpt: blogData.excerpt,
         coverUrl: blogData.coverUrl
       };
       
-      const res = await updateBlog(blogId, payload);
+      const res = await updateBlog(Number(blogId), payload);
       
       if (res && res.success) {
         alert("Blog updated successfully!");
@@ -552,47 +548,30 @@ export default function BlogEditPage({ params }: { params: Promise<{ id: string 
     }
   };
 
-  if (loading) return <p className="p-10 text-center font-bold">Loading Data...</p>;
+  if (loading) return <p className="p-10 text-center font-bold">Loading blog data...</p>;
 
   return (
-    <div className="p-6 max-w-2xl mx-auto bg-white shadow-md rounded-lg mt-10">
-      <h1 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Edit Blog Post #{blogId}</h1>
-      <form onSubmit={handleUpdate} className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-          <input 
-            value={title} 
-            onChange={(e) => setTitle(e.target.value)} 
-            className="border p-3 w-full rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none transition" 
-            placeholder="Enter blog title"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Content</label>
-          <textarea 
-            value={content} 
-            onChange={(e) => setContent(e.target.value)} 
-            className="border p-3 w-full h-64 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none transition" 
-            placeholder="Write blog content here..."
-            required
-          />
-        </div>
-        <div className="flex gap-4 pt-2">
-          <button 
-            type="submit" 
-            className="flex-1 bg-indigo-600 text-white px-6 py-3 rounded-md font-bold hover:bg-indigo-700 transition shadow-lg active:scale-95"
-          >
-            Update Blog
-          </button>
-          <button 
-            type="button" 
-            onClick={() => router.back()}
-            className="px-6 py-3 bg-gray-100 text-gray-600 rounded-md font-bold hover:bg-gray-200 transition"
-          >
-            Cancel
-          </button>
-        </div>
+    <div className="p-6 max-w-2xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6">Edit Blog Post #{blogId}</h1>
+      <form onSubmit={handleUpdate} className="space-y-4">
+        <input 
+          value={title} 
+          onChange={(e) => setTitle(e.target.value)} 
+          className="border p-3 w-full rounded shadow-sm outline-none focus:ring-2 focus:ring-blue-500" 
+          placeholder="Title"
+        />
+        <textarea 
+          value={content} 
+          onChange={(e) => setContent(e.target.value)} 
+          className="border p-3 w-full h-72 rounded shadow-sm outline-none focus:ring-2 focus:ring-blue-500" 
+          placeholder="Content"
+        />
+        <button 
+          type="submit" 
+          className="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition"
+        >
+          Update Changes
+        </button>
       </form>
     </div>
   );

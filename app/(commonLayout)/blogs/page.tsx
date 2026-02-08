@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Hero from "../../components/Hero";
-import BlogCard from "../../components/modules/Blog/BlogCard";
+
+import Hero from "@/app/components/Hero";
+import BlogCard from "@/app/components/modules/Blog/BlogCard";
+
 
 export const dynamic = "force-dynamic";
 
