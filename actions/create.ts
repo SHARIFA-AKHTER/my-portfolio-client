@@ -79,8 +79,9 @@ export async function createBlog(data: any) {
 
   const json = await res.json();
   
-  revalidatePath("/dashboard/blog"); 
-  revalidatePath("/blog"); 
+ revalidatePath("/blogs/[id]", "layout");
+  revalidatePath("/blogs"); 
+  revalidatePath("/dashboard/blog");
   revalidatePath("/");
   
   console.log("✅ Blog created successfully:", json);

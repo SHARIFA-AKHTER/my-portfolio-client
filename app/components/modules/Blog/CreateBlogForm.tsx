@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+export const dynamicParams = true; 
+export const dynamic = "force-dynamic";
 
 import { useForm } from "react-hook-form";
 import { useState } from "react";
