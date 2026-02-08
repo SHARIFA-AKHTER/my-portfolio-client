@@ -336,7 +336,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { updateBlogAction } from "./updateBlogAction";
+import { updateBlogAction } from "../updateBlogAction";
 
 
 export default function BlogEditPage() {
