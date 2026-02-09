@@ -148,18 +148,19 @@
 //   );
 // }
 
-
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { use, useEffect, useState } from "react"; // 'use' হুক যোগ করা হয়েছে
+import { useRouter } from "next/navigation";
 import { updateBlog } from "@/actions/blog";
 
-
-export default function BlogEditPage() {
+// props থেকে সরাসরি params গ্রহণ করা হচ্ছে
+export default function BlogEditPage({ params }: { params: Promise<{ blogId: string }> }) {
   const router = useRouter();
-  const params = useParams();
-  const blogIdParam = params.blogId;
+  
+  // ১. params-কে আনর‍্যাপ করা (Next.js 15 Standard)
+  const resolvedParams = use(params);
+  const blogIdParam = resolvedParams.blogId;
 
   const [blog, setBlog] = useState<any>(null);
   const [title, setTitle] = useState("");
@@ -172,13 +173,14 @@ export default function BlogEditPage() {
 
     const fetchBlog = async () => {
       try {
-        const blogIdOrSlug = isNaN(Number(blogIdParam)) ? blogIdParam : Number(blogIdParam);
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogIdOrSlug}`);
+        // ২. API কল করার সময় ID ঠিকমতো পাঠানো
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogIdParam}`, {
+            cache: 'no-store' // ক্যাশ ক্লিয়ার নিশ্চিত করতে
+        });
         
         if (!res.ok) throw new Error("Blog not found");
 
         const data = await res.json();
-       
         const blogData = data.success ? data.blog : data;
 
         setBlog(blogData);
@@ -200,16 +202,9 @@ export default function BlogEditPage() {
     if (!blog) return;
     
     setUpdating(true);
-
     try {
-    
-      const identifier = blog.id || blog.slug; 
-      
-      const payload = {
-        title,
-        content,
-        
-      };
+      const identifier = blog.id || blogIdParam; 
+      const payload = { title, content };
 
       const result = await updateBlog(identifier, payload);
 
@@ -226,56 +221,36 @@ export default function BlogEditPage() {
     }
   };
 
-
   if (loading) return <p className="text-center py-10 text-gray-500 italic">Loading blog data...</p>;
-  
-  if (!blog) return <p className="text-center py-10 text-red-500">❌ Blog not found!</p>;
+  if (!blog) return <p className="text-center py-10 text-red-500">❌ Blog not found! (ID: {blogIdParam})</p>;
 
   return (
-    <form
-      className="p-6 max-w-3xl mx-auto space-y-6 bg-white shadow-lg rounded-xl"
-      onSubmit={handleUpdate}
-    >
+    <form className="p-6 max-w-3xl mx-auto space-y-6 bg-white shadow-lg rounded-xl" onSubmit={handleUpdate}>
       <h2 className="text-2xl font-bold text-center border-b pb-4">
-        Edit Blog: <span className="text-blue-600">#{blog.id ?? "Draft"}</span>
+        Edit Blog: <span className="text-blue-600">#{blog.id ?? blogIdParam}</span>
       </h2>
-
       <div className="flex flex-col gap-2">
         <label className="font-semibold text-gray-700">Title</label>
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none w-full"
-          placeholder="Enter blog title"
+          className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 w-full"
           required
         />
       </div>
-
       <div className="flex flex-col gap-2">
         <label className="font-semibold text-gray-700">Content</label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none w-full min-h-62.5"
-          placeholder="Write your blog content here..."
+          className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 w-full min-h-62.5"
           required
         />
       </div>
-
-      <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
-        <button
-          type="button"
-          onClick={() => router.back()}
-          className="px-6 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition font-medium"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50 font-medium"
-          disabled={updating}
-        >
-          {updating ? "Saving Changes..." : "Update Blog"}
+      <div className="flex justify-end gap-4 pt-4">
+        <button type="button" onClick={() => router.back()} className="px-6 py-2 border rounded-lg">Cancel</button>
+        <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-50" disabled={updating}>
+          {updating ? "Saving..." : "Update Blog"}
         </button>
       </div>
     </form>
