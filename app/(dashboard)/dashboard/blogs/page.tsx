@@ -192,7 +192,7 @@ export default function DashboardBlogsPage() {
                 <td className="px-4 py-2 text-sm font-mono">{blog.slug}</td>
                 <td className="px-4 py-2 flex flex-wrap gap-2">
                   <Link
-                    href={`/dashboard/${blog.id}`}
+                    href={`/dashboard/blogs/${blog.id}`}
                     className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                   >
                     <Edit size={16} /> Edit
