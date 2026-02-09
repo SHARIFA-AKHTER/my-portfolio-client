@@ -34,12 +34,6 @@ export default function DashboardBlogsPage() {
     fetchBlogs();
   }, []);
 
-  // const handleDelete = async (id: number) => {
-
-  //   router.push(`/dashboard/blog/${id}`);
-
-  // };
-
 
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure you want to delete this blog?")) return;
