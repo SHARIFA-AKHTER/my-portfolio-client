@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -333,10 +333,14 @@
 // }
 
 "use client";
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { updateBlog } from "@/actions/blog";
+
 
 export default function BlogEditPage() {
   const router = useRouter();
@@ -418,7 +422,7 @@ export default function BlogEditPage() {
 
     if (result.success) {
       alert(result.message); // "Blog updated successfully"
-      router.push("/dashboard/blog");
+      router.push("/blog");
       router.refresh();
     }
   } catch (err: any) {
