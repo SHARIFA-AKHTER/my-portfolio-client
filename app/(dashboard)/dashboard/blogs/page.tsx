@@ -134,7 +134,7 @@ export default function DashboardBlogsPage() {
           cache: "no-store",
         });
         const data = await res.json();
-        setBlogs(Array.isArray(data) ? data : (data.data ?? []));
+        setBlogs(Array.isArray(data) ? data : data.data ?? []);
       } catch (err) {
         console.error(err);
       } finally {
@@ -157,7 +157,8 @@ export default function DashboardBlogsPage() {
     }
   };
 
-  if (loading) return <p className="text-center py-10">Loading...</p>;
+  if (loading)
+    return <p className="text-center py-10 text-gray-500">Loading...</p>;
 
   return (
     <div className="p-4 sm:p-6">
@@ -165,32 +166,40 @@ export default function DashboardBlogsPage() {
         Manage Blogs
       </h1>
 
-      <div className="overflow-x-auto">
-        <table className="w-full border border-gray-300 rounded-lg min-w-125">
-          <thead className="bg-gray-200">
+      <div className="overflow-x-auto shadow rounded-lg">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-100">
             <tr>
-              <th className="px-3 py-2 text-left">ID</th>
-              <th className="px-3 py-2 text-left">Title</th>
-              <th className="px-3 py-2 text-left">Slug</th>
-              <th className="px-3 py-2 text-left">Actions</th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                ID
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                Title
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                Slug
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                Actions
+              </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-gray-200">
             {blogs.map((blog) => (
               <tr key={blog.id} className="hover:bg-gray-50">
-                <td className="px-3 py-2">{blog.id}</td>
-                <td className="px-3 py-2">{blog.title}</td>
-                <td className="px-3 py-2">{blog.slug}</td>
-                <td className="px-3 py-2 flex flex-wrap gap-2">
+                <td className="px-4 py-2 text-sm">{blog.id}</td>
+                <td className="px-4 py-2 text-sm font-medium">{blog.title}</td>
+                <td className="px-4 py-2 text-sm font-mono">{blog.slug}</td>
+                <td className="px-4 py-2 flex flex-wrap gap-2">
                   <Link
                     href={`/dashboard/blogs/${blog.id}`}
-                    className="flex items-center gap-1 px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                   >
                     <Edit size={16} /> Edit
                   </Link>
                   <button
                     onClick={() => handleDelete(blog.id)}
-                    className="flex items-center gap-1 px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                    className="flex items-center gap-1 px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition"
                   >
                     <Trash2 size={16} /> Delete
                   </button>

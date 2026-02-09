@@ -148,10 +148,11 @@
 //   );
 // }
 
+
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { updateBlog } from "@/actions/blog";
 
 export default function BlogEditPage() {
@@ -169,16 +170,20 @@ export default function BlogEditPage() {
     if (!blogId || isNaN(blogId)) return;
 
     const fetchBlog = async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`,
-      );
-      const result = await res.json();
-      const blogData = result.success ? result.blog : result;
-
-      setBlog(blogData);
-      setTitle(blogData.title || "");
-      setContent(blogData.content || "");
-      setLoading(false);
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`);
+        if (!res.ok) throw new Error("Blog not found");
+        const data = await res.json();
+        const blogData = data.success ? data.blog : data;
+        setBlog(blogData);
+        setTitle(blogData.title || "");
+        setContent(blogData.content || "");
+      } catch (err) {
+        console.error(err);
+        setBlog(null);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchBlog();
@@ -187,7 +192,6 @@ export default function BlogEditPage() {
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setUpdating(true);
-
     const payload = {
       title,
       content,
@@ -196,26 +200,20 @@ export default function BlogEditPage() {
       coverUrl: blog.coverUrl || "",
       published: true,
     };
-
     const result = await updateBlog(blogId, payload);
     if (result.success) {
-      alert("Updated!");
+      alert("Updated successfully!");
       router.push("/dashboard/blogs");
       router.refresh();
     }
-
     setUpdating(false);
   };
 
-  if (loading) return <p className="text-center py-10">Loading...</p>;
-  if (!blog)
-    return <p className="text-center py-10 text-red-500">Blog not found</p>;
+  if (loading) return <p className="text-center py-10 text-gray-500">Loading...</p>;
+  if (!blog) return <p className="text-center py-10 text-red-500">Blog not found</p>;
 
   return (
-    <form
-      onSubmit={handleUpdate}
-      className="p-6 max-w-3xl mx-auto space-y-6 sm:p-8 bg-white shadow-lg rounded-xl"
-    >
+    <form className="p-6 max-w-3xl mx-auto space-y-6 bg-white shadow-lg rounded-xl" onSubmit={handleUpdate}>
       <h2 className="text-2xl font-bold text-center">Edit Blog #{blogId}</h2>
 
       <div className="flex flex-col gap-4">
