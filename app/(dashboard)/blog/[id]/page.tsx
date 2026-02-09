@@ -416,6 +416,7 @@ export default function BlogEditPage() {
       slug: blog.slug,
       excerpt: blog.excerpt || "",
       coverUrl: blog.coverUrl || "",
+      published: true,
     };
 
     const result = await updateBlog(blogId, payload);
