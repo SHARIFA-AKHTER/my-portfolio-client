@@ -280,7 +280,7 @@ export default function DashboardBlogsPage() {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Manage Blogs</h1>
         <Link 
-          href="/dashboard/dashboard/create-blog" 
+          href="/dashboard/create-blog" 
           className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
         >
           + Create New
@@ -308,7 +308,7 @@ export default function DashboardBlogsPage() {
                     <div className="flex justify-end gap-3">
                       
                       <Link
-                        href={`/dashboard/blogs/${blog.id}`}
+                        href={`/dashboard/manage-blogs/${blog.id}`}
                         className="flex items-center gap-1 px-3 py-1.5 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 transition"
                       >
                         <Edit size={14} /> Edit

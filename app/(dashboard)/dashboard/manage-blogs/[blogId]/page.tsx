@@ -215,7 +215,7 @@ export default function BlogEditPage() {
 
       if (result) { 
         alert("✅ Updated successfully!");
-        router.push("/dashboard/blogs");
+        router.push("/dashboard/manage-blogs");
         router.refresh(); 
       }
     } catch (err: any) {
