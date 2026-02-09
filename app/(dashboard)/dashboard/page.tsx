@@ -34,28 +34,6 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
 
-  // useEffect(() => {
-  //   const storedUser = localStorage.getItem("user");
-  //   if (storedUser) setUser(JSON.parse(storedUser));
-
-  //   const fetchStats = async () => {
-  //     try {
-  //       const res = await fetch(
-  //         `${process.env.NEXT_PUBLIC_BASE_API}/analytics/stats`,
-  //       );
-  //       const result = await res.json();
-  //       if (result.success) {
-  //         setStats(result.data);
-  //       }
-  //     } catch (error) {
-  //       console.error("Failed to fetch stats:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchStats();
-  // }, []);
-
   useEffect(() => {
 
     const storedUser = localStorage.getItem("user");
