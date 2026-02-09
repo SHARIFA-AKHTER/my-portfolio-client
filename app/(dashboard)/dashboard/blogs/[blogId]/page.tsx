@@ -170,7 +170,7 @@ export default function BlogEditPage() {
 
     const fetchBlog = async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`,
+        `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`,
       );
       const result = await res.json();
       const blogData = result.success ? result.blog : result;

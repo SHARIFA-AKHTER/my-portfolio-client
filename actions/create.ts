@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use server";
 
-import { revalidatePath } from "next/cache";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { cookies } from "next/headers";
 
 export async function createBlog(data: any) {
@@ -35,9 +35,9 @@ export async function createBlog(data: any) {
   }
 
   const json = await res.json();
-  revalidatePath("/blogs");
-  revalidatePath("/dashboard/blogs");
-  revalidatePath("/");
+  // revalidatePath("/blogs");
+  // revalidatePath("/dashboard/blogs");
+  // revalidatePath("/");
 
   console.log("✅ Blog created successfully:", json);
   return json;

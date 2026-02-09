@@ -130,7 +130,7 @@ export default function DashboardBlogsPage() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`, {
           cache: "no-store",
         });
         const data = await res.json();
@@ -147,7 +147,7 @@ export default function DashboardBlogsPage() {
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this blog?")) return;
     const token = localStorage.getItem("token");
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });

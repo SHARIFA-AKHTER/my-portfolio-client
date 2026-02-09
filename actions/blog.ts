@@ -105,11 +105,11 @@
 //   }
 // }
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use server";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 
 async function getAuthHeaders() {
   const cookieStore = await cookies();
@@ -137,11 +137,11 @@ export async function updateBlog(blogId: number, data: any) {
     const result = await res.json();
 
     if (res.ok && result.success === true) {
-      revalidatePath("/blogs"); // public list
-      revalidatePath(`/blogs/${blogId}`); // public single
+      // revalidatePath("/blogs"); // public list
+      // revalidatePath(`/blogs/${blogId}`); // public single
 
-      revalidatePath("/dashboard/blogs"); // admin table
-      revalidatePath(`/dashboard/blogs/${blogId}`); // admin edit
+      // revalidatePath("/dashboard/blogs"); // admin table
+      // revalidatePath(`/dashboard/blogs/${blogId}`); // admin edit
 
       return result;
     } else {
@@ -168,9 +168,9 @@ export async function deleteBlog(blogId: number) {
     const result = await res.json();
     if (!res.ok) throw new Error(result.message || "Blog delete failed");
 
-    revalidatePath("/blogs");
-    revalidatePath("/dashboard/blogs");
-    revalidatePath("/");
+    // revalidatePath("/blogs");
+    // revalidatePath("/dashboard/blogs");
+    // revalidatePath("/");
 
     return result;
   } catch (err: any) {
@@ -192,7 +192,7 @@ export async function incrementBlogView(blogId: number) {
     if (!res.ok) throw new Error("Failed to increment views");
     const json = await res.json();
 
-    revalidatePath(`/blogs/${blogId}`);
+    // revalidatePath(`/blogs/${blogId}`);
 
     return json.blog;
   } catch (err: any) {
