@@ -34,12 +34,11 @@
 //     fetchBlogs();
 //   }, []);
 
-
 //   const handleDelete = async (id: number) => {
 //     if (!confirm("Are you sure you want to delete this blog?")) return;
 
 //     try {
-//       const token = localStorage.getItem("token"); 
+//       const token = localStorage.getItem("token");
 //       const res = await fetch(
 //         `${process.env.NEXT_PUBLIC_BASE_API}/blog/${id}`,
 //         {
@@ -112,7 +111,6 @@
 //   );
 // }
 
-
 "use client";
 
 import Link from "next/link";
@@ -132,11 +130,11 @@ export default function DashboardBlogsPage() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs`, {
           cache: "no-store",
         });
         const data = await res.json();
-        setBlogs(Array.isArray(data) ? data : data.data ?? []);
+        setBlogs(Array.isArray(data) ? data : (data.data ?? []));
       } catch (err) {
         console.error(err);
       } finally {
@@ -148,62 +146,60 @@ export default function DashboardBlogsPage() {
 
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this blog?")) return;
-
     const token = localStorage.getItem("token");
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/blog/${id}`,
-      {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (res.ok) {
       setBlogs((prev) => prev.filter((b) => b.id !== id));
       alert("Deleted!");
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p className="text-center py-10">Loading...</p>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Manage Blogs</h1>
+    <div className="p-4 sm:p-6">
+      <h1 className="text-3xl font-bold mb-6 text-center sm:text-left">
+        Manage Blogs
+      </h1>
 
-      <table className="w-full border">
-        <thead className="bg-gray-200">
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Slug</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {blogs.map((blog) => (
-            <tr key={blog.id}>
-              <td>{blog.id}</td>
-              <td>{blog.title}</td>
-              <td>{blog.slug}</td>
-              <td className="flex gap-2">
-                <Link
-                  href={`/dashboard/blogs/${blog.id}`}
-                  className="bg-blue-600 text-white px-2 py-1 rounded"
-                >
-                  <Edit size={16} /> Edit
-                </Link>
-
-                <button
-                  onClick={() => handleDelete(blog.id)}
-                  className="bg-red-600 text-white px-2 py-1 rounded"
-                >
-                  <Trash2 size={16} /> Delete
-                </button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="w-full border border-gray-300 rounded-lg min-w-125">
+          <thead className="bg-gray-200">
+            <tr>
+              <th className="px-3 py-2 text-left">ID</th>
+              <th className="px-3 py-2 text-left">Title</th>
+              <th className="px-3 py-2 text-left">Slug</th>
+              <th className="px-3 py-2 text-left">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {blogs.map((blog) => (
+              <tr key={blog.id} className="hover:bg-gray-50">
+                <td className="px-3 py-2">{blog.id}</td>
+                <td className="px-3 py-2">{blog.title}</td>
+                <td className="px-3 py-2">{blog.slug}</td>
+                <td className="px-3 py-2 flex flex-wrap gap-2">
+                  <Link
+                    href={`/dashboard/blogs/${blog.id}`}
+                    className="flex items-center gap-1 px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  >
+                    <Edit size={16} /> Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(blog.id)}
+                    className="flex items-center gap-1 px-2 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                  >
+                    <Trash2 size={16} /> Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

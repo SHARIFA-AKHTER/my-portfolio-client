@@ -1,5 +1,3 @@
-
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -159,8 +157,7 @@ import { updateBlog } from "@/actions/blog";
 export default function BlogEditPage() {
   const router = useRouter();
   const params = useParams();
-
-  const blogId = Number(params.blogId); 
+  const blogId = Number(params.blogId);
 
   const [blog, setBlog] = useState<any>(null);
   const [title, setTitle] = useState("");
@@ -173,7 +170,7 @@ export default function BlogEditPage() {
 
     const fetchBlog = async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`
+        `${process.env.NEXT_PUBLIC_BASE_API}/blogs/${blogId}`,
       );
       const result = await res.json();
       const blogData = result.success ? result.blog : result;
@@ -201,7 +198,6 @@ export default function BlogEditPage() {
     };
 
     const result = await updateBlog(blogId, payload);
-
     if (result.success) {
       alert("Updated!");
       router.push("/dashboard/blogs");
@@ -211,30 +207,51 @@ export default function BlogEditPage() {
     setUpdating(false);
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (!blog) return <p>Blog not found</p>;
+  if (loading) return <p className="text-center py-10">Loading...</p>;
+  if (!blog)
+    return <p className="text-center py-10 text-red-500">Blog not found</p>;
 
   return (
-    <form onSubmit={handleUpdate} className="p-6 max-w-2xl mx-auto space-y-4">
-      <h2 className="text-2xl font-bold">Edit Blog #{blogId}</h2>
+    <form
+      onSubmit={handleUpdate}
+      className="p-6 max-w-3xl mx-auto space-y-6 sm:p-8 bg-white shadow-lg rounded-xl"
+    >
+      <h2 className="text-2xl font-bold text-center">Edit Blog #{blogId}</h2>
 
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="border w-full p-2"
-      />
+      <div className="flex flex-col gap-4">
+        <label className="font-semibold">Title</label>
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none w-full"
+        />
+      </div>
 
-      <textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        className="border w-full p-2 h-48"
-      />
+      <div className="flex flex-col gap-4">
+        <label className="font-semibold">Content</label>
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          className="border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none w-full min-h-[200px] sm:min-h-[300px]"
+        />
+      </div>
 
-      <button className="bg-blue-600 text-white px-4 py-2 rounded">
-        {updating ? "Updating..." : "Update"}
-      </button>
+      <div className="flex flex-col sm:flex-row justify-end gap-4">
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="px-4 py-2 rounded-lg border hover:bg-gray-100 transition"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50"
+          disabled={updating}
+        >
+          {updating ? "Updating..." : "Update"}
+        </button>
+      </div>
     </form>
   );
 }
-
-
