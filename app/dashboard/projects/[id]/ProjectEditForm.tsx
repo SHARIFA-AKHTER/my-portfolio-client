@@ -117,7 +117,7 @@ export default function ProjectEditForm({ project, projectId }: { project: any, 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  // ইনিশিয়াল স্টেট সেটআপ (Data Formatting সহ)
+ 
   const [formData, setFormData] = useState({
     title: project?.title || "",
     slug: project?.slug || "",
@@ -136,15 +136,14 @@ export default function ProjectEditForm({ project, projectId }: { project: any, 
     const loadingToast = toast.loading("Updating project...");
 
     try {
-      // আইডি-কে Number এ কনভার্ট করা (নিরাপত্তার জন্য)
+      
       const numericId = Number(projectId);
       
-      // সার্ভার অ্যাকশন কল
+     
       await updateProjectAction(numericId, formData);
       
       toast.success("✅ Project updated successfully!", { id: loadingToast });
-      
-      // ড্যাশবোর্ডে পাঠানো এবং ডাটা রিফ্রেশ করা
+ 
       router.push("/dashboard/projects");
       router.refresh(); 
     } catch (err: any) {

@@ -1,6 +1,8 @@
+
+
 export const dynamic = "force-dynamic";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getContacts } from "../../../../actions/getContacts";
+import { getContacts } from "@/actions/getContacts";
 
 export default async function DashboardContacts() {
   let contacts: any[] = [];
