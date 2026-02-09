@@ -1,7 +1,6 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-export const dynamicParams = true; 
 export const dynamic = "force-dynamic";
 
 import { useForm } from "react-hook-form";
@@ -34,7 +33,7 @@ export default function CreateBlogForm() {
 
       toast.success("✅ Blog created successfully!");
       reset();
-      // setTimeout(() => router.push("/dashboard/blog"), 1500);
+      
       setTimeout(() => router.push("/dashboard/blogs"), 1500);
     } catch (err: any) {
       toast.error(err?.message || "Failed to create blog ❌");
