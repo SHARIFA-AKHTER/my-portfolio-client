@@ -1,10 +1,9 @@
+export const dynamic = "force-dynamic";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import Hero from "@/app/components/Hero";
 import BlogCard from "@/app/components/modules/Blog/BlogCard";
 
-
-export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   let blogs: any[] = [];

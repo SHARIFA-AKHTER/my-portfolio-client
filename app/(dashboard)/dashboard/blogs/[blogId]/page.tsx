@@ -71,7 +71,7 @@
 
 //     const result = await updateBlog(blog.id, updatedPayload);
 //     alert(result.message || "Blog updated successfully!");
-//     router.push("/dashboard/blog");
+//     router.push("/dashboard/blogs");
 //     router.refresh();
 //   } catch (err: any) {
 //     alert(err.message || "Failed to update blog");
@@ -88,7 +88,7 @@
 //     try {
 //       const result = await deleteBlog(blog.id);
 //       alert(result.message || "Blog deleted successfully!");
-//       router.push("/dashboard/blog");
+//       router.push("/dashboard/blogs");
 
 //     } catch (err: any) {
 //       console.error("Delete Error:", err);
@@ -198,7 +198,8 @@ export default function BlogEditPage() {
       slug: blog.slug,
       excerpt: blog.excerpt || "",
       coverUrl: blog.coverUrl || "",
-      published: true,
+      // published: true,
+      published: blog.published,
     };
     const result = await updateBlog(blogId, payload);
     if (result.success) {

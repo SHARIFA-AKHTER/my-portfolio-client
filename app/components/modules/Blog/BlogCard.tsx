@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { Calendar, ArrowRight } from "lucide-react";
 
 export default function BlogCard({ post }: { post: any }) {
-  const blogLink = `/blogs/${post.id}`;
+  const blogLink = `/blogs/${post.slug ?? post.id}`;
 
   return (
     <motion.div
