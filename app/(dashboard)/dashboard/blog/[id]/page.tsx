@@ -482,15 +482,15 @@
 //     </div>
 //   );
 // }
-
 "use client";
 
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { updateBlog} from "@/actions/blog"
+import { updateBlog } from "@/actions/blog"; 
 import { getBlogById } from "@/services/BlogServices";
 
 export default function BlogEditPage({ params }: { params: Promise<{ id: string }> }) {
+
   const resolvedParams = use(params);
   const blogId = resolvedParams.id; 
   
@@ -500,13 +500,13 @@ export default function BlogEditPage({ params }: { params: Promise<{ id: string 
   const [blogData, setBlogData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     const fetchBlog = async () => {
       try {
+     
         const result = await getBlogById(blogId); 
         
-
+     
         const data = result.success ? result.blog : result; 
         
         if (data) {
@@ -539,12 +539,12 @@ export default function BlogEditPage({ params }: { params: Promise<{ id: string 
       const res = await updateBlog(Number(blogId), payload);
       
       if (res && res.success) {
-        alert("Blog updated successfully!");
+        alert("Success: Blog updated successfully!");
         router.push("/dashboard/blog");
         router.refresh();
       }
     } catch (err) {
-      alert("Something went wrong during update.");
+      alert("Update failed!");
     }
   };
 
@@ -558,19 +558,14 @@ export default function BlogEditPage({ params }: { params: Promise<{ id: string 
           value={title} 
           onChange={(e) => setTitle(e.target.value)} 
           className="border p-3 w-full rounded shadow-sm outline-none focus:ring-2 focus:ring-blue-500" 
-          placeholder="Title"
         />
         <textarea 
           value={content} 
           onChange={(e) => setContent(e.target.value)} 
           className="border p-3 w-full h-72 rounded shadow-sm outline-none focus:ring-2 focus:ring-blue-500" 
-          placeholder="Content"
         />
-        <button 
-          type="submit" 
-          className="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition"
-        >
-          Update Changes
+        <button type="submit" className="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold">
+          Update Blog
         </button>
       </form>
     </div>
