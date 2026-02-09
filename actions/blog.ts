@@ -105,7 +105,6 @@
 //   }
 // }
 
-
 "use server";
 import { revalidatePath } from "next/cache";
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -138,7 +137,8 @@ export async function updateBlog(blogIdOrSlug: string | number, data: any) {
     const result = await res.json();
 
     if (res.ok && result.success) {
-      revalidatePath("/dashboard/blogs");
+      revalidatePath("/dashboard/manage-blogs");
+      revalidatePath(`/dashboard/manage-blogs/${blogIdOrSlug}`);
       return result;
     } else {
       throw new Error(result.message || "Update failed");
