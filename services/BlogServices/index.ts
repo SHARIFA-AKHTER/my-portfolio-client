@@ -7,6 +7,15 @@ export const getBlogById = async (idOrSlug: string) => {
   return await res.json();
 };
 
+// export const getBlogById = async (idOrSlug: string) => {
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${idOrSlug}`);
+//   const data = await res.json();
+//   if (!data.success) return null;
+//   return data.blog; 
+// };
+
+
+
 //ami sorasori projectDetails a fetch koresi tai akana off raklam
 // export const getProjectById = async (id: string | number) => {
 //   try {

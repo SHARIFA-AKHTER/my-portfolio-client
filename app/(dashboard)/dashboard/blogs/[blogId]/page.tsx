@@ -155,10 +155,11 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { updateBlog } from "@/actions/blog";
 
+
 export default function BlogEditPage() {
   const router = useRouter();
   const params = useParams();
-  const blogId = Number(params.blogId);
+  const blogIdParam = params.blogId;
 
   const [blog, setBlog] = useState<any>(null);
   const [title, setTitle] = useState("");
@@ -167,19 +168,24 @@ export default function BlogEditPage() {
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    if (!blogId || isNaN(blogId)) return;
+    if (!blogIdParam) return;
 
     const fetchBlog = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`);
+        const blogIdOrSlug = isNaN(Number(blogIdParam)) ? blogIdParam : Number(blogIdParam);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogIdOrSlug}`);
+        
         if (!res.ok) throw new Error("Blog not found");
+
         const data = await res.json();
+       
         const blogData = data.success ? data.blog : data;
+
         setBlog(blogData);
         setTitle(blogData.title || "");
         setContent(blogData.content || "");
       } catch (err) {
-        console.error(err);
+        console.error("Fetch blog error:", err);
         setBlog(null);
       } finally {
         setLoading(false);
@@ -187,71 +193,91 @@ export default function BlogEditPage() {
     };
 
     fetchBlog();
-  }, [blogId]);
+  }, [blogIdParam]);
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!blog) return;
+    
     setUpdating(true);
-    const payload = {
-      title,
-      content,
-      slug: blog.slug,
-      excerpt: blog.excerpt || "",
-      coverUrl: blog.coverUrl || "",
-      // published: true,
-      published: blog.published,
-    };
-    const result = await updateBlog(blogId, payload);
-    if (result.success) {
-      alert("Updated successfully!");
-      router.push("/dashboard/blogs");
-      router.refresh();
+
+    try {
+    
+      const identifier = blog.id || blog.slug; 
+      
+      const payload = {
+        title,
+        content,
+        
+      };
+
+      const result = await updateBlog(identifier, payload);
+
+      if (result) { 
+        alert("✅ Updated successfully!");
+        router.push("/dashboard/blogs");
+        router.refresh(); 
+      }
+    } catch (err: any) {
+      console.error("Update error:", err);
+      alert(err.message || "Failed to update blog");
+    } finally {
+      setUpdating(false);
     }
-    setUpdating(false);
   };
 
-  if (loading) return <p className="text-center py-10 text-gray-500">Loading...</p>;
-  if (!blog) return <p className="text-center py-10 text-red-500">Blog not found</p>;
+
+  if (loading) return <p className="text-center py-10 text-gray-500 italic">Loading blog data...</p>;
+  
+  if (!blog) return <p className="text-center py-10 text-red-500">❌ Blog not found!</p>;
 
   return (
-    <form className="p-6 max-w-3xl mx-auto space-y-6 bg-white shadow-lg rounded-xl" onSubmit={handleUpdate}>
-      <h2 className="text-2xl font-bold text-center">Edit Blog #{blogId}</h2>
+    <form
+      className="p-6 max-w-3xl mx-auto space-y-6 bg-white shadow-lg rounded-xl"
+      onSubmit={handleUpdate}
+    >
+      <h2 className="text-2xl font-bold text-center border-b pb-4">
+        Edit Blog: <span className="text-blue-600">#{blog.id ?? "Draft"}</span>
+      </h2>
 
-      <div className="flex flex-col gap-4">
-        <label className="font-semibold">Title</label>
+      <div className="flex flex-col gap-2">
+        <label className="font-semibold text-gray-700">Title</label>
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none w-full"
+          className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none w-full"
+          placeholder="Enter blog title"
+          required
         />
       </div>
 
-      <div className="flex flex-col gap-4">
-        <label className="font-semibold">Content</label>
+      <div className="flex flex-col gap-2">
+        <label className="font-semibold text-gray-700">Content</label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none w-full min-h-[200px] sm:min-h-[300px]"
+          className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none w-full min-h-[250px]"
+          placeholder="Write your blog content here..."
+          required
         />
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-end gap-4">
+      <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
         <button
           type="button"
           onClick={() => router.back()}
-          className="px-4 py-2 rounded-lg border hover:bg-gray-100 transition"
+          className="px-6 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition font-medium"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50"
+          className="px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50 font-medium"
           disabled={updating}
         >
-          {updating ? "Updating..." : "Update"}
+          {updating ? "Saving Changes..." : "Update Blog"}
         </button>
       </div>
     </form>
   );
 }
-

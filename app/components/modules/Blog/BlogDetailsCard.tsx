@@ -10,6 +10,7 @@ export default function BlogDetailsCard({ blog }: { blog: any }) {
 
   useEffect(() => {
     const updateViews = async () => {
+      if (!blog.id) return;
       const updatedBlog = await incrementBlogView(blog.id);
       if (updatedBlog) {
         setViews(updatedBlog.views);
