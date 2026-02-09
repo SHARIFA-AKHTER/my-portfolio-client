@@ -256,7 +256,7 @@ export default function BlogEditPage() {
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none w-full min-h-[250px]"
+          className="border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none w-full min-h-62.5"
           placeholder="Write your blog content here..."
           required
         />
