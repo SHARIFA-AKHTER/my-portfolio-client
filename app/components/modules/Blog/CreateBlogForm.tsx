@@ -35,7 +35,7 @@ export default function CreateBlogForm() {
       toast.success("✅ Blog created successfully!");
       reset();
       // setTimeout(() => router.push("/dashboard/blog"), 1500);
-      setTimeout(() => router.push("/blog"), 1500);
+      setTimeout(() => router.push("/dashboard/blogs"), 1500);
     } catch (err: any) {
       toast.error(err?.message || "Failed to create blog ❌");
     } finally {

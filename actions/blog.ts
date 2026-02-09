@@ -123,23 +123,26 @@ async function getAuthHeaders() {
 // ✅ Update Blog
 export async function updateBlog(blogId: number, data: any) {
   try {
-    const headers = await getAuthHeaders(); 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`, {
-      method: "PUT",
-      headers,
-      body: JSON.stringify(data),
-    });
+    const headers = await getAuthHeaders();
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`,
+      {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(data),
+      },
+    );
 
     const result = await res.json();
 
     if (res.ok && result.success === true) {
+      revalidatePath("/blogs"); // public list
+      revalidatePath(`/blogs/${blogId}`); // public single
 
-      revalidatePath("/dashboard/blog"); 
-      revalidatePath(`/dashboard/blog/${blogId}`); 
-      revalidatePath("/blogs");
-      revalidatePath(`/blogs/${blogId}`); 
-      
-      return result; 
+      revalidatePath("/dashboard/blogs"); // admin table
+      revalidatePath(`/dashboard/blogs/${blogId}`); // admin edit
+
+      return result;
     } else {
       throw new Error(result.message || "Update failed");
     }
@@ -153,18 +156,21 @@ export async function updateBlog(blogId: number, data: any) {
 export async function deleteBlog(blogId: number) {
   try {
     const headers = await getAuthHeaders();
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`, {
-      method: "DELETE",
-      headers,
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}`,
+      {
+        method: "DELETE",
+        headers,
+      },
+    );
 
     const result = await res.json();
     if (!res.ok) throw new Error(result.message || "Blog delete failed");
 
-    revalidatePath("/dashboard/blog");
     revalidatePath("/blogs");
+    revalidatePath("/dashboard/blogs");
     revalidatePath("/");
-    
+
     return result;
   } catch (err: any) {
     console.error("⚠️ deleteBlog Error:", err.message);
@@ -175,15 +181,18 @@ export async function deleteBlog(blogId: number) {
 // ✅ Increment Blog View
 export async function incrementBlogView(blogId: number) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}/view`, {
-      method: "PATCH",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}/view`,
+      {
+        method: "PATCH",
+      },
+    );
 
     if (!res.ok) throw new Error("Failed to increment views");
     const json = await res.json();
-    
+
     revalidatePath(`/blogs/${blogId}`);
-    
+
     return json.blog;
   } catch (err: any) {
     return null;

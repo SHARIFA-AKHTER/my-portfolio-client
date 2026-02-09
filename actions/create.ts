@@ -1,11 +1,10 @@
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function createBlog(data: any) {
-
   const cookieStore = cookies();
   const token = (await cookieStore).get("token")?.value;
 
@@ -36,10 +35,13 @@ export async function createBlog(data: any) {
   }
 
   const json = await res.json();
+  revalidatePath("/blogs");
+  revalidatePath("/dashboard/blogs");
+  revalidatePath("/");
+
   console.log("✅ Blog created successfully:", json);
   return json;
 }
-
 
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 // "use server";
@@ -78,12 +80,12 @@ export async function createBlog(data: any) {
 //   }
 
 //   const json = await res.json();
-  
+
 //  revalidatePath("/blogs/[id]", "layout");
-//   revalidatePath("/blogs"); 
+//   revalidatePath("/blogs");
 //   revalidatePath("/dashboard/blog");
 //   revalidatePath("/");
-  
+
 //   console.log("✅ Blog created successfully:", json);
 //   return json;
 // }

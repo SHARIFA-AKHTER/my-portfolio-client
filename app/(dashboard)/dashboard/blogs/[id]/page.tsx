@@ -333,9 +333,6 @@
 // }
 
 "use client";
-export const dynamic = "force-dynamic";
-export const dynamicParams = true;
-
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
@@ -378,31 +375,6 @@ export default function BlogEditPage() {
     fetchBlog();
   }, [blogId]);
 
-  // const handleUpdate = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   if (!blogId) return;
-
-  //   setUpdating(true);
-  //   try {
-  //     const payload = {
-  //       title,
-  //       content,
-  //       slug: blog.slug,
-  //     };
-
-  //     const result = await updateBlog(blogId, payload);
-
-  //     if (result) {
-  //       alert("Success: Blog updated using Server Action!");
-  //       router.push("/dashboard/blog");
-  //     }
-  //   } catch (err: any) {
-  //     alert(err.message || "Update failed");
-  //   } finally {
-  //     setUpdating(false);
-  //   }
-  // };
-
   const handleUpdate = async (e: React.FormEvent) => {
   e.preventDefault();
   if (!blogId || !blog) return;
@@ -422,8 +394,8 @@ export default function BlogEditPage() {
     const result = await updateBlog(blogId, payload);
 
     if (result.success) {
-      alert(result.message); // "Blog updated successfully"
-      router.push("/blog");
+      alert(result.message); 
+      router.push("/dashboard/blogs");
       router.refresh();
     }
   } catch (err: any) {
@@ -485,105 +457,3 @@ export default function BlogEditPage() {
     </div>
   );
  }
-
-// "use client";
-// export const dynamic = "force-dynamic";
-// export const dynamicParams = true;
-
-// import { use, useEffect, useState } from "react";
-// import { useRouter } from "next/navigation";
-// import { updateBlog } from "@/actions/blog";
-
-
-// export default function BlogEditPage({
-//   params,
-// }: {
-//   params: Promise<{ id: string }>;
-// }) {
-//   const resolvedParams = use(params);
-//   const blogId = resolvedParams.id;
-
-//   const router = useRouter();
-//   const [title, setTitle] = useState("");
-//   const [content, setContent] = useState("");
-//   const [blogData, setBlogData] = useState<any>(null);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     const fetchBlog = async () => {
-//       try {
-//         const res = await fetch(
-//           `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}?v=${Date.now()}`,
-//           {
-//             cache: "no-store",
-//           },
-//         );
-//         const result = await res.json();
-
-//         const data = result.success ? result.blog : result;
-//         if (data) {
-//           setBlogData(data);
-//           setTitle(data.title || "");
-//           setContent(data.content || "");
-//         }
-//       } catch (err) {
-//         console.error("Error fetching blog:", err);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchBlog();
-//   }, [blogId]);
-
-//   const handleUpdate = async (e: React.FormEvent) => {
-//     e.preventDefault();
-//     if (!blogData) return;
-
-//     try {
-//       const payload = {
-//         title,
-//         content,
-//         slug: blogData.slug,
-//         excerpt: blogData.excerpt,
-//         coverUrl: blogData.coverUrl,
-//       };
-
-//       const res = await updateBlog(Number(blogId), payload);
-
-//       if (res && res.success) {
-//         alert("Success: Blog updated successfully!");
-//         router.push("/dashboard/blog");
-//         router.refresh();
-//       }
-//     } catch (err) {
-//       alert("Update failed!");
-//     }
-//   };
-
-//   if (loading)
-//     return <p className="p-10 text-center font-bold">Loading blog data...</p>;
-
-//   return (
-//     <div className="p-6 max-w-2xl mx-auto">
-//       <h1 className="text-2xl font-bold mb-6">Edit Blog Post #{blogId}</h1>
-//       <form onSubmit={handleUpdate} className="space-y-4">
-//         <input
-//           value={title}
-//           onChange={(e) => setTitle(e.target.value)}
-//           className="border p-3 w-full rounded shadow-sm outline-none focus:ring-2 focus:ring-blue-500"
-//         />
-//         <textarea
-//           value={content}
-//           onChange={(e) => setContent(e.target.value)}
-//           className="border p-3 w-full h-72 rounded shadow-sm outline-none focus:ring-2 focus:ring-blue-500"
-//         />
-//         <button
-//           type="submit"
-//           className="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold"
-//         >
-//           Update Blog
-//         </button>
-//       </form>
-//     </div>
-//   );
-// }
