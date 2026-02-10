@@ -9,42 +9,43 @@ type Props = {
 };
 
 
-// export const generateStaticParams = async () => {
-//   try {
-//     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`);
-//     if (!res.ok) return [];
-
-//     const result = await res.json();
-//     const blogs = Array.isArray(result) ? result : result.data ?? [];
-
-//     return blogs.slice(0, 10).map((blog: any) => ({
-//       blogId: String(blog.id ?? blog._id),
-//     }));
-//   } catch (error) {
-//     console.error("Error in generateStaticParams:", error);
-//     return [];
-//   }
-// };
 export const generateStaticParams = async () => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`, {
-      next: { revalidate: 60 }, 
-    });
-
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`);
     if (!res.ok) return [];
 
-    const blogs = await res.json();
+    const result = await res.json();
+    const blogs = Array.isArray(result) ? result : result.data ?? [];
 
-    return blogs.map((blog: any) => ({
-      blogId: blog.slug ?? String(blog.id), 
+    return blogs.slice(0, 10).map((blog: any) => ({
+      blogId: String(blog.id ?? blog._id),
     }));
   } catch (error) {
-    console.error("generateStaticParams error:", error);
+    console.error("Error in generateStaticParams:", error);
     return [];
   }
 };
+// export const generateStaticParams = async () => {
+//   try {
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`, {
+//       next: { revalidate: 60 }, 
+//     });
 
+//     if (!res.ok) return [];
 
+//     const data = await res.json();
+    
+    
+//     const blogs = Array.isArray(data) ? data : (data.blogs || data.data || []);
+
+//     return blogs.map((blog: any) => ({
+//       blogId: String(blog.id),
+//     }));
+//   } catch (error) {
+//     console.error("generateStaticParams error:", error);
+//     return [];
+//   }
+// };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { blogId } = await params;
   const blog = await getBlogById(blogId);
