@@ -171,21 +171,28 @@ export async function deleteBlog(blogIdOrSlug: string | number) {
   }
 }
 
-// Increment Blog View (id only)
 export async function incrementBlogView(blogId: number) {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogId}/view`,
       {
         method: "PATCH",
-      },
+        cache: "no-store",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
 
-    if (!res.ok) throw new Error("Failed to increment views");
+    if (!res.ok) {
+      console.error("View increment failed status:", res.status);
+      return null;
+    }
+    
     const json = await res.json();
-
-    return json.blog;
-  } catch (err: any) {
+    return json.success ? (json.data || json.blog) : json;
+  } catch (err) {
+    console.error("Increment View Error:", err);
     return null;
   }
 }
