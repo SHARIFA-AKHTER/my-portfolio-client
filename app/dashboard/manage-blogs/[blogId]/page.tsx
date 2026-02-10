@@ -150,15 +150,17 @@
 
 "use client";
 
-import { use, useEffect, useState } from "react"; // 'use' হুক যোগ করা হয়েছে
+import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { updateBlog } from "@/actions/blog";
 
-// props থেকে সরাসরি params গ্রহণ করা হচ্ছে
-export default function BlogEditPage({ params }: { params: Promise<{ blogId: string }> }) {
+export default function BlogEditPage({
+  params,
+}: {
+  params: Promise<{ blogId: string }>;
+}) {
   const router = useRouter();
-  
-  // ১. params-কে আনর‍্যাপ করা (Next.js 15 Standard)
+
   const resolvedParams = use(params);
   const blogIdParam = resolvedParams.blogId;
 
@@ -173,19 +175,22 @@ export default function BlogEditPage({ params }: { params: Promise<{ blogId: str
 
     const fetchBlog = async () => {
       try {
-        // ২. API কল করার সময় ID ঠিকমতো পাঠানো
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogIdParam}`, {
-            cache: 'no-store' // ক্যাশ ক্লিয়ার নিশ্চিত করতে
-        });
-        
-        if (!res.ok) throw new Error("Blog not found");
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogIdParam}`,
+          {
+            cache: "no-store",
+          },
+        );
 
         const data = await res.json();
-        const blogData = data.success ? data.blog : data;
 
-        setBlog(blogData);
-        setTitle(blogData.title || "");
-        setContent(blogData.content || "");
+        if (data.success && data.blog) {
+          setBlog(data.blog);
+          setTitle(data.blog.title || "");
+          setContent(data.blog.content || "");
+        } else {
+          throw new Error("Blog data missing in response");
+        }
       } catch (err) {
         console.error("Fetch blog error:", err);
         setBlog(null);
@@ -200,18 +205,18 @@ export default function BlogEditPage({ params }: { params: Promise<{ blogId: str
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!blog) return;
-    
+
     setUpdating(true);
     try {
-      const identifier = blog.id || blogIdParam; 
+      const identifier = blog.id || blogIdParam;
       const payload = { title, content };
 
       const result = await updateBlog(identifier, payload);
 
-      if (result) { 
+      if (result) {
         alert("✅ Updated successfully!");
         router.push("/dashboard/manage-blogs");
-        router.refresh(); 
+        router.refresh();
       }
     } catch (err: any) {
       console.error("Update error:", err);
@@ -221,13 +226,27 @@ export default function BlogEditPage({ params }: { params: Promise<{ blogId: str
     }
   };
 
-  if (loading) return <p className="text-center py-10 text-gray-500 italic">Loading blog data...</p>;
-  if (!blog) return <p className="text-center py-10 text-red-500">❌ Blog not found! (ID: {blogIdParam})</p>;
+  if (loading)
+    return (
+      <p className="text-center py-10 text-gray-500 italic">
+        Loading blog data...
+      </p>
+    );
+  if (!blog)
+    return (
+      <p className="text-center py-10 text-red-500">
+        ❌ Blog not found! (ID: {blogIdParam})
+      </p>
+    );
 
   return (
-    <form className="p-6 max-w-3xl mx-auto space-y-6 bg-white shadow-lg rounded-xl" onSubmit={handleUpdate}>
+    <form
+      className="p-6 max-w-3xl mx-auto space-y-6 bg-white shadow-lg rounded-xl"
+      onSubmit={handleUpdate}
+    >
       <h2 className="text-2xl font-bold text-center border-b pb-4">
-        Edit Blog: <span className="text-blue-600">#{blog.id ?? blogIdParam}</span>
+        Edit Blog:{" "}
+        <span className="text-blue-600">#{blog.id ?? blogIdParam}</span>
       </h2>
       <div className="flex flex-col gap-2">
         <label className="font-semibold text-gray-700">Title</label>
@@ -248,8 +267,18 @@ export default function BlogEditPage({ params }: { params: Promise<{ blogId: str
         />
       </div>
       <div className="flex justify-end gap-4 pt-4">
-        <button type="button" onClick={() => router.back()} className="px-6 py-2 border rounded-lg">Cancel</button>
-        <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-50" disabled={updating}>
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="px-6 py-2 border rounded-lg"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className="px-6 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-50"
+          disabled={updating}
+        >
           {updating ? "Saving..." : "Update Blog"}
         </button>
       </div>
