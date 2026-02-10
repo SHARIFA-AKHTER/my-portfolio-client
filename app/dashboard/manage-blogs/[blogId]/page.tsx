@@ -149,6 +149,7 @@
 // }
 
 "use client";
+export const dynamic = "force-dynamic";
 
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -170,11 +171,44 @@ export default function BlogEditPage({
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
 
+  // useEffect(() => {
+  //   if (!blogIdParam) return;
+
+  //   const fetchBlog = async () => {
+  //     try {
+  //       const res = await fetch(
+  //         `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogIdParam}`,
+  //         {
+  //           cache: "no-store",
+  //         },
+  //       );
+
+  //       const data = await res.json();
+
+  //       if (data.success && data.blog) {
+  //         setBlog(data.blog);
+  //         setTitle(data.blog.title || "");
+  //         setContent(data.blog.content || "");
+  //       } else {
+  //         throw new Error("Blog data missing in response");
+  //       }
+  //     } catch (err) {
+  //       console.error("Fetch blog error:", err);
+  //       setBlog(null);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchBlog();
+  // }, [blogIdParam]);
+
   useEffect(() => {
     if (!blogIdParam) return;
 
     const fetchBlog = async () => {
       try {
+   
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_API}/blog/${blogIdParam}`,
           {
@@ -188,12 +222,17 @@ export default function BlogEditPage({
           setBlog(data.blog);
           setTitle(data.blog.title || "");
           setContent(data.blog.content || "");
+        } else if (data.id) {
+ 
+          setBlog(data);
+          setTitle(data.title || "");
+          setContent(data.content || "");
         } else {
-          throw new Error("Blog data missing in response");
+          throw new Error("Blog not found");
         }
       } catch (err) {
         console.error("Fetch blog error:", err);
-        setBlog(null);
+        setBlog(null); 
       } finally {
         setLoading(false);
       }
@@ -201,7 +240,6 @@ export default function BlogEditPage({
 
     fetchBlog();
   }, [blogIdParam]);
-
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!blog) return;
