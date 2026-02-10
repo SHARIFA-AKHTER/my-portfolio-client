@@ -212,7 +212,6 @@
 //     </div>
 //   );
 // }
-
 "use client";
 
 import Link from "next/link";
@@ -236,8 +235,6 @@ export default function DashboardBlogsPage() {
           cache: "no-store",
         });
         const data = await res.json();
-        
-        
         const blogList = Array.isArray(data) ? data : (data.data || data.blogs || []);
         setBlogs(blogList);
       } catch (err) {
@@ -251,14 +248,12 @@ export default function DashboardBlogsPage() {
 
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure you want to delete this blog?")) return;
-   
-    const token = localStorage.getItem("token"); 
-    
+    const token = localStorage.getItem("token");
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${id}`, {
         method: "DELETE",
-        headers: { 
-            Authorization: `Bearer ${token}` 
+        headers: {
+          Authorization: `Bearer ${token}`
         },
       });
 
@@ -273,51 +268,54 @@ export default function DashboardBlogsPage() {
     }
   };
 
-  if (loading) return <p className="text-center py-10 text-gray-500 animate-pulse">Loading blogs...</p>;
+  if (loading) return (
+    <div className="flex justify-center items-center min-h-100">
+      <p className="text-gray-500 dark:text-gray-400 animate-pulse text-lg">Loading blogs...</p>
+    </div>
+  );
 
   return (
-    <div className="p-4 sm:p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Manage Blogs</h1>
+    <div className="p-4 sm:p-6 min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Manage Blogs</h1>
         <Link 
           href="/dashboard/create-blog" 
-          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
+          className="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-xl shadow-lg transition-all active:scale-95 flex items-center gap-2"
         >
-          + Create New
+          <span className="text-xl">+</span> Create New
         </Link>
       </div>
 
-      <div className="overflow-x-auto shadow-md border border-gray-200 rounded-lg">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="overflow-x-auto shadow-xl border border-gray-200 dark:border-gray-800 rounded-2xl bg-white dark:bg-gray-900">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+          <thead className="bg-gray-50 dark:bg-gray-800/50">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">ID</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Title</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Slug</th>
-              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Actions</th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">ID</th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Title</th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Slug</th>
+              <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 bg-white">
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
             {blogs.length > 0 ? (
               blogs.map((blog) => (
-                <tr key={blog.id} className="hover:bg-gray-50 transition">
-                  <td className="px-4 py-4 text-sm text-gray-600">{blog.id}</td>
-                  <td className="px-4 py-4 text-sm font-medium text-gray-900">{blog.title}</td>
-                  <td className="px-4 py-4 text-sm text-gray-500 font-mono">{blog.slug}</td>
-                  <td className="px-4 py-4 text-right">
+                <tr key={blog.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors">
+                  <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">#{blog.id}</td>
+                  <td className="px-6 py-4 text-sm font-semibold text-gray-900 dark:text-gray-100">{blog.title}</td>
+                  <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-500 font-mono italic">{blog.slug}</td>
+                  <td className="px-6 py-4 text-right">
                     <div className="flex justify-end gap-3">
-                      
                       <Link
                         href={`/dashboard/manage-blogs/${blog.id}`}
-                        className="flex items-center gap-1 px-3 py-1.5 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 transition"
+                        className="flex items-center gap-1.5 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-all font-medium border border-blue-100 dark:border-blue-900/30"
                       >
-                        <Edit size={14} /> Edit
+                        <Edit size={16} /> Edit
                       </Link>
                       <button
                         onClick={() => handleDelete(blog.id)}
-                        className="flex items-center gap-1 px-3 py-1.5 bg-red-100 text-red-700 rounded-md hover:bg-red-200 transition"
+                        className="flex items-center gap-1.5 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition-all font-medium border border-red-100 dark:border-red-900/30"
                       >
-                        <Trash2 size={14} /> Delete
+                        <Trash2 size={16} /> Delete
                       </button>
                     </div>
                   </td>
@@ -325,7 +323,9 @@ export default function DashboardBlogsPage() {
               ))
             ) : (
               <tr>
-                <td colSpan={4} className="px-4 py-10 text-center text-gray-400">No blogs found.</td>
+                <td colSpan={4} className="px-6 py-16 text-center text-gray-500 dark:text-gray-400 italic">
+                  No blogs found. Start by creating one!
+                </td>
               </tr>
             )}
           </tbody>
