@@ -50,7 +50,7 @@ const Hero = () => {
 
   return (
     <section className="min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-12 lg:px-20 pt-20 
-    relative bg-gradient-to-b from-background via-background to-muted/20 text-foreground overflow-hidden transition-colors duration-500">
+    relative bg-linear-to-b from-background via-background to-muted/20 text-foreground overflow-hidden transition-colors duration-500">
       
      
       <motion.div
@@ -76,13 +76,13 @@ const Hero = () => {
       >
         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
           Hi, I’m{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-green-500">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-500 to-green-500">
             Sharifa
           </span>
         </h1>
 
         {/* Animated subtitle */}
-        <h2 className="text-lg sm:text-xl lg:text-2xl min-h-[32px] flex items-center justify-center md:justify-start gap-2 text-muted-foreground">
+        <h2 className="text-lg sm:text-xl lg:text-2xl min-h-8 flex items-center justify-center md:justify-start gap-2 text-muted-foreground">
           {displayText}
           <span className="border-r-2 border-primary animate-pulse ml-1 h-6"></span>
           <span className="ml-1 flex items-center">
