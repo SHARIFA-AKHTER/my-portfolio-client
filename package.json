@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "node api.js && next dev",
+    "build": "node api.js && next build",
+    "start": "node api.js && next start",
     "lint": "next lint",
     "json-server": "json-server --watch data.json --port 5000"
   },
@@ -39,16 +39,16 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
- "@eslint/eslintrc": "^3",
-  "@tailwindcss/postcss": "^4.0.0",
-  "@types/js-cookie": "^3.0.6",
-  "@types/node": "^22.10.2", 
-  "@types/react": "^19.0.1",
-  "@types/react-dom": "^19.0.1",
-  "eslint": "^9.16.0",
-  "eslint-config-next": "16.1.4", 
-  "postcss": "^8.4.49",
-  "tailwindcss": "^4.0.0",
-  "typescript": "^5.7.2"
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/js-cookie": "^3.0.6",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
+    "eslint": "^9.16.0",
+    "eslint-config-next": "16.1.4",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.2"
   }
 }
