@@ -132,7 +132,7 @@ export default function AboutPage() {
             className="flex flex-wrap gap-4 justify-center md:justify-start pt-6"
           >
             <a
-              href="/Resume_of_Sharifa.pdf"
+              href="/Resume_Sharifa_Full_Stack_Developer.pdf"
               download
               className="flex items-center gap-3 bg-primary text-primary-foreground px-10 py-4 rounded-full font-bold shadow-xl shadow-primary/20 hover:shadow-primary/40 transition-all transform hover:-translate-y-1 active:scale-95"
             >
