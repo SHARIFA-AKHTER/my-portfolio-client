@@ -161,8 +161,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
 
   const fallbackImages: { [slug: string]: string } = {
-    "ecommerce-project": "/images/first-ecommerce.png",
-    "Ecommerce-Project": "/images/Ecommerce pic.png",
+    "ecommerce-project": "/images/First-Ecommerce.png",
     "volunteer-management-system": "/images/Volunteer-management.png",
     "ManageMate": "/images/ManageMate.png",
     "Digital-Wallet-System": "/images/Digital-wallet.png",
